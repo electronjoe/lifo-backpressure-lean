@@ -1,0 +1,93 @@
+\begin{thebibliography}{10}
+
+\bibitem{neelynowbook}
+L.~Georgiadis, M.~J. Neely, and L.~Tassiulas.
+\newblock {\em Resource Allocation and Cross-Layer Control in Wireless
+  Networks}.
+\newblock Foundations and Trends in Networking Vol. 1, no. 1, pp. 1-144, 2006.
+
+\bibitem{eryilmaz_qbsc_ton07}
+A.~Eryilmaz and R.~Srikant.
+\newblock Fair resource allocation in wireless networks using
+  queue-length-based scheduling and congestion control.
+\newblock {\em IEEE/ACM Trans. Netw.}, 15(6):1333--1344, 2007.
+
+\bibitem{neelyenergy}
+M.~J. Neely.
+\newblock Energy optimal control for time-varying wireless networks.
+\newblock {\em IEEE Transactions on Information Theory 52(7): 2915-2934}, July
+  2006.
+
+\bibitem{huangneelypricing}
+L.~Huang and M.~J. Neely.
+\newblock The optimality of two prices: Maximizing revenue in a stochastic
+  network.
+\newblock {\em Proc. of 45th Annual Allerton Conference on Communication,
+  Control, and Computing (invited paper)}, Sept. 2007.
+
+\bibitem{rahulneelycognitive}
+R.~Urgaonkar and M.~J. Neely.
+\newblock Opportunistic scheduling with reliability guarantees in cognitive
+  radio networks.
+\newblock {\em IEEE INFOCOM Proceedings}, April 2008.
+
+\bibitem{yichiang_netopt08}
+Y.~Yi and M.~Chiang.
+\newblock Stochastic network utility maximization: A tribute to kelly's paper
+  published in this journal a decade ago.
+\newblock {\em European Transactions on Telecommunications}, vol. 19, no. 4,
+  pp. 421-442, June 2008.
+
+\bibitem{neelysuperfast}
+M.~J. Neely.
+\newblock Super-fast delay tradeoffs for utility optimal fair scheduling in
+  wireless networks.
+\newblock {\em IEEE Journal on Selected Areas in Communications (JSAC), Special
+  Issue on Nonlinear Optimization of Communication Systems}, 24(8), Aug. 2006.
+
+\bibitem{neelyenergydelay}
+M.~J. Neely.
+\newblock Optimal energy and delay tradeoffs for multi-user wireless downlinks.
+\newblock {\em IEEE Transactions on Information Theory vol. 53, no. 9, pp.
+  3095-3113}, Sept. 2007.
+
+\bibitem{huangneely_dr_wiopt09}
+L.~Huang and M.~J. Neely.
+\newblock Delay reduction via lagrange multipliers in stochastic network
+  optimization.
+\newblock {\em Proc. of WiOpt, Seoul}, June 2009.
+
+\bibitem{neely_queuestability10}
+M.~J. Neely.
+\newblock Stability and capacity regions or discrete time queueing networks.
+\newblock {\em arXiv:1003.3396v1}, March 2010.
+
+\bibitem{gallager_stochastic}
+R.~G. Gallager.
+\newblock {\em Discrete Stochastic Processes}.
+\newblock Kluwer Academic Publishers, 1996.
+
+\bibitem{bertsekasoptbook}
+D.~P. Bertsekas, A.~Nedic, and A.~E. Ozdaglar.
+\newblock {\em Convex Analysis and Optimization}.
+\newblock Boston: Athena Scientific, 2003.
+
+\bibitem{neelypowerjsac}
+M.~J. Neely, E.~Modiano, and C.~E. Rohrs.
+\newblock Dynamic power allocation and routing for time-varying wireless
+  networks.
+\newblock {\em IEEE Journal on Selected Areas in Communications, Vol 23, NO.1},
+  January 2005.
+
+\bibitem{neely_maximaldelay_ton}
+M.~J. Neely.
+\newblock Delay analysis for maximal scheduling with flow control in wireless
+  networks with bursty traffic.
+\newblock {\em IEEE Transactions on Networking}, August 2009.
+
+\bibitem{boydconvexopt}
+S.~Boyd and L.~Vandenberghe.
+\newblock {\em Convex Optimization}.
+\newblock Cambridge University Press, 2004.
+
+\end{thebibliography}

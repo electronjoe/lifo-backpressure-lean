@@ -1,0 +1,115 @@
+\begin{thebibliography}{10}
+
+\bibitem{yichiang_netopt08}
+Y.Yi and M.Chiang.
+\newblock Stochastic network utility maximization: A tribute to kelly's paper
+  published in this journal a decade ago.
+\newblock {\em European Transactions on Telecommunications}, vol. 19, no. 4,
+  pp. 421-442, June 2008.
+
+\bibitem{tassiulas92}
+L.Tassiulas and A.Ephremides.
+\newblock Stability properties of constrained queueing systems and scheduling
+  policies for maximum throughput in multihop radio networks.
+\newblock {\em IEEE Transactions on Automatic Control, vol. 37, no. 12, pp.
+  1936-1949}, Dec. 1992.
+
+\bibitem{neelyenergy}
+M.J.Neely.
+\newblock Energy optimal control for time-varying wireless networks.
+\newblock {\em IEEE Transactions on Information Theory 52(7): 2915-2934}, July
+  2006.
+
+\bibitem{neelyfairness}
+M.J.Neely, E.Modiano, and C.Li.
+\newblock Fairness and optimal stochastic control for heterogeneous networks.
+\newblock {\em IEEE INFOCOM Proceedings}, March 2005.
+
+\bibitem{huangneelypricing}
+L.Huang and M.J.Neely.
+\newblock The optimality of two prices: Maximizing revenue in a stochastic
+  network.
+\newblock {\em Proc. of 45th Annual Allerton Conference on Communication,
+  Control, and Computing (invited paper)}, Sept. 2007.
+
+\bibitem{rahulneelycognitive}
+R.Urgaonkar and M.J.Neely.
+\newblock Opportunistic scheduling with reliability guarantees in cognitive
+  radio networks.
+\newblock {\em IEEE INFOCOM Proceedings}, April 2008.
+
+\bibitem{neelynowbook}
+L.Georgiadis, M.J.Neely, and L.Tassiulas.
+\newblock {\em Resource Allocation and Cross-Layer Control in Wireless
+  Networks}.
+\newblock Foundations and Trends in Networking Vol. 1, no. 1, pp. 1-144, 2006.
+
+\bibitem{neelyenergydelay}
+M.J.Neely.
+\newblock Optimal energy and delay tradeoffs for multi-user wireless downlinks.
+\newblock {\em IEEE Transactions on Information Theory vol. 53, no. 9, pp.
+  3095-3113}, Sept. 2007.
+
+\bibitem{neelysuperfast}
+M.J.Neely.
+\newblock Super-fast delay tradeoffs for utility optimal fair scheduling in
+  wireless networks.
+\newblock {\em IEEE Journal on Selected Areas in Communications (JSAC), Special
+  Issue on Nonlinear Optimization of Communication Systems}, 24(8), Aug. 2006.
+
+\bibitem{eryilmaz_qbsc_ton07}
+A.Eryilmaz and R.Srikant.
+\newblock Fair resource allocation in wireless networks using
+  queue-length-based scheduling and congestion control.
+\newblock {\em IEEE/ACM Trans. Netw.}, 15(6):1333--1344, 2007.
+
+\bibitem{neelyrahul_asilomar}
+M.J.Neely and R.Urgaonkar.
+\newblock Opportunism, backpressure, and stochastic optimization with the
+  wireless broadcast advantage.
+\newblock {\em Asilomar Conference on Signals, Systems, and Computers, Pacific
+  Grove, CA (Invited paper)}, Oct. 2008.
+
+\bibitem{bertsekasoptbook}
+D.P.Bertsekas, A.Nedic, and A.E.Ozdaglar.
+\newblock {\em Convex Analysis and Optimization}.
+\newblock Boston: Athena Scientific, 2003.
+
+\bibitem{stolyar06primaldual}
+A.L.Stolyar.
+\newblock Greedy primal-dual algorithm for dynamic resource allocation in
+  complex networks.
+\newblock {\em Queueing Systems}, Vol. 54, No.3, pp.203-220, 2006.
+
+\bibitem{neelypowerjsac}
+M.J.Neely, E.Modiano, and C.E.Rohrs.
+\newblock Dynamic power allocation and routing for time-varying wireless
+  networks.
+\newblock {\em IEEE Journal on Selected Areas in Communications, Vol 23, NO.1},
+  January 2005.
+
+\bibitem{neelypktdrop}
+M.J.Neely.
+\newblock Intelligent packet dropping for optimal energy-delay tradeoffs in
+  wireless downlinks.
+\newblock {\em Proc. of the 4th Int. Symposium on Modeling and Optimization in
+  Mobile, Ad Hoc, and Wireless Networks (WiOpt)}, April 2006.
+
+\bibitem{kellyelastic97}
+F.Kelly.
+\newblock Charging and rate control for elastic traffic.
+\newblock {\em European Transactions on Telecommunications}, vol. 8, pp. 33-37,
+  1997.
+
+\bibitem{curescupriceutility05}
+C.Curescu and S.Nadjm-Tehrani.
+\newblock Price/utility-based optimized resource allocation in wireless ad hoc
+  networks.
+\newblock {\em IEEE SECON}, 85- 95, 2005.
+
+\bibitem{chung_concentration}
+F.Chung and L.Lu.
+\newblock Concentration inequalities and martingale inequalities Ñ a survey.
+\newblock {\em Internet Math.}, 3 (2006-2007), 79--127.
+
+\end{thebibliography}
