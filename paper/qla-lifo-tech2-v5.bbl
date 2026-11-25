@@ -1,0 +1,113 @@
+\begin{thebibliography}{10}
+
+\bibitem{tassiulas92}
+L.~Tassiulas and A.~Ephremides.
+\newblock Stability properties of constrained queueing systems and scheduling
+  policies for maximum throughput in multihop radio networks.
+\newblock {\em IEEE Trans. on Automatic Control, vol. 37, no. 12, pp.
+  1936-1949}, Dec. 1992.
+
+\bibitem{eryilmaz_qbsc_ton07}
+A.~Eryilmaz and R.~Srikant.
+\newblock Fair resource allocation in wireless networks using
+  queue-length-based scheduling and congestion control.
+\newblock {\em IEEE/ACM Trans. Netw.}, 15(6):1333--1344, 2007.
+
+\bibitem{huangneelypricing}
+L.~Huang and M.~J. Neely.
+\newblock The optimality of two prices: Maximizing revenue in a stochastic
+  network.
+\newblock {\em Proc. of 45th Annual Allerton Conference on Communication,
+  Control, and Computing (invited paper)}, Sept. 2007.
+
+\bibitem{rahulneelycognitive}
+R.~Urgaonkar and M.~J. Neely.
+\newblock Opportunistic scheduling with reliability guarantees in cognitive
+  radio networks.
+\newblock {\em IEEE INFOCOM Proceedings}, April 2008.
+
+\bibitem{yichiang_netopt08}
+Y.~Yi and M.~Chiang.
+\newblock Stochastic network utility maximization: A tribute to {K}elly's paper
+  published in this journal a decade ago.
+\newblock {\em European Transactions on Telecommunications}, vol. 19, no. 4,
+  pp. 421-442, June 2008.
+
+\bibitem{neelynowbook}
+L.~Georgiadis, M.~J. Neely, and L.~Tassiulas.
+\newblock {\em Resource Allocation and Cross-Layer Control in Wireless
+  Networks}.
+\newblock Foundations and Trends in Networking Vol. 1, no. 1, pp. 1-144, 2006.
+
+\bibitem{neelysuperfast}
+M.~J. Neely.
+\newblock Super-fast delay tradeoffs for utility optimal fair scheduling in
+  wireless networks.
+\newblock {\em IEEE Journal on Selected Areas in Communications (JSAC), Special
+  Issue on Nonlinear Optimization of Communication Systems}, 24(8), Aug. 2006.
+
+\bibitem{neelyenergydelay}
+M.~J. Neely.
+\newblock Optimal energy and delay tradeoffs for multi-user wireless downlinks.
+\newblock {\em IEEE Transactions on Information Theory vol. 53, no. 9, pp.
+  3095-3113}, Sept. 2007.
+
+\bibitem{huangneely_dr_tac}
+L.~Huang and M.~J. Neely.
+\newblock Delay reduction via {L}agrange multipliers in stochastic network
+  optimization.
+\newblock {\em IEEE Transactions on Automatic Control}, to appear.
+
+\bibitem{scott_lifo_ipsn}
+S.~Moeller, A.~Sridharan, B.~Krishnamachari, and O.~Gnawali.
+\newblock Routing without routes: The backpressure collection protocol.
+\newblock {\em 9th ACM/IEEE International Conference on Information Processing
+  in Sensor Networks (IPSN)}, 2010.
+
+\bibitem{athanasopoulouTON10}
+E.~Athanasopoulou, L.~X. Bui, T.~Ji, R.~Srikant, and A.~Stolyar.
+\newblock Backpressure-based packet-by-packet adaptive routing in communication
+  networks.
+\newblock {\em arXiv:1005.4984v1}, May 2010.
+
+\bibitem{buimulticast}
+L~Bui, R~Srikant, and A~Stolyar.
+\newblock Optimal resource allocation for multicast sessions in multi-hop
+  wireless networks.
+\newblock {\em Philosophical Transactions of The Royal Society, Series A},
+  pages 2059--2074, Jan 2008.
+
+\bibitem{buisrikant_infocom09}
+L.~Bui, R.~Srikant, and A.~Stolyar.
+\newblock Novel architectures and algorithms for delay reduction in
+  back-pressure scheduling and routing.
+\newblock {\em Proceedings of IEEE INFOCOM 2009 Mini-Conference}, April 2009.
+
+\bibitem{bertsekas_datanet}
+D.~P. Bertsekas and R.~G. Gallager.
+\newblock {\em Data Networks}.
+\newblock Prentice Hall, 1992.
+
+\bibitem{neelyfairness}
+M.~J. Neely, E.~Modiano, and C.~Li.
+\newblock Fairness and optimal stochastic control for heterogeneous networks.
+\newblock {\em IEEE INFOCOM Proceedings}, March 2005.
+
+\bibitem{neely_queuestability10}
+M.~J. Neely.
+\newblock Stability and capacity regions or discrete time queueing networks.
+\newblock {\em arXiv:1003.3396v1}, March 2010.
+
+\bibitem{huangneely_qlamarkovian}
+L.~Huang and M.~J. Neely.
+\newblock Max-weight achieves the exact $[{O(1/V}), {O(V})]$ utility-delay
+  tradeoff under {M}arkov dynamics.
+\newblock {\em arXiv:1008.0200v1}, 2010.
+
+\bibitem{mitzenmacher-fountain}
+M.~Mitzenmacher.
+\newblock Digital fountains: A survey and look forward.
+\newblock {\em IEEE Information Theory Workshop (ITW), San Antonio, Texas},
+  Oct, 2004.
+
+\end{thebibliography}

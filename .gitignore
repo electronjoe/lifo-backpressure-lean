@@ -1,0 +1,21 @@
+# Lean 4 / Lake
+/.lake
+/build
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.blg
+*.dvi
+*.ps
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*~
+*.swp
