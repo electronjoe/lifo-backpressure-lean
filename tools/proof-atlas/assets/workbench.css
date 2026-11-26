@@ -135,9 +135,33 @@ code { font-family: var(--mono); font-size: .88em; background: var(--subtle); pa
 .kpi .v { font-size: 1.48rem; font-weight: 800; letter-spacing: -.03em; margin: .2rem 0 .25rem; }
 .kpi .d { font-size: .77rem; color: var(--muted); line-height: 1.4; }
 
-/* Stacked Quality Bar */
+/* Stacked Quality Bar & Collapsible Benchmark Panels */
 .stack { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--subtle); gap: 2px; margin: .6rem 0; }
 .stack > span { display: block; height: 100%; }
+.q-fold {
+  border: 1px solid var(--line); border-radius: 9px; background: var(--bg);
+  margin-top: .65rem; overflow: hidden; transition: border-color .14s;
+}
+.q-fold:hover { border-color: #94a3b8; }
+.q-fold[open] { border-color: #cbd5e1; background: var(--surface); }
+.q-fold > summary {
+  list-style: none; cursor: pointer; padding: .66rem .9rem;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap;
+  font-size: .84rem; font-weight: 700; color: var(--ink); user-select: none;
+}
+.q-fold > summary::-webkit-details-marker { display: none; }
+.q-fold-title { display: inline-flex; align-items: center; gap: .5rem; }
+.q-fold-chev {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.25rem; height: 1.25rem; border-radius: 5px;
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--accent); font-size: .72rem; transition: transform .15s ease;
+}
+.q-fold[open] .q-fold-chev { transform: rotate(90deg); background: var(--accent-soft); border-color: #bfdbfe; }
+.q-fold-meta { display: inline-flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
+.q-fold-body {
+  padding: .85rem .9rem .95rem; border-top: 1px solid var(--line); background: var(--surface);
+}
 
 /* Tables */
 .tbl-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }

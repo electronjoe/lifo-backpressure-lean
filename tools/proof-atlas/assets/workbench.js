@@ -191,6 +191,10 @@ function renderQualitySection() {
   const cGood = q.modes.filter(m => m.tone === "good").length;
   const cWarn = q.modes.filter(m => m.tone === "warn").length;
   const cNeu = q.modes.filter(m => m.tone === "neutral").length;
+  const gatesPass = q.gates.filter(g => g.status === "pass").length;
+  const gatesPartial = q.gates.length - gatesPass;
+  const planDone = q.action_plan.filter(a => a.done).length;
+  const planOpen = q.action_plan.length - planDone;
 
   return `
     <div class="sh">
@@ -210,7 +214,7 @@ function renderQualitySection() {
         ${cWarn ? `<span style="flex:${cWarn};background:#d97706" title="Actionable Gap (${cWarn})"></span>` : ""}
         ${cNeu ? `<span style="flex:${cNeu};background:#94a3b8" title="N/A (${cNeu})"></span>` : ""}
       </div>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:.76rem;color:var(--muted);margin-bottom:.95rem">
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:.76rem;color:var(--muted);margin-bottom:.35rem">
         <span><strong style="color:#146c43">●</strong> Exemplary/Perfect: ${cGreat}</span>
         <span><strong style="color:#0b6374">●</strong> Strong: ${cGood}</span>
         <span><strong style="color:#d97706">●</strong> Actionable Gap: ${cWarn}</span>
@@ -218,59 +222,85 @@ function renderQualitySection() {
         <span style="margin-left:auto"><a href="${esc(cite.taxonomy_url)}" target="_blank" rel="noopener">12-Mode Taxonomy ↗</a> · <a href="${esc(cite.pdf_url)}" target="_blank" rel="noopener">Survey Paper PDF ↗</a></span>
       </div>
 
-      <div class="tbl-wrap" style="margin-bottom:1rem">
-        <table class="ledger">
-          <thead>
-            <tr>
-              <th style="width:12rem">Gate</th>
-              <th style="width:7.5rem">Status</th>
-              <th>✓ What's Already Good</th>
-              <th>→ What Needs Work / How to Improve</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${q.gates.map(g => `
-              <tr>
-                <td><strong>${esc(g.gate)}</strong><br><span style="color:var(--muted);font-size:.74rem">${esc(g.name)}</span></td>
-                <td>${chip(g.status === "pass" ? "✓ Pass" : "◐ Partial", g.status === "pass" ? "green" : "amber")}</td>
-                <td class="cell-good">✓ ${esc(g.good)}</td>
-                <td class="${g.status === "pass" ? "cell-done" : "cell-work"}">${g.status === "pass" ? "✓ " : "→ "}${esc(g.improve)}</td>
-              </tr>`).join("")}
-          </tbody>
-        </table>
-      </div>
-
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.35rem">
-        <h3 style="margin:0;font-size:.95rem">Quality Progress &amp; Remaining Action Plan</h3>
-        <span style="font-size:.76rem;color:var(--muted)">Updated live against current HEAD (<code>${esc(DATA.paper.commit)}</code>)</span>
-      </div>
-      <div class="plan-grid">
-        ${q.action_plan.map(a => `
-          <div class="plan-item ${a.done ? "done" : ""}">
-            <div class="plan-head">
-              <div>
-                ${chip(a.done ? "✓ Completed" : a.priority, a.done ? "green" : a.priority === "P1" ? "coral" : a.priority === "P2" ? "amber" : "slate")}
-                ${chip(a.effort, a.done ? "green" : "slate")}
-              </div>
-              <span style="font-size:.72rem;font-family:var(--mono);color:var(--muted)">${esc(a.closes)}</span>
-            </div>
-            <h4>${esc(a.title)}</h4>
-            <p>${esc(a.how)}</p>
-          </div>`).join("")}
-      </div>
-
-      ${q.census_rows && q.census_rows.length ? `
-        <details style="margin-top:.9rem">
-          <summary style="font-weight:700;font-size:.82rem;color:var(--accent);cursor:pointer">Compare against the 2026 Engineering Lean 4 Census (${esc(cite.census_note)})</summary>
-          <div class="tbl-wrap" style="margin-top:.6rem">
+      <details class="q-fold">
+        <summary>
+          <span class="q-fold-title">
+            <span class="q-fold-chev" aria-hidden="true">▸</span>
+            <span>Five-Gate Audit Breakdown &amp; 2026 Engineering Census</span>
+          </span>
+          <span class="q-fold-meta">
+            ${chip(`✓ ${gatesPass}/${q.gates.length} Gates Passing`, "green")}
+            ${gatesPartial ? chip(`◐ ${gatesPartial} Awaiting Sign-Off`, "amber") : ""}
+            ${q.census_rows && q.census_rows.length ? chip(`${q.census_rows.length} Census Metrics`, "slate") : ""}
+          </span>
+        </summary>
+        <div class="q-fold-body">
+          <div class="tbl-wrap" style="margin-bottom:${q.census_rows && q.census_rows.length ? "1rem" : "0"}">
             <table class="ledger">
-              <thead><tr><th>Census Dimension</th><th>This Repository</th><th>Survey T2 Engineering Cohort</th></tr></thead>
+              <thead>
+                <tr>
+                  <th style="width:12rem">Gate</th>
+                  <th style="width:7.5rem">Status</th>
+                  <th>✓ What's Already Good</th>
+                  <th>→ What Needs Work / How to Improve</th>
+                </tr>
+              </thead>
               <tbody>
-                ${q.census_rows.map(r => `<tr><td><strong>${esc(r.dim)}</strong></td><td>${esc(r.ours)}</td><td style="color:var(--muted)">${esc(r.benchmark)}</td></tr>`).join("")}
+                ${q.gates.map(g => `
+                  <tr>
+                    <td><strong>${esc(g.gate)}</strong><br><span style="color:var(--muted);font-size:.74rem">${esc(g.name)}</span></td>
+                    <td>${chip(g.status === "pass" ? "✓ Pass" : "◐ Partial", g.status === "pass" ? "green" : "amber")}</td>
+                    <td class="cell-good">✓ ${esc(g.good)}</td>
+                    <td class="${g.status === "pass" ? "cell-done" : "cell-work"}">${g.status === "pass" ? "✓ " : "→ "}${esc(g.improve)}</td>
+                  </tr>`).join("")}
               </tbody>
             </table>
           </div>
-        </details>` : ""}
+          ${q.census_rows && q.census_rows.length ? `
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.45rem">
+              <strong style="font-size:.86rem">2026 Engineering Lean 4 Census Comparison</strong>
+              <span style="font-size:.75rem;color:var(--muted)">${esc(cite.census_note)}</span>
+            </div>
+            <div class="tbl-wrap">
+              <table class="ledger">
+                <thead><tr><th>Census Dimension</th><th>This Repository</th><th>Survey T2 Engineering Cohort</th></tr></thead>
+                <tbody>
+                  ${q.census_rows.map(r => `<tr><td><strong>${esc(r.dim)}</strong></td><td>${esc(r.ours)}</td><td style="color:var(--muted)">${esc(r.benchmark)}</td></tr>`).join("")}
+                </tbody>
+              </table>
+            </div>` : ""}
+        </div>
+      </details>
+
+      <details class="q-fold">
+        <summary>
+          <span class="q-fold-title">
+            <span class="q-fold-chev" aria-hidden="true">▸</span>
+            <span>Quality Progress &amp; Remaining Action Plan</span>
+          </span>
+          <span class="q-fold-meta">
+            ${planDone ? chip(`✓ ${planDone} Completed`, "green") : ""}
+            ${planOpen ? chip(`${planOpen} Remaining`, "coral") : chip("All Complete", "green")}
+            ${chip(`HEAD ${DATA.paper.commit}`, "slate")}
+          </span>
+        </summary>
+        <div class="q-fold-body">
+          <div class="plan-grid" style="margin-top:0">
+            ${q.action_plan.map(a => `
+              <div class="plan-item ${a.done ? "done" : ""}">
+                <div class="plan-head">
+                  <div>
+                    ${chip(a.done ? "✓ Completed" : a.priority, a.done ? "green" : a.priority === "P1" ? "coral" : a.priority === "P2" ? "amber" : "slate")}
+                    ${chip(a.effort, a.done ? "green" : "slate")}
+                  </div>
+                  <span style="font-size:.72rem;font-family:var(--mono);color:var(--muted)">${esc(a.closes)}</span>
+                </div>
+                <h4>${esc(a.title)}</h4>
+                <p>${esc(a.how)}</p>
+              </div>`).join("")}
+          </div>
+        </div>
+      </details>
     </div>`;
 }
 
