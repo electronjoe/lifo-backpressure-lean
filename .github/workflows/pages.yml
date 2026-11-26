@@ -40,6 +40,7 @@ jobs:
             fi
           fi
           python3 tools/proof-atlas/scripts/atlas.py build . "${args[@]}"
+          python3 tools/proof-atlas/scripts/atlas.py manifest . "${args[@]}"
       - name: Check publication files and evidence links
         run: |
           python3 - <<'PY'

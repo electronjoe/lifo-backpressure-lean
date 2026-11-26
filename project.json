@@ -53,7 +53,7 @@
     "visibility": "public",
     "site": "https://electronjoe.github.io/lifo-backpressure-lean/",
     "lean_ci": "enabled",
-    "lean_ci_level": "standard"
+    "lean_ci_level": "paranoid"
   },
   "proof_work": {
     "mode": "paper",
@@ -68,7 +68,7 @@
       "summary": "Proved Theorem 1 (Modified Little's Theorem for LIFO systems) in Proofs/Little.lean with Section VI-A witness in Examples/LittleWitness.lean; unconditionally audited and distilled via Assembly.theorem_little1.",
       "step": "Unconditionally closed, witnessed, and distilled",
       "next": "Complete (pending CI verification)",
-      "updated": "2026-11-26T10:59:47Z",
+      "updated": "2026-11-26T21:05:57Z",
       "lean": "lean/Statements/Little.lean",
       "statement_check": {
         "audit": "evidence/stmt-theorem-little1.json",
@@ -122,7 +122,7 @@
         "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
         "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
         "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
-        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lakefile.toml": "f0286f8ed236888370b87e5ffc4b71a1c4bf869ccbf91c91716ed84885081e8b",
         "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
       },
       "scope": "Assembled proof for theorem:little1.",
@@ -135,7 +135,7 @@
       "summary": "Unconditionally proved Theorem 2 ([O(1/V), O(V)] tradeoff under finite Markovian dynamics) in Proofs/MarkovTradeoff.lean via Doeblin mixing, Poisson telescoping, and elementary weak duality, with non-degenerate witness in Examples/NetworkWitnesses.lean; audited and distilled via Assembly.theorem_qla_markovian.",
       "step": "Unconditionally closed, witnessed, and distilled",
       "next": "Complete (pending CI verification)",
-      "updated": "2026-11-26T11:00:34Z",
+      "updated": "2026-11-26T21:06:54Z",
       "lean": "lean/Statements/MarkovTradeoff.lean",
       "statement_check": {
         "audit": "evidence/stmt-theorem-qla-markovian.json",
@@ -189,7 +189,7 @@
         "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
         "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
         "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
-        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lakefile.toml": "f0286f8ed236888370b87e5ffc4b71a1c4bf869ccbf91c91716ed84885081e8b",
         "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
       },
       "scope": "Assembled proof for theorem:qla-markovian.",
@@ -202,7 +202,7 @@
       "summary": "Unconditionally proved Theorem 3 (exponential attraction of Backpressure queue backlogs) in Proofs/ExponentialAttraction.lean via convergent intervals, squared-distance drift, and Pade exponential Lyapunov contraction, with non-degenerate witness in Examples/NetworkWitnesses.lean; audited and distilled via Assembly.thm_prob_multi_con.",
       "step": "Unconditionally closed, witnessed, and distilled",
       "next": "Complete (pending CI verification)",
-      "updated": "2026-11-26T11:01:19Z",
+      "updated": "2026-11-26T21:07:51Z",
       "lean": "lean/Statements/ExponentialAttraction.lean",
       "statement_check": {
         "audit": "evidence/stmt-thm-prob-multi-con.json",
@@ -256,7 +256,7 @@
         "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
         "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
         "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
-        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lakefile.toml": "f0286f8ed236888370b87e5ffc4b71a1c4bf869ccbf91c91716ed84885081e8b",
         "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
       },
       "scope": "Assembled proof for thm:prob_multi_con.",
@@ -269,7 +269,7 @@
       "summary": "Unconditionally proved Theorem 4 (LIFO-Backpressure throughput and O([log V]^2) delay) in Proofs/LifoDelay.lean, composed in Assembly.thm_qlalifo_delay from unconditionally proved Theorems 1, 2, and 3, with non-degenerate witness in Examples/NetworkWitnesses.lean; audited and distilled.",
       "step": "Unconditionally closed, witnessed, and distilled",
       "next": "Complete (pending CI verification)",
-      "updated": "2026-11-26T11:02:03Z",
+      "updated": "2026-11-26T21:08:49Z",
       "lean": "lean/Statements/LifoDelay.lean",
       "statement_check": {
         "audit": "evidence/stmt-thm-qlalifo-delay.json",
@@ -328,7 +328,7 @@
         "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
         "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
         "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
-        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lakefile.toml": "f0286f8ed236888370b87e5ffc4b71a1c4bf869ccbf91c91716ed84885081e8b",
         "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
       },
       "scope": "Assembled proof for thm:qlalifo_delay.",

@@ -24,3 +24,9 @@ name = "Examples"
 
 [[lean_lib]]
 name = "Assembly"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
