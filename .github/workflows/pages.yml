@@ -48,7 +48,7 @@ jobs:
           from hashlib import sha256
           from pathlib import Path
           root = Path("dist")
-          for name in ("index.html", "proofs/index.html", "progress.html", "manuscript.pdf", "graph.js", "dagre/dagre.min.js"):
+          for name in ("index.html", "workbench.css", "workbench.js", "katex/katex.min.js", "VERIFICATION.md", "proofs/index.html", "progress.html", "manuscript.pdf", "graph.js", "dagre/dagre.min.js"):
               assert (root / name).stat().st_size, name
           from html import escape
           project = json.loads(Path("project.json").read_text())

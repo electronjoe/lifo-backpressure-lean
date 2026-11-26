@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__PAGE_TITLE__</title>
+<link rel="stylesheet" href="katex/katex.min.css">
+<script defer src="katex/katex.min.js"></script>
+<link rel="stylesheet" href="workbench.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="tb-title">
+      <h1>__SHORT_TITLE__ Proof Atlas <span class="chip gold" id="top-tier-chip"></span></h1>
+      <p>__BYLINE_HTML__</p>
+    </div>
+    <div class="tb-actions">
+      <a class="tb-pill" href="manuscript.pdf">📄 Paper PDF</a>
+      <a class="tb-pill" href="VERIFICATION.md">📋 Manifest</a>
+      <a class="tb-pill" href="progress.html">📊 Classic View</a>
+      <button class="tb-pill" id="open-key" type="button">ⓘ Badge &amp; Polarity Key</button>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav" aria-label="Workbench views">
+  <div class="subnav-in">
+    <button type="button" data-view="overview" aria-current="page">Overview &amp; Quality</button>
+    <button type="button" data-view="ledger">Results Ledger</button>
+    <button type="button" data-view="diff">Semantic Diff &amp; Edits <span class="nav-count" id="diff-nav-badge">0</span></button>
+    <button type="button" data-view="graph">Layered DAG</button>
+    <button type="button" data-view="claim">Claim Inspector</button>
+  </div>
+</nav>
+
+<main class="wrap" id="app"></main>
+
+<dialog id="key-dialog">
+  <div class="dlg-head">
+    <h2>Status Badges, Semantic Polarity Direction &amp; Rubric</h2>
+    <button class="btn" id="close-key" type="button">Close ✕</button>
+  </div>
+  <div id="key-body"></div>
+</dialog>
+
+<script id="atlas-payload" type="application/json">__DATA__</script>
+<script defer src="workbench.js"></script>
+</body>
+</html>

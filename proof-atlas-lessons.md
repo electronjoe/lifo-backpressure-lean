@@ -154,3 +154,18 @@ Running log of issues, edge cases, and improvement opportunities encountered whi
   4. **Buried recommended manuscript edits:** Hiding `manuscript-edits.json` behind a separate top-bar link obscures one of the highest-value outputs of formalization (concrete LaTeX fixes for genuine mathematical bugs/typos in the paper).
 * **Reference prototype:** `uiux-demos/v2-audit-workbench.html` implements all four fixes directly on `Overview & Quality`, `Results Ledger`, `Semantic Diff & Edits`, and `Claim Inspector`.
 * **Suggested fix:** (a) Render every comparison token with explicit direction and hover tooltip (`↓ Lean proves looser constant`, `+ Lean adds missing assumption`, `↘ Lean narrows domain`, `↑ Lean proves MORE than paper`, `≈ Equivalent form in Lean`, `✎ Lean fixes ambiguity / typo`, `✓ Lean = Paper`); (b) surface a dedicated front-door callout on Overview & Theorem cards whenever a theorem uses a `lean`-only proof route; (c) display an unmistakable top-of-page **Human Co-Author Sign-Off Pending** banner whenever `author_reviewed < total`, linking directly to critical clauses and `Statements/*.lean`; and (d) display a scannable **Recommended Paper Edits** card grid directly on Overview with expandable red/green LaTeX diffs.
+
+### 25. `pages.yml` header link assertion forbids extra anchor attributes on the publication link
+* **Where:** `build-proof-atlas/references/github-pages.yml` (copied to `.github/workflows/pages.yml` L57–60).
+* **Symptom:** The publication self-check splits `index.html` on `</h1>` and `</p>` and asserts the literal substring `f'<a href="{escape(publication, quote=True)}">'` — which fails if a custom or v2 template adds `target="_blank" rel="noopener"` or CSS classes to the publication anchor tag.
+* **Workaround:** Emitted the bare `<a href="...">` form in `tools/proof-atlas/scripts/workbench.py`'s header byline so it passes the existing `pages.yml` check untouched.
+* **Suggested fix:** Match `href="..."` with an HTML parser or regex (`<a\b[^>]*\bhref="..."`) in `github-pages.yml` so templates can safely include `rel="noopener"` or styling attributes.
+
+### 26. Upstream-ready v2 Audit Workbench schema validated on live `lifo-backpressure-lean` data
+* **Where:** `tools/proof-atlas/scripts/workbench.py`, `tools/proof-atlas/assets/workbench.{html,css,js}`, `reader.json`, `quality.json`, `lamport/*.md`.
+* **Symptom / Finding:** Implementing the live data-driven v2 Audit Workbench cleanly inside `tools/proof-atlas/` validated the exact minimal schema needed for upstreaming to `../proof-atlas/build-proof-atlas`:
+  1. `reader.json` carries optional paper-agnostic UX enrichments (`paper.{overview,hero_blurb,fig_caption}`, per-claim `sketch`/`paper_loc`/`proof_origin`/`paper_statement`/`fidelity_summary`/`route_note`/`repair_note`/`diff_spans`, `edit_summaries`, and `layered_graph.{claim_short_ids,nodes,edges}`) with zero breakage to existing `atlas.py` or `author_review.py`.
+  2. `quality.json` carries the optional Five-Gate / 12-Mode rubric and Action Plan with `{nonempty_loc}` / `{reviewed}` / `{total}` template variables resolved dynamically from live repo stats and CI receipts.
+  3. `lamport/*.md` with standard KaTeX `$...$` math and indented `- 1.1. **Title**: ...` + `- *Uses:*` / `- *Lean:*` lines parses cleanly into collapsible `⟨1⟩i` / `⟨1⟩i.⟨2⟩j` cards while remaining readable as plain GitHub Markdown.
+  4. Truncating rich KaTeX text for overview cards must be math-delimiter-aware (`truncateRich`) so slices never cut inside `$...$` expressions.
+* **Suggested fix:** Upstream `workbench.py` + `workbench.{html,css,js}` and document the optional `reader.json` enrichments and `quality.json` schema in `build-proof-atlas/SKILL.md`.

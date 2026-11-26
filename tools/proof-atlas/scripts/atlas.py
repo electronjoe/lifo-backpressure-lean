@@ -2,6 +2,7 @@
 import author_review as reviews
 import review_web
 import manuscript_edits
+import workbench
 import argparse
 import hashlib
 import html
@@ -3352,11 +3353,23 @@ def build(root, *, ci_receipt=None, commit=None, artifact_id=None):
     for name in ("explorer.js", "explorer.css", "graph.js", "graph.css", "style.css", "live.js", "activity.js", "artifact.js"):
         digest.update((assets / name).read_bytes())
         atomic(output / name, (assets / name).read_bytes())
+    wb_html = None
+    if (assets / "workbench.html").is_file():
+        wb_html = workbench.build_workbench(
+            root, output, assets, p, materials, built_records, comparisons, grounded_edges,
+            ci=ci, commit=commit, artifact_id=artifact_id,
+        )
+        digest.update(wb_html)
+        for name in ("workbench.css", "workbench.js"):
+            digest.update((assets / name).read_bytes())
     version = digest.hexdigest()
     payload["revision"] = version
     packed = json.dumps(payload, ensure_ascii=False).replace("<", r"\u003c")
     for directory, base, home in ((output, "./", True), (output / "proofs", "../", False)):
         directory.mkdir(exist_ok=True)
+        if home and wb_html is not None:
+            atomic(directory / "index.html", wb_html)
+            continue
         shell = (explorer.replace("__ENTRY__", "home" if home else "reader")
                  .replace("__HOME_HIDDEN__", "" if home else "hidden")
                  .replace("__READER_HIDDEN__", "hidden" if home else "")
