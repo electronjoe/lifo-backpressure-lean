@@ -48,3 +48,18 @@ Running log of issues, edge cases, and improvement opportunities encountered whi
 * **Where:** `build-proof-atlas/scripts/atlas.py` (`manifest` LaTeX formatter).
 * **Symptom:** (a) Free-text strings from `stronger_result` (such as `(Ω, μ)`) are emitted verbatim into `\paragraph{Formal Verification and Scope.}` without escaping Greek Unicode characters for `pdflatex`. (b) On classical real-analysis / probability theorems (with no algorithmic/computability claim), every `noncomputable` helper (`Real.log`, `Real.sqrt`, Bochner integral, `Set.Finite.toFinset`) is listed verbosely under "Active formalization scope caveats", drowning out the genuine mathematical caveats.
 * **Suggested fix:** Escape common Unicode math symbols (`Ω`, `μ`, `≤`, `≥`, `λ`, etc.) in the LaTeX emitter, and either suppress `noncomputable` from the prose caveat list when no `weaker conclusion` / algorithmic conflict is flagged or summarize it concisely (e.g., "uses classical real/measure definitions").
+
+### 9. `atlas.py assemble --audit` runs sequential `audit_lean.audit()` per claim instead of `audit_lean.audit_batch()`
+* **Where:** `build-proof-atlas/scripts/atlas.py` L2591–2624 (`for item in claim_reports: audit_data = audit_lean.audit(...)`).
+* **Symptom:** Auditing `k` assembled claims via `atlas.py assemble . --audit` invokes `lake --no-cache build Assembly ...` `k` separate times (~35s × `k`), even though `audit_lean.audit_batch` already exists and builds the union of targets once before checking all claims in one pass.
+* **Suggested fix:** Collect all claim audit specs for a package inside `assemble()` and invoke `audit_lean.audit_batch()` once per package.
+
+### 10. `audit_lean.py` `HYPOTHESES_QUERY` reorders `Prop` typeclass binders without a `--print-witness-type` helper
+* **Where:** `build-proof-atlas/scripts/audit_lean.py` L628–658 (`HYPOTHESES_QUERY` / `proofAtlasPath`).
+* **Symptom:** For statements with `Prop`-valued typeclass binders like `[IsProbabilityMeasure μ]` interleaved among data binders, `proofAtlasPath` silently moves `IsProbabilityMeasure μ` out of the `∃` binder prefix and into the trailing `∧` conjuncts (`facts`). Authors writing a `--witness` theorem in `Examples/` cannot know the exact derived witness signature upfront without reading `audit_lean.py`'s source or failing an audit round-trip first.
+* **Suggested fix:** Add an `--emit-witness-type` (or `--statement-only` output field `expected_witness_proposition`) so Gate 1 immediately records the exact Lean proposition required for `--witness` in `evidence/stmt-*.json`.
+
+### 11. `SKILL.md` lacks guidance for atomic Git commits at logical proof milestones
+* **Where:** `build-proof-atlas/SKILL.md` ("Work on a claim" / hosting & delivery sections).
+* **Symptom:** `SKILL.md` instructs the agent to checkpoint `project.json` frequently and commit before `hosting.py --publish`, but does not instruct the agent to make small, atomic Git commits at each logical unit of work (e.g., Gate 1 statement lock, each closed or conditional theorem, each `Routine/` foundation module, each witness/distillation pass). As a result, multiple theorems and helper libraries accumulate uncommitted until the author explicitly asks or a handoff occurs.
+* **Suggested fix:** Add a standing Git-hygiene guideline in `SKILL.md` ("Commit atomically at each audited milestone: after Gate 1, after each `Routine/` milestone, and after each newly closed or conditionally audited claim + its receipt") so commit history stays granular, reviewable, and bisect-friendly.
