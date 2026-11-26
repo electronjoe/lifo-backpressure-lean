@@ -62,30 +62,129 @@
   "reader": "reader.json",
   "work": {
     "theorem:little1": {
-      "status": "drafted",
-      "summary": "Drafted discrete-time LIFO buffer-slot model and Theorem 1 statement; Gate-1 statement-only audit passed.",
-      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
-      "next": "Prove Theorem 1 in Proofs/Little.lean with Section VI-A witness in Examples/LittleWitness.lean and audit closure",
-      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "status": "closed",
+      "basis": "aligned",
+      "distilled": true,
+      "summary": "Proved Theorem 1 (Modified Little's Theorem for LIFO systems) in Proofs/Little.lean with Section VI-A witness in Examples/LittleWitness.lean; unconditionally audited via Assembly.theorem_little1.",
+      "step": "Unconditionally closed and distilled",
+      "next": "Proceeding to Theorem 4 (conditional) and Theorems 2 & 3",
+      "updated": "2026-11-26T10:23:44Z",
       "lean": "lean/Statements/Little.lean",
       "statement_check": {
         "audit": "evidence/stmt-theorem-little1.json",
         "package": "lean",
         "expected": "LifoBackpressure.Statements.Theorem1Statement"
-      }
+      },
+      "assembly": {
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem1Statement",
+        "module": "Proofs.Little",
+        "declaration": "LifoBackpressure.Proofs.theorem1",
+        "name": "theorem_little1",
+        "statements": [
+          "Statements"
+        ],
+        "routine": [
+          "Routine"
+        ],
+        "witness": "LifoBackpressure.Examples.theorem1_witness",
+        "witness_modules": [
+          "Examples.LittleWitness"
+        ],
+        "statement_modules": [
+          "Statements.Little"
+        ]
+      },
+      "closure": {
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem1Statement",
+        "declaration": "Assembly.theorem_little1",
+        "audit": "evidence/assembly-theorem_little1.json",
+        "correspondence": "Assembled proof for theorem:little1."
+      },
+      "checked_inputs": {
+        "lean/Assembly.lean": "68f670a9c7be7915c2b57a9239badbd3d8d5edfa8db5b468824cdfcec765c2f9",
+        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
+        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
+        "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
+        "lean/Proofs/Little.lean": "b3ffef5ad262242d5a336265ef88616849a18200973ece41105c39c3d08354e1",
+        "lean/Proofs/MarkovTradeoff.lean": "3fa9c32a26d9d6a67e45a464d856281bfd0318f3876e770489d311b15e6b88d8",
+        "lean/Routine/BackpressureDrift.lean": "6857b398f25e09f741d969c8d3850396725b8ee1a777ef21e1f5454e781c6216",
+        "lean/Routine/MarkovMixing.lean": "4805ae7de7fe366ad0a93094c9475c12e9c11eb4e844d4219ef749ceca0b8cb0",
+        "lean/Statements.lean": "5bd32030cf4a5965fbf444c3ef2dee730ea3b1d6b788d3b1d84660ebf99c5fee",
+        "lean/Statements/ExponentialAttraction.lean": "48499dbb2ba36a5c78bde022f5618258668c406bd71875cf9635f2e48cf0f5a9",
+        "lean/Statements/LifoDelay.lean": "1421b798100d313e813de88bdcb4243c151056530ba845eaac13b823bcdfa4d2",
+        "lean/Statements/Little.lean": "e15796718bb358fe36c630f12f7ba19cdd58a42211a713a70db9bf330a7d9ac2",
+        "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
+        "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
+        "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
+        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+      },
+      "scope": "Assembled proof for theorem:little1.",
+      "run_log": "evidence/assembly-theorem_little1.log"
     },
     "theorem:qla-markovian": {
-      "status": "drafted",
-      "summary": "Drafted shared Markovian network model and Theorem 2 [O(1/V), O(V)] statement; Gate-1 statement-only audit passed.",
-      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
-      "next": "Prove via Routine/MarkovMixing.lean & Routine/BackpressureDrift.lean (or compose via Assembly.lean)",
-      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "status": "closed",
+      "basis": "lean",
+      "summary": "Unconditionally proved Theorem 2 ([O(1/V), O(V)] tradeoff under finite Markovian dynamics) in Proofs/MarkovTradeoff.lean via Doeblin mixing, Poisson telescoping, and elementary weak duality; audited via Assembly.theorem_qla_markovian.",
+      "step": "Unconditionally closed; pending non-degenerate witness and distillation pass",
+      "next": "Add non-degenerate witness in Examples/ and factor shared cylinder/dual helpers if reused by Theorem 3",
+      "updated": "2026-11-26T10:25:00Z",
       "lean": "lean/Statements/MarkovTradeoff.lean",
       "statement_check": {
         "audit": "evidence/stmt-theorem-qla-markovian.json",
         "package": "lean",
         "expected": "LifoBackpressure.Statements.Theorem2Statement"
-      }
+      },
+      "assembly": {
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem2Statement",
+        "module": "Proofs.MarkovTradeoff",
+        "declaration": "LifoBackpressure.Proofs.theorem2",
+        "name": "theorem_qla_markovian",
+        "statements": [
+          "Statements"
+        ],
+        "routine": [
+          "Routine"
+        ],
+        "statement_modules": [
+          "Statements.MarkovTradeoff"
+        ]
+      },
+      "closure": {
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem2Statement",
+        "declaration": "Assembly.theorem_qla_markovian",
+        "audit": "evidence/assembly-theorem_qla_markovian.json",
+        "correspondence": "Assembled proof for theorem:qla-markovian."
+      },
+      "checked_inputs": {
+        "lean/Assembly.lean": "68f670a9c7be7915c2b57a9239badbd3d8d5edfa8db5b468824cdfcec765c2f9",
+        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
+        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
+        "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
+        "lean/Proofs/Little.lean": "b3ffef5ad262242d5a336265ef88616849a18200973ece41105c39c3d08354e1",
+        "lean/Proofs/MarkovTradeoff.lean": "3fa9c32a26d9d6a67e45a464d856281bfd0318f3876e770489d311b15e6b88d8",
+        "lean/Routine/BackpressureDrift.lean": "6857b398f25e09f741d969c8d3850396725b8ee1a777ef21e1f5454e781c6216",
+        "lean/Routine/MarkovMixing.lean": "4805ae7de7fe366ad0a93094c9475c12e9c11eb4e844d4219ef749ceca0b8cb0",
+        "lean/Statements.lean": "5bd32030cf4a5965fbf444c3ef2dee730ea3b1d6b788d3b1d84660ebf99c5fee",
+        "lean/Statements/ExponentialAttraction.lean": "48499dbb2ba36a5c78bde022f5618258668c406bd71875cf9635f2e48cf0f5a9",
+        "lean/Statements/LifoDelay.lean": "1421b798100d313e813de88bdcb4243c151056530ba845eaac13b823bcdfa4d2",
+        "lean/Statements/Little.lean": "e15796718bb358fe36c630f12f7ba19cdd58a42211a713a70db9bf330a7d9ac2",
+        "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
+        "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
+        "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
+        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+      },
+      "scope": "Assembled proof for theorem:qla-markovian.",
+      "run_log": "evidence/assembly-theorem_qla_markovian.log"
     },
     "thm:prob_multi_con": {
       "status": "drafted",
@@ -101,18 +200,73 @@
       }
     },
     "thm:qlalifo_delay": {
-      "status": "drafted",
-      "summary": "Drafted clean mathematically sound Theorem 4 statement (explicit lambda_tilde > 0 guard, a.s.-constant rates, Eq. (3) +2 delta_max + 1 slot bound); Gate-1 statement-only audit passed.",
-      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
-      "next": "Prove via Routine/MarkovMixing.lean & Routine/BackpressureDrift.lean (or compose via Assembly.lean)",
-      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "status": "conditional",
+      "basis": "aligned",
+      "summary": "Proved Theorem 4 in Proofs/LifoDelay.lean (combining proved Theorems 1 & 2 and assuming only Theorem 3); audited conditionally via Assembly.thm_qlalifo_delay.",
+      "step": "Conditionally audited (depends only on thm:prob_multi_con)",
+      "next": "Close Theorem 3 (thm:prob_multi_con) and re-run atlas.py assemble . --audit to upgrade Theorem 4 to unconditionally closed",
+      "updated": "2026-11-26T10:25:00Z",
       "lean": "lean/Statements/LifoDelay.lean",
       "statement_check": {
         "audit": "evidence/stmt-thm-qlalifo-delay.json",
         "package": "lean",
         "expected": "LifoBackpressure.Statements.Theorem4Statement"
-      }
+      },
+      "assembly": {
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem4Statement",
+        "module": "Proofs.LifoDelay",
+        "declaration": "LifoBackpressure.Proofs.theorem4",
+        "name": "thm_qlalifo_delay",
+        "assumes": [
+          "theorem:little1",
+          "theorem:qla-markovian",
+          "thm:prob_multi_con"
+        ],
+        "statements": [
+          "Statements"
+        ],
+        "routine": [
+          "Routine"
+        ],
+        "statement_modules": [
+          "Statements.LifoDelay"
+        ]
+      },
+      "closure": {
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem4Statement",
+        "declaration": "Assembly.thm_qlalifo_delay",
+        "audit": "evidence/assembly-thm_qlalifo_delay.json",
+        "correspondence": "Assembled proof for thm:qlalifo_delay."
+      },
+      "checked_inputs": {
+        "lean/Assembly.lean": "68f670a9c7be7915c2b57a9239badbd3d8d5edfa8db5b468824cdfcec765c2f9",
+        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
+        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
+        "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
+        "lean/Proofs/Little.lean": "b3ffef5ad262242d5a336265ef88616849a18200973ece41105c39c3d08354e1",
+        "lean/Proofs/MarkovTradeoff.lean": "3fa9c32a26d9d6a67e45a464d856281bfd0318f3876e770489d311b15e6b88d8",
+        "lean/Routine/BackpressureDrift.lean": "6857b398f25e09f741d969c8d3850396725b8ee1a777ef21e1f5454e781c6216",
+        "lean/Routine/MarkovMixing.lean": "4805ae7de7fe366ad0a93094c9475c12e9c11eb4e844d4219ef749ceca0b8cb0",
+        "lean/Statements.lean": "5bd32030cf4a5965fbf444c3ef2dee730ea3b1d6b788d3b1d84660ebf99c5fee",
+        "lean/Statements/ExponentialAttraction.lean": "48499dbb2ba36a5c78bde022f5618258668c406bd71875cf9635f2e48cf0f5a9",
+        "lean/Statements/LifoDelay.lean": "1421b798100d313e813de88bdcb4243c151056530ba845eaac13b823bcdfa4d2",
+        "lean/Statements/Little.lean": "e15796718bb358fe36c630f12f7ba19cdd58a42211a713a70db9bf330a7d9ac2",
+        "lean/Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
+        "lean/Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
+        "lean/lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
+        "lean/lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+        "lean/lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+      },
+      "scope": "Assembled proof for thm:qlalifo_delay.",
+      "run_log": "evidence/assembly-thm_qlalifo_delay.log",
+      "assumes": [
+        "thm:prob_multi_con"
+      ]
     }
   },
-  "focus": "theorem:little1"
+  "focus": "thm:prob_multi_con"
 }
