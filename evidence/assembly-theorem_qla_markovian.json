@@ -80,11 +80,12 @@
   ],
   "input_scope": "module-closure",
   "checked_inputs": {
-    "Assembly.lean": "68f670a9c7be7915c2b57a9239badbd3d8d5edfa8db5b468824cdfcec765c2f9",
+    "Assembly.lean": "d41e640a2f838c2f63c52f0859b192f4037fefffcc1664e5511eb102d0fc484f",
     "AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
     "Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
     "Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
     "Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
+    "Proofs/ExponentialAttraction.lean": "ec453ae65793494e270a93731df746910aa3b17a72e99a6675951a9b37bb0847",
     "Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
     "Proofs/Little.lean": "b3ffef5ad262242d5a336265ef88616849a18200973ece41105c39c3d08354e1",
     "Proofs/MarkovTradeoff.lean": "3fa9c32a26d9d6a67e45a464d856281bfd0318f3876e770489d311b15e6b88d8",
@@ -100,7 +101,7 @@
     "lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
     "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
   },
-  "checked_lean_loc": 1979,
+  "checked_lean_loc": 1982,
   "statements": [
     "Statements"
   ],
