@@ -13,6 +13,7 @@ __pycache__/
 # LaTeX build artifacts
 *.aux
 *.log
+!evidence/*.log
 *.out
 *.toc
 *.fls
