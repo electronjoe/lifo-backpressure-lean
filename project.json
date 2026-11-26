@@ -68,7 +68,7 @@
       "summary": "Proved Theorem 1 (Modified Little's Theorem for LIFO systems) in Proofs/Little.lean with Section VI-A witness in Examples/LittleWitness.lean; unconditionally audited via Assembly.theorem_little1.",
       "step": "Unconditionally closed and distilled",
       "next": "Proceeding to Theorem 4 (conditional) and Theorems 2 & 3",
-      "updated": "2026-11-26T10:47:06Z",
+      "updated": "2026-11-26T10:55:34Z",
       "lean": "lean/Statements/Little.lean",
       "statement_check": {
         "audit": "evidence/stmt-theorem-little1.json",
@@ -104,9 +104,10 @@
       },
       "checked_inputs": {
         "lean/Assembly.lean": "d41e640a2f838c2f63c52f0859b192f4037fefffcc1664e5511eb102d0fc484f",
-        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
-        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/AssemblyContract.lean": "0e0a07352aa9bd9777a25cb732e5453eae07b1c03e1ca9ff692db412ea3a4ad7",
+        "lean/Examples.lean": "cd24cf190f978fd028d5babbf847814a167ba82a82f8225673d9b1c3699fefbf",
         "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Examples/NetworkWitnesses.lean": "63d53e2ef6ec5047c0183220ac94f97359b61fa6070bcc6ddb7a8377b67bebcc",
         "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
         "lean/Proofs/ExponentialAttraction.lean": "ec453ae65793494e270a93731df746910aa3b17a72e99a6675951a9b37bb0847",
         "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
@@ -133,7 +134,7 @@
       "summary": "Unconditionally proved Theorem 2 ([O(1/V), O(V)] tradeoff under finite Markovian dynamics) in Proofs/MarkovTradeoff.lean via Doeblin mixing, Poisson telescoping, and elementary weak duality; audited via Assembly.theorem_qla_markovian.",
       "step": "Unconditionally closed; pending non-degenerate witness and distillation pass",
       "next": "Add non-degenerate witness in Examples/ and factor shared cylinder/dual helpers if reused by Theorem 3",
-      "updated": "2026-11-26T10:47:47Z",
+      "updated": "2026-11-26T10:56:20Z",
       "lean": "lean/Statements/MarkovTradeoff.lean",
       "statement_check": {
         "audit": "evidence/stmt-theorem-qla-markovian.json",
@@ -152,6 +153,10 @@
         "routine": [
           "Routine"
         ],
+        "witness": "LifoBackpressure.Examples.theorem2_witness",
+        "witness_modules": [
+          "Examples.NetworkWitnesses"
+        ],
         "statement_modules": [
           "Statements.MarkovTradeoff"
         ]
@@ -165,9 +170,10 @@
       },
       "checked_inputs": {
         "lean/Assembly.lean": "d41e640a2f838c2f63c52f0859b192f4037fefffcc1664e5511eb102d0fc484f",
-        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
-        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/AssemblyContract.lean": "0e0a07352aa9bd9777a25cb732e5453eae07b1c03e1ca9ff692db412ea3a4ad7",
+        "lean/Examples.lean": "cd24cf190f978fd028d5babbf847814a167ba82a82f8225673d9b1c3699fefbf",
         "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Examples/NetworkWitnesses.lean": "63d53e2ef6ec5047c0183220ac94f97359b61fa6070bcc6ddb7a8377b67bebcc",
         "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
         "lean/Proofs/ExponentialAttraction.lean": "ec453ae65793494e270a93731df746910aa3b17a72e99a6675951a9b37bb0847",
         "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
@@ -194,7 +200,7 @@
       "summary": "Unconditionally proved Theorem 3 (exponential attraction of Backpressure queue backlogs) in Proofs/ExponentialAttraction.lean via convergent intervals, squared-distance drift, and Pade exponential Lyapunov contraction; audited via Assembly.thm_prob_multi_con.",
       "step": "Unconditionally closed; pending non-degenerate witness and distillation pass",
       "next": "Add non-degenerate witnesses for Theorems 2, 3, and 4 in Examples/",
-      "updated": "2026-11-26T10:48:29Z",
+      "updated": "2026-11-26T10:57:06Z",
       "lean": "lean/Statements/ExponentialAttraction.lean",
       "statement_check": {
         "audit": "evidence/stmt-thm-prob-multi-con.json",
@@ -213,6 +219,10 @@
         "routine": [
           "Routine"
         ],
+        "witness": "LifoBackpressure.Examples.theorem3_witness",
+        "witness_modules": [
+          "Examples.NetworkWitnesses"
+        ],
         "statement_modules": [
           "Statements.ExponentialAttraction"
         ]
@@ -226,9 +236,10 @@
       },
       "checked_inputs": {
         "lean/Assembly.lean": "d41e640a2f838c2f63c52f0859b192f4037fefffcc1664e5511eb102d0fc484f",
-        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
-        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/AssemblyContract.lean": "0e0a07352aa9bd9777a25cb732e5453eae07b1c03e1ca9ff692db412ea3a4ad7",
+        "lean/Examples.lean": "cd24cf190f978fd028d5babbf847814a167ba82a82f8225673d9b1c3699fefbf",
         "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Examples/NetworkWitnesses.lean": "63d53e2ef6ec5047c0183220ac94f97359b61fa6070bcc6ddb7a8377b67bebcc",
         "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
         "lean/Proofs/ExponentialAttraction.lean": "ec453ae65793494e270a93731df746910aa3b17a72e99a6675951a9b37bb0847",
         "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
@@ -255,7 +266,7 @@
       "summary": "Unconditionally proved Theorem 4 (LIFO-Backpressure throughput and O([log V]^2) delay) in Proofs/LifoDelay.lean, composed in Assembly.thm_qlalifo_delay from unconditionally proved Theorems 1, 2, and 3.",
       "step": "Unconditionally closed; pending non-degenerate witness and distillation pass",
       "next": "Add non-degenerate witness in Examples/",
-      "updated": "2026-11-26T10:49:10Z",
+      "updated": "2026-11-26T10:57:54Z",
       "lean": "lean/Statements/LifoDelay.lean",
       "statement_check": {
         "audit": "evidence/stmt-thm-qlalifo-delay.json",
@@ -279,6 +290,10 @@
         "routine": [
           "Routine"
         ],
+        "witness": "LifoBackpressure.Examples.theorem4_witness",
+        "witness_modules": [
+          "Examples.NetworkWitnesses"
+        ],
         "statement_modules": [
           "Statements.LifoDelay"
         ]
@@ -292,9 +307,10 @@
       },
       "checked_inputs": {
         "lean/Assembly.lean": "d41e640a2f838c2f63c52f0859b192f4037fefffcc1664e5511eb102d0fc484f",
-        "lean/AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
-        "lean/Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+        "lean/AssemblyContract.lean": "0e0a07352aa9bd9777a25cb732e5453eae07b1c03e1ca9ff692db412ea3a4ad7",
+        "lean/Examples.lean": "cd24cf190f978fd028d5babbf847814a167ba82a82f8225673d9b1c3699fefbf",
         "lean/Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+        "lean/Examples/NetworkWitnesses.lean": "63d53e2ef6ec5047c0183220ac94f97359b61fa6070bcc6ddb7a8377b67bebcc",
         "lean/Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
         "lean/Proofs/ExponentialAttraction.lean": "ec453ae65793494e270a93731df746910aa3b17a72e99a6675951a9b37bb0847",
         "lean/Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
