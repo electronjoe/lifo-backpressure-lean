@@ -1,0 +1,642 @@
+{
+  "declaration": "Assembly.theorem_qla_markovian",
+  "contract": "AssemblyContract.lean",
+  "expected": "LifoBackpressure.Statements.Theorem2Statement",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "axiom_profile": "Standard classical axioms (Classical.choice, Quot.sound, propext)",
+  "external_packages": [
+    {
+      "name": "aesop",
+      "rev": "3448c0bcc5ce01b2d1546e483ec3620e32df3d0e",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/aesop"
+    },
+    {
+      "name": "batteries",
+      "rev": "4488d40d070b9700d4d5a6aa342f0d40c31b2a2d",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/batteries"
+    },
+    {
+      "name": "Cli",
+      "rev": "6130a47896ce867c6a4a55373441e59e565bad0f",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover/lean4-cli"
+    },
+    {
+      "name": "importGraph",
+      "rev": "16f02aa7642864af59f1ff0e384a015994db9118",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/import-graph"
+    },
+    {
+      "name": "LeanSearchClient",
+      "rev": "5f4d51b81cbd3f6b32b156bfad9056621a040404",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/LeanSearchClient"
+    },
+    {
+      "name": "mathlib",
+      "rev": "0df444a360eaa60ab8c11dca51a86af692955474",
+      "direct": true,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/mathlib4.git"
+    },
+    {
+      "name": "plausible",
+      "rev": "b7eb3304aeae834b12dda98993a37f6a41f6f0bb",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/plausible"
+    },
+    {
+      "name": "proofwidgets",
+      "rev": "4be2e3d5087eeb272cf5a8853b8f9dd025ef5957",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/ProofWidgets4"
+    },
+    {
+      "name": "Qq",
+      "rev": "92c15be17b7caf78c2ad767ec40f89052d908d81",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/quote4"
+    }
+  ],
+  "theorem_info": true,
+  "targets": [
+    "Assembly"
+  ],
+  "input_scope": "module-closure",
+  "checked_inputs": {
+    "Assembly.lean": "68f670a9c7be7915c2b57a9239badbd3d8d5edfa8db5b468824cdfcec765c2f9",
+    "AssemblyContract.lean": "293a9a7542457ebd230fb1d009734e97f6560620e074ab39aaa316f0f96d36a1",
+    "Examples.lean": "42437762297cfb22344ee186233cfdbf2bb1c50103d9b14c10411a2cc753330e",
+    "Examples/LittleWitness.lean": "82a82feff6e88e30722eae8b37ce68b10f0c825affda35d154776416957c3656",
+    "Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
+    "Proofs/LifoDelay.lean": "0c2b22f3b9b9267c4315bdbe99139d6d71e9c3e817c8b7fa204081a94fef99a7",
+    "Proofs/Little.lean": "b3ffef5ad262242d5a336265ef88616849a18200973ece41105c39c3d08354e1",
+    "Proofs/MarkovTradeoff.lean": "3fa9c32a26d9d6a67e45a464d856281bfd0318f3876e770489d311b15e6b88d8",
+    "Routine/BackpressureDrift.lean": "6857b398f25e09f741d969c8d3850396725b8ee1a777ef21e1f5454e781c6216",
+    "Routine/MarkovMixing.lean": "4805ae7de7fe366ad0a93094c9475c12e9c11eb4e844d4219ef749ceca0b8cb0",
+    "Statements.lean": "5bd32030cf4a5965fbf444c3ef2dee730ea3b1d6b788d3b1d84660ebf99c5fee",
+    "Statements/ExponentialAttraction.lean": "48499dbb2ba36a5c78bde022f5618258668c406bd71875cf9635f2e48cf0f5a9",
+    "Statements/LifoDelay.lean": "1421b798100d313e813de88bdcb4243c151056530ba845eaac13b823bcdfa4d2",
+    "Statements/Little.lean": "e15796718bb358fe36c630f12f7ba19cdd58a42211a713a70db9bf330a7d9ac2",
+    "Statements/MarkovTradeoff.lean": "50581d936b33a8b69407eaf4dca7f91253cd9d514c6ace390032e326d0a42053",
+    "Statements/SystemModel.lean": "88fe66a888351b10a0b191bbc1282509e168369a359b322eaa1c3d027f85db71",
+    "lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
+    "lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "checked_lean_loc": 1979,
+  "statements": [
+    "Statements"
+  ],
+  "hygiene": {
+    "checked": true,
+    "statements_checked": true
+  },
+  "lean_output": "'Assembly.theorem_qla_markovian' depends on axioms: [propext, Classical.choice, Quot.sound]\nPROOF-ATLAS-DECL-KIND theorem",
+  "routine": [
+    "Routine.BackpressureDrift",
+    "Routine.MarkovMixing"
+  ],
+  "used_local_theorems": [
+    "LifoBackpressure.Proofs.abs_dualState_le",
+    "LifoBackpressure.Proofs.abs_dualState_sub_le",
+    "LifoBackpressure.Proofs.abs_integral_state_sub_stationary_le",
+    "LifoBackpressure.Proofs.abs_sum_mul_arr_sub_serv_le",
+    "LifoBackpressure.Proofs.bddBelow_dualState",
+    "LifoBackpressure.Proofs.bp_queue_eq_hist",
+    "LifoBackpressure.Proofs.driftBound_pos",
+    "LifoBackpressure.Proofs.driftBound_sq",
+    "LifoBackpressure.Proofs.dualState_eq_of_bp",
+    "LifoBackpressure.Proofs.dualState_le",
+    "LifoBackpressure.Proofs.dual_div_V_le_avgCost",
+    "LifoBackpressure.Proofs.dual_div_V_le_avgCost._simp_1_4",
+    "LifoBackpressure.Proofs.dual_le_of_slackness",
+    "LifoBackpressure.Proofs.dual_le_of_slackness._simp_1_1",
+    "LifoBackpressure.Proofs.integral_history_eq_sum",
+    "LifoBackpressure.Proofs.integral_history_next_eq",
+    "LifoBackpressure.Proofs.marginal_prob_eq",
+    "LifoBackpressure.Proofs.measurableSet_markovCyl",
+    "LifoBackpressure.Proofs.statements_matPow_eq_routine",
+    "LifoBackpressure.Proofs.theorem2",
+    "LifoBackpressure.Routine.abs_max_sub_add_sub_le",
+    "LifoBackpressure.Routine.abs_poissonPotential_le",
+    "LifoBackpressure.Routine.abs_poissonPotential_sub_le",
+    "LifoBackpressure.Routine.abs_sum_mul_le_sqrt_mul_sqrt",
+    "LifoBackpressure.Routine.exists_all_ge_of_gcd_one",
+    "LifoBackpressure.Routine.exists_geometric_mixing",
+    "LifoBackpressure.Routine.exists_matPow_pos",
+    "LifoBackpressure.Routine.exists_small_ratio_of_avg_limsup_lt_top",
+    "LifoBackpressure.Routine.matPow.congr_simp",
+    "LifoBackpressure.Routine.matPow.eq_def",
+    "LifoBackpressure.Routine.matPow_add",
+    "LifoBackpressure.Routine.matPow_nonneg",
+    "LifoBackpressure.Routine.matPow_one",
+    "LifoBackpressure.Routine.matPow_pos_add",
+    "LifoBackpressure.Routine.matPow_stationary",
+    "LifoBackpressure.Routine.matPow_succ_left",
+    "LifoBackpressure.Routine.matPow_sum_one",
+    "LifoBackpressure.Routine.matPow_sum_one._simp_1_6",
+    "LifoBackpressure.Routine.poisson_equation",
+    "LifoBackpressure.Routine.poisson_equation._simp_1_4",
+    "LifoBackpressure.Routine.poisson_equation._simp_1_5",
+    "LifoBackpressure.Routine.scalar_quad_drift",
+    "LifoBackpressure.Routine.sqrt_sum_sq_step_le",
+    "LifoBackpressure.Routine.sub_le_max_sub_add",
+    "LifoBackpressure.Routine.sum_quad_drift",
+    "LifoBackpressure.Routine.summable_poisson_term",
+    "LifoBackpressure.Statements.NetworkModel.MarkovProcess.markov",
+    "LifoBackpressure.Statements.NetworkModel.MarkovProcess.measurable_S",
+    "LifoBackpressure.Statements.NetworkModel.P_aperiodic",
+    "LifoBackpressure.Statements.NetworkModel.P_irreducible",
+    "LifoBackpressure.Statements.NetworkModel.P_nonneg",
+    "LifoBackpressure.Statements.NetworkModel.P_sum_one",
+    "LifoBackpressure.Statements.NetworkModel.Policy.measurable_arrival",
+    "LifoBackpressure.Statements.NetworkModel.Policy.measurable_cost",
+    "LifoBackpressure.Statements.NetworkModel.Policy.measurable_service",
+    "LifoBackpressure.Statements.NetworkModel.actionNonempty",
+    "LifoBackpressure.Statements.NetworkModel.arrival_le",
+    "LifoBackpressure.Statements.NetworkModel.arrival_nonneg",
+    "LifoBackpressure.Statements.NetworkModel.cost_le",
+    "LifoBackpressure.Statements.NetworkModel.cost_nonneg",
+    "LifoBackpressure.Statements.NetworkModel.hr",
+    "LifoBackpressure.Statements.NetworkModel.h\u03b4max",
+    "LifoBackpressure.Statements.NetworkModel.service_le",
+    "LifoBackpressure.Statements.NetworkModel.service_nonneg",
+    "LifoBackpressure.Statements.NetworkModel.stateNonempty",
+    "LifoBackpressure.Statements.NetworkModel.\u03c0_pos",
+    "LifoBackpressure.Statements.NetworkModel.\u03c0_stationary",
+    "LifoBackpressure.Statements.NetworkModel.\u03c0_sum_one",
+    "_private.Proofs.MarkovTradeoff.0.LifoBackpressure.Proofs.pol_integrable_cost",
+    "_private.Proofs.MarkovTradeoff.0.LifoBackpressure.Proofs.pol_integrable_queue",
+    "_private.Proofs.MarkovTradeoff.0.LifoBackpressure.Proofs.pol_measurable_queue",
+    "_private.Proofs.MarkovTradeoff.0.LifoBackpressure.Proofs.pol_queue_le_mul",
+    "_private.Proofs.MarkovTradeoff.0.LifoBackpressure.Proofs.pol_queue_nonneg",
+    "_private.Routine.MarkovMixing.0.LifoBackpressure.Routine.finset_gcd_bezout",
+    "_private.Routine.MarkovMixing.0.LifoBackpressure.Routine.l1_doeblin_contraction",
+    "_private.Routine.MarkovMixing.0.LifoBackpressure.Routine.l1_nonexpansive",
+    "_private.Routine.MarkovMixing.0.LifoBackpressure.Routine.mul_mem_of_add_closed",
+    "_private.Routine.MarkovMixing.0.LifoBackpressure.Routine.sum_pos_mul_mem_of_add_closed"
+  ],
+  "used_local_statements": [
+    "LifoBackpressure.Statements.Aperiodic",
+    "LifoBackpressure.Statements.Irreducible",
+    "LifoBackpressure.Statements.NetworkModel.HasSlackness",
+    "LifoBackpressure.Statements.NetworkModel.IsBackpressureRule",
+    "LifoBackpressure.Statements.NetworkModel.Policy.FollowsBackpressure",
+    "LifoBackpressure.Statements.NetworkModel.Policy.IsStable"
+  ],
+  "reachable_local_defs": 61,
+  "reachable_local_theorems": 78,
+  "statement": {
+    "expected": "LifoBackpressure.Statements.Theorem2Statement",
+    "sha256": "b348666c17be732d8b3d759781e05a0f5abea60ac68663865ac05ee05a3b607a",
+    "constants": [
+      {
+        "name": "LifoBackpressure.Statements.Aperiodic",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          29,
+          33
+        ],
+        "sha256": "2dccdcfafaff48437505944a7b7e0a3de12a528b7ff2edd76c6543cbbf25a031",
+        "noncomputable": false,
+        "pp_no_notation": "{State : Type u_1} \u2192 [Fintype State] \u2192 [DecidableEq State] \u2192 (State \u2192 State \u2192 Real) \u2192 Prop := fun {State} [Fintype State] [DecidableEq State] P =>\n  \u2200 (s : State) (d : Nat),\n    (\u2200 (n : Nat), LT.lt 0 n \u2192 LT.lt 0 (LifoBackpressure.Statements.matPow P n s s) \u2192 Dvd.dvd d n) \u2192 Eq d 1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.Irreducible",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          23,
+          27
+        ],
+        "sha256": "acd95890e25bd0672eeecdef099ed17b91d5dae84deb3464537f3cd49bff4d87",
+        "noncomputable": false,
+        "pp_no_notation": "{State : Type u_1} \u2192 [Fintype State] \u2192 [DecidableEq State] \u2192 (State \u2192 State \u2192 Real) \u2192 Prop := fun {State} [Fintype State] [DecidableEq State] P =>\n  \u2200 (s s' : State), Exists fun n => And (LT.lt 0 n) (LT.lt 0 (LifoBackpressure.Statements.matPow P n s s'))"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          35,
+          78
+        ],
+        "sha256": "b53f09cc7cd5083a22fedbf080d998bdc2d3463b8ac1d2fd83faa99765e28c0b",
+        "noncomputable": false,
+        "pp_no_notation": "Type 1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Action",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          57,
+          57
+        ],
+        "sha256": "e2c61b0cab5da3c3ee102db1fa0306ee7e29f6c823a48c2a61f947a6529e6a66",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 self.State \u2192 Type := fun self => self.16"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.HasSlackness",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          85,
+          92
+        ],
+        "sha256": "a8f432be593a55bad8afd355595d71bdb75cb24b2ac622dad655b8dd0ee14ae9",
+        "noncomputable": false,
+        "pp_no_notation": "LifoBackpressure.Statements.NetworkModel \u2192 Real \u2192 Prop := fun M \u03b7 =>\n  And (LT.lt 0 \u03b7)\n    (Exists fun m =>\n      Exists fun x =>\n        Exists fun \u03b8 =>\n          And (\u2200 (s : M.State) (k : Fin m), LE.le 0 (\u03b8 s k))\n            (And (\u2200 (s : M.State), Eq (Finset.univ.sum fun k => \u03b8 s k) 1)\n              (\u2200 (j : Fin M.r),\n                LE.le\n                  (Finset.univ.sum fun s =>\n                    HMul.hMul (M.\u03c0 s)\n                      (Finset.univ.sum fun k =>\n                        HMul.hMul (\u03b8 s k) (HSub.hSub (M.arrival s (x s k) j) (M.service s (x s k) j))))\n                  (Neg.neg \u03b7))))"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.IsBackpressureRule",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          181,
+          189
+        ],
+        "sha256": "8bd00066a4cb00b93b5ff959ac10033d404782c38c8e5563be3229043be82972",
+        "noncomputable": false,
+        "pp_no_notation": "(M : LifoBackpressure.Statements.NetworkModel) \u2192 Real \u2192 ((s : M.State) \u2192 (Fin M.r \u2192 Real) \u2192 M.Action s) \u2192 Prop := fun M V choice =>\n  \u2200 (s : M.State) (q : Fin M.r \u2192 Real) (x : M.Action s),\n    LE.le\n      (HAdd.hAdd (HMul.hMul (Neg.neg V) (M.cost s x))\n        (Finset.univ.sum fun j => HMul.hMul (q j) (HSub.hSub (M.service s x j) (M.arrival s x j))))\n      (HAdd.hAdd (HMul.hMul (Neg.neg V) (M.cost s (choice s q)))\n        (Finset.univ.sum fun j =>\n          HMul.hMul (q j) (HSub.hSub (M.service s (choice s q) j) (M.arrival s (choice s q) j))))"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.MarkovProcess",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          123,
+          130
+        ],
+        "sha256": "69bed4f1009311bc5b9ba6d5d0316557c119b86d1824d62300d670e5b5c4152c",
+        "noncomputable": false,
+        "pp_no_notation": "LifoBackpressure.Statements.NetworkModel \u2192\n  (\u03a9 : Type) \u2192\n    [inst : MeasurableSpace \u03a9] \u2192 (\u03bc : MeasureTheory.Measure \u03a9) \u2192 [MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 Type"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.MarkovProcess.S",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          126,
+          126
+        ],
+        "sha256": "0d10939c84c17505df9e2a223abb84d10702f8cb39a1a0a11ec255d960243d56",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 M.MarkovProcess \u03a9 \u03bc \u2192 Nat \u2192 \u03a9 \u2192 M.State := fun M \u03a9 [MeasurableSpace \u03a9] \u03bc [MeasureTheory.IsProbabilityMeasure \u03bc] self => self.1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.MarkovProcess.mk",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          124,
+          124
+        ],
+        "sha256": "eab6fdf5157bc4a682a5d0634fcf39ebc72691ef67a7c24bd7a7e40793a640ec",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192\n          (S : Nat \u2192 \u03a9 \u2192 M.State) \u2192\n            (\u2200 (t : Nat) (s : M.State), MeasurableSet (Set.ofPred fun \u03c9 => Eq (S t \u03c9) s)) \u2192\n              (\u2200 (t : Nat) (h : Fin (HAdd.hAdd t 1) \u2192 M.State) (s' : M.State),\n                  Eq\n                    (\u03bc\n                      (Set.ofPred fun \u03c9 =>\n                        And (\u2200 (i : Fin (HAdd.hAdd t 1)), Eq (S (\u2191i) \u03c9) (h i)) (Eq (S (HAdd.hAdd t 1) \u03c9) s')))\n                    (HMul.hMul (\u03bc (Set.ofPred fun \u03c9 => \u2200 (i : Fin (HAdd.hAdd t 1)), Eq (S (\u2191i) \u03c9) (h i)))\n                      (ENNReal.ofReal (M.P (h \u27e8t, \u22ef\u27e9) s')))) \u2192\n                M.MarkovProcess \u03a9 \u03bc"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.P",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          46,
+          46
+        ],
+        "sha256": "97eb9a0368300c8d23bb5057199fef38feacd842c314362f298094f27eaad2f2",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 self.State \u2192 self.State \u2192 Real := fun self => self.7"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          132,
+          138
+        ],
+        "sha256": "955a3f26ab2ec5c0921dbf9565998ba2d09b8578ab19058283c2c0b81ab9d3fa",
+        "noncomputable": false,
+        "pp_no_notation": "(M : LifoBackpressure.Statements.NetworkModel) \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192 [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 M.MarkovProcess \u03a9 \u03bc \u2192 Type"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.FollowsBackpressure",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          201,
+          208
+        ],
+        "sha256": "b4962844b01a88bae33caada1b12da61b49afdcad139198f14097ce69f9dec3d",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 {proc : M.MarkovProcess \u03a9 \u03bc} \u2192 Real \u2192 M.Policy proc \u2192 Prop := fun {M} {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] {proc} V pol =>\n  Exists fun choice =>\n    And (M.IsBackpressureRule V choice) (\u2200 (t : Nat) (\u03c9 : \u03a9), Eq (pol.act t \u03c9) (choice (proc.S t \u03c9) (pol.queue t \u03c9)))"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.IsStable",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          160,
+          164
+        ],
+        "sha256": "fda67669dcb25127f178d20ec92b06edd84eaaf1f2d7a6d83966d2a245d680fd",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 {proc : M.MarkovProcess \u03a9 \u03bc} \u2192 M.Policy proc \u2192 Prop := fun {M} {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] {proc} pol => LT.lt pol.avgBacklog Top.top"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.act",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          135,
+          135
+        ],
+        "sha256": "7d690809f102bdd59c199cdce0ede66dc08301d53d004e78c67d19aef62432e4",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192\n          {proc : M.MarkovProcess \u03a9 \u03bc} \u2192 M.Policy proc \u2192 (t : Nat) \u2192 (\u03c9 : \u03a9) \u2192 M.Action (proc.S t \u03c9) := fun M \u03a9 [MeasurableSpace \u03a9] \u03bc [MeasureTheory.IsProbabilityMeasure \u03bc] proc self => self.1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.avgBacklog",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          150,
+          158
+        ],
+        "sha256": "9c340b6712af147bc29a3ef71b9302d442c9b3bda52ae27ec572b02d99f4f831",
+        "noncomputable": true,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 {proc : M.MarkovProcess \u03a9 \u03bc} \u2192 M.Policy proc \u2192 EReal := fun {M} {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] {proc} pol =>\n  Filter.limsup\n    (fun t =>\n      HMul.hMul (HDiv.hDiv \u21911 \u2191\u2191t)\n        \u2191((Finset.range t).sum fun \u03c4 => Finset.univ.sum fun j => MeasureTheory.integral \u03bc fun \u03c9 => pol.queue \u03c4 \u03c9 j))\n    Filter.atTop"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.avgCost",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          166,
+          174
+        ],
+        "sha256": "873ee9ce613c80efbbdcaded4ffc59f4441c1c4c4a4bb91b2552eb8d7453f044",
+        "noncomputable": true,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 {proc : M.MarkovProcess \u03a9 \u03bc} \u2192 M.Policy proc \u2192 EReal := fun {M} {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] {proc} pol =>\n  Filter.limsup\n    (fun t =>\n      HMul.hMul (HDiv.hDiv \u21911 \u2191\u2191t)\n        \u2191((Finset.range t).sum fun \u03c4 => MeasureTheory.integral \u03bc fun \u03c9 => M.cost (proc.S \u03c4 \u03c9) (pol.act \u03c4 \u03c9)))\n    Filter.atTop"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.mk",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          133,
+          133
+        ],
+        "sha256": "a84f13e988e2fe97d1d385b4945751cbe82b9e6b095b4d402f73f4b92e53117b",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192\n          {proc : M.MarkovProcess \u03a9 \u03bc} \u2192\n            (act : (t : Nat) \u2192 (\u03c9 : \u03a9) \u2192 M.Action (proc.S t \u03c9)) \u2192\n              (\u2200 (t : Nat), Measurable fun \u03c9 => M.cost (proc.S t \u03c9) (act t \u03c9)) \u2192\n                (\u2200 (t : Nat) (j : Fin M.r), Measurable fun \u03c9 => M.arrival (proc.S t \u03c9) (act t \u03c9) j) \u2192\n                  (\u2200 (t : Nat) (j : Fin M.r), Measurable fun \u03c9 => M.service (proc.S t \u03c9) (act t \u03c9) j) \u2192 M.Policy proc"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.queue",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          140,
+          148
+        ],
+        "sha256": "82e2d071ceca86cdaccaacdddd78861981f9a050b78edbe5381465cb125da19a",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192\n          {proc : M.MarkovProcess \u03a9 \u03bc} \u2192 M.Policy proc \u2192 Nat \u2192 \u03a9 \u2192 Fin M.r \u2192 Real := fun {M} {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] {proc} pol x x_1 =>\n  Nat.brecOn (motive := fun x => \u03a9 \u2192 Fin M.r \u2192 Real) x (LifoBackpressure.Statements.NetworkModel.Policy.queue._f pol)\n    x_1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.queue._f",
+        "file": "Statements/SystemModel.lean",
+        "lines": null,
+        "sha256": "c25b2ec967f50f3400cb85338bc3b6dd6f89d0b1489f0fe8cb38e323096016b8",
+        "noncomputable": false,
+        "pp_no_notation": "{M : LifoBackpressure.Statements.NetworkModel} \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192\n        [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192\n          {proc : M.MarkovProcess \u03a9 \u03bc} \u2192\n            M.Policy proc \u2192 (x : Nat) \u2192 Nat.below (motive := fun x => \u03a9 \u2192 Fin M.r \u2192 Real) x \u2192 \u03a9 \u2192 Fin M.r \u2192 Real := fun {M} {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] {proc} pol x f x_1 =>\n  LifoBackpressure.Statements.NetworkModel.Policy.queue.match_1\n    (fun x x_2 => Nat.below (motive := fun x => \u03a9 \u2192 Fin M.r \u2192 Real) x \u2192 Fin M.r \u2192 Real) x x_1 (fun x x_2 x_3 => 0)\n    (fun t \u03c9 x =>\n      LifoBackpressure.Statements.NetworkModel.queueNext (x.1 \u03c9) (M.service (proc.S t \u03c9) (pol.act t \u03c9))\n        (M.arrival (proc.S t \u03c9) (pol.act t \u03c9)))\n    f"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.Policy.queue.match_1",
+        "file": "Statements/SystemModel.lean",
+        "lines": null,
+        "sha256": "b53d6cfe0e2cd35d0c73f81581069db046d9be203dcf08ad033efb80c3e0d62d",
+        "noncomputable": false,
+        "pp_no_notation": "{\u03a9 : Type} \u2192\n  (motive : Nat \u2192 \u03a9 \u2192 Sort u_1) \u2192\n    (x : Nat) \u2192 (x_1 : \u03a9) \u2192 ((x : \u03a9) \u2192 motive 0 x) \u2192 ((t : Nat) \u2192 (\u03c9 : \u03a9) \u2192 motive t.succ \u03c9) \u2192 motive x x_1 := fun {\u03a9} motive x x_1 h_1 h_2 => Nat.casesOn x (h_1 x_1) fun n => h_2 n x_1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.State",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          38,
+          38
+        ],
+        "sha256": "ca455e7ecf500cd2ca14a483a2d53714c8c3236d4a3a7e17f29559d33c0a4916",
+        "noncomputable": false,
+        "pp_no_notation": "LifoBackpressure.Statements.NetworkModel \u2192 Type := fun self => self.1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.arrival",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          64,
+          64
+        ],
+        "sha256": "9de1145e91e242d1324d4bdf3b6cc0ba7e14653dc81a6da4ec141f129dffc91e",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 (s : self.State) \u2192 self.Action s \u2192 Fin self.r \u2192 Real := fun self => self.21"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.cost",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          62,
+          62
+        ],
+        "sha256": "be935ebf806ced6c5f8710ee3b750a8326c84a4c803b61114b59f63fd583528f",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 (s : self.State) \u2192 self.Action s \u2192 Real := fun self => self.20"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.mk",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          36,
+          36
+        ],
+        "sha256": "82675c7621d76de6459fbda96423a718e18df73a709ae9fdfa91807ec51f88c9",
+        "noncomputable": false,
+        "pp_no_notation": "(State : Type) \u2192\n  [stateFintype : Fintype State] \u2192\n    [stateDecEq : DecidableEq State] \u2192\n      [stateNonempty : Nonempty State] \u2192\n        (r : Nat) \u2192\n          LT.lt 0 r \u2192\n            (P : State \u2192 State \u2192 Real) \u2192\n              (\u2200 (s s' : State), LE.le 0 (P s s')) \u2192\n                (\u2200 (s : State), Eq (Finset.univ.sum fun s' => P s s') 1) \u2192\n                  LifoBackpressure.Statements.Irreducible P \u2192\n                    LifoBackpressure.Statements.Aperiodic P \u2192\n                      (\u03c0 : State \u2192 Real) \u2192\n                        (\u2200 (s : State), LT.lt 0 (\u03c0 s)) \u2192\n                          Eq (Finset.univ.sum fun s => \u03c0 s) 1 \u2192\n                            (\u2200 (s' : State), Eq (Finset.univ.sum fun s => HMul.hMul (\u03c0 s) (P s s')) (\u03c0 s')) \u2192\n                              (Action : State \u2192 Type) \u2192\n                                [actionTop : (s : State) \u2192 TopologicalSpace (Action s)] \u2192\n                                  [actionCompact : \u2200 (s : State), CompactSpace (Action s)] \u2192\n                                    [actionNonempty : \u2200 (s : State), Nonempty (Action s)] \u2192\n                                      (cost : (s : State) \u2192 Action s \u2192 Real) \u2192\n                                        (arrival service : (s : State) \u2192 Action s \u2192 Fin r \u2192 Real) \u2192\n                                          (\u2200 (s : State), Continuous (cost s)) \u2192\n                                            (\u2200 (s : State) (j : Fin r), Continuous fun x => arrival s x j) \u2192\n                                              (\u2200 (s : State) (j : Fin r), Continuous fun x => service s x j) \u2192\n                                                (\u03b4max : Real) \u2192\n                                                  LT.lt 0 \u03b4max \u2192\n                                                    (\u2200 (s : State) (x : Action s), LE.le 0 (cost s x)) \u2192\n                                                      (\u2200 (s : State) (x : Action s), LE.le (cost s x) \u03b4max) \u2192\n                                                        (\u2200 (s : State) (x : Action s) (j : Fin r),\n                                                            LE.le 0 (arrival s x j)) \u2192\n                                                          (\u2200 (s : State) (x : Action s) (j : Fin r),\n                                                              LE.le (arrival s x j) \u03b4max) \u2192\n                                                            (\u2200 (s : State) (x : Action s) (j : Fin r),\n                                                                LE.le 0 (service s x j)) \u2192\n                                                              (\u2200 (s : State) (x : Action s) (j : Fin r),\n                                                                  LE.le (service s x j) \u03b4max) \u2192\n                                                                LifoBackpressure.Statements.NetworkModel"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.optCost",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          176,
+          179
+        ],
+        "sha256": "872fe24d71a63827caf145d0f5a3032c712d834d328227993e7525dcadcfc416",
+        "noncomputable": true,
+        "pp_no_notation": "(M : LifoBackpressure.Statements.NetworkModel) \u2192\n  {\u03a9 : Type} \u2192\n    [inst : MeasurableSpace \u03a9] \u2192\n      {\u03bc : MeasureTheory.Measure \u03a9} \u2192 [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] \u2192 M.MarkovProcess \u03a9 \u03bc \u2192 EReal := fun M {\u03a9} [MeasurableSpace \u03a9] {\u03bc} [MeasureTheory.IsProbabilityMeasure \u03bc] proc =>\n  iInf fun pol => iInf fun x => pol.avgCost"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.queueNext",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          94,
+          96
+        ],
+        "sha256": "2b34a33b9178d767c73d05c10583a594204afbc973067e8801a93e53343c4382",
+        "noncomputable": false,
+        "pp_no_notation": "{r : Nat} \u2192 (Fin r \u2192 Real) \u2192 (Fin r \u2192 Real) \u2192 (Fin r \u2192 Real) \u2192 Fin r \u2192 Real := fun {r} q \u03bc A j => HAdd.hAdd (max (HSub.hSub (q j) (\u03bc j)) 0) (A j)"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.r",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          43,
+          43
+        ],
+        "sha256": "49ebb644a7f52023ba107a3f37fae2b4b3d415ccba5e02710bc9178bd320638a",
+        "noncomputable": false,
+        "pp_no_notation": "LifoBackpressure.Statements.NetworkModel \u2192 Nat := fun self => self.5"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.service",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          66,
+          66
+        ],
+        "sha256": "cbc29e00beb9b013e62c081b48fcee9bdd82009c644662faf5dd70bdd7266f63",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 (s : self.State) \u2192 self.Action s \u2192 Fin self.r \u2192 Real := fun self => self.22"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.stateFintype",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          39,
+          39
+        ],
+        "sha256": "c47ba779a3a36c205226845783eea5ac8a5734d4a69ec967b2f4458fed141f71",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 Fintype self.State := fun self => self.2"
+      },
+      {
+        "name": "LifoBackpressure.Statements.NetworkModel.\u03c0",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          52,
+          52
+        ],
+        "sha256": "c60b738154b03cbe4c987cd680a5b6058f31ec17531808b17df18f9e0c136bdf",
+        "noncomputable": false,
+        "pp_no_notation": "(self : LifoBackpressure.Statements.NetworkModel) \u2192 self.State \u2192 Real := fun self => self.12"
+      },
+      {
+        "name": "LifoBackpressure.Statements.Theorem2Statement",
+        "file": "Statements/MarkovTradeoff.lean",
+        "lines": [
+          14,
+          29
+        ],
+        "sha256": "aa9bd376a4fa0fd6a14c375c3a8d3e9f4af407235273daed20e31f10f904f585",
+        "noncomputable": false,
+        "pp_no_notation": "Prop := \u2200 (M : LifoBackpressure.Statements.NetworkModel) (\u03b7 : Real),\n  M.HasSlackness \u03b7 \u2192\n    Exists fun C_cost =>\n      Exists fun C_q0 =>\n        Exists fun C_q1 =>\n          And (LE.le 0 C_cost)\n            (And (LE.le 0 C_q0)\n              (And (LE.le 0 C_q1)\n                (\u2200 (V : Real),\n                  LE.le 1 V \u2192\n                    \u2200 (\u03a9 : Type) [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9)\n                      [inst_1 : MeasureTheory.IsProbabilityMeasure \u03bc] (proc : M.MarkovProcess \u03a9 \u03bc)\n                      (pol : M.Policy proc),\n                      LifoBackpressure.Statements.NetworkModel.Policy.FollowsBackpressure V pol \u2192\n                        And pol.IsStable\n                          (And (LE.le (M.optCost proc) pol.avgCost)\n                            (And (LE.le pol.avgCost (HAdd.hAdd (M.optCost proc) \u2191(HDiv.hDiv C_cost V)))\n                              (LE.le pol.avgBacklog \u2191(HAdd.hAdd C_q0 (HMul.hMul C_q1 V))))))))"
+      },
+      {
+        "name": "LifoBackpressure.Statements.matPow",
+        "file": "Statements/SystemModel.lean",
+        "lines": [
+          17,
+          21
+        ],
+        "sha256": "a304409bd62a4e9086627bb58f6bb044cf16403bc18a93e6f7cd7b79c5f7eff9",
+        "noncomputable": false,
+        "pp_no_notation": "{State : Type u_1} \u2192 [Fintype State] \u2192 [DecidableEq State] \u2192 (State \u2192 State \u2192 Real) \u2192 Nat \u2192 State \u2192 State \u2192 Real := fun {State} [Fintype State] [DecidableEq State] P x x_1 x_2 =>\n  Nat.brecOn (motive := fun x => State \u2192 State \u2192 Real) x (LifoBackpressure.Statements.matPow._f P) x_1 x_2"
+      },
+      {
+        "name": "LifoBackpressure.Statements.matPow._f",
+        "file": "Statements/SystemModel.lean",
+        "lines": null,
+        "sha256": "f5fbcb4de219829c99b94bc83239bf390fdf2132288f5090f8ef05cf7cd7dd14",
+        "noncomputable": false,
+        "pp_no_notation": "{State : Type u_1} \u2192\n  [Fintype State] \u2192\n    [DecidableEq State] \u2192\n      (State \u2192 State \u2192 Real) \u2192 (x : Nat) \u2192 Nat.below (motive := fun x => State \u2192 State \u2192 Real) x \u2192 State \u2192 State \u2192 Real := fun {State} [Fintype State] [DecidableEq State] P x f x_1 x_2 =>\n  LifoBackpressure.Statements.matPow.match_1\n    (fun x x_3 x_4 => Nat.below (motive := fun x => State \u2192 State \u2192 Real) x \u2192 Real) x x_1 x_2\n    (fun s s' x => ite (Eq s s') 1 0) (fun n s s' x => Finset.univ.sum fun u => HMul.hMul (x.1 s u) (P u s')) f"
+      },
+      {
+        "name": "LifoBackpressure.Statements.matPow.match_1",
+        "file": "Statements/SystemModel.lean",
+        "lines": null,
+        "sha256": "cc0966e77ce99ee13074f30a1195cfb751737af3a30befcb8655bf6661385a29",
+        "noncomputable": false,
+        "pp_no_notation": "{State : Type u_2} \u2192\n  (motive : Nat \u2192 State \u2192 State \u2192 Sort u_1) \u2192\n    (x : Nat) \u2192\n      (x_1 x_2 : State) \u2192\n        ((s s' : State) \u2192 motive 0 s s') \u2192 ((n : Nat) \u2192 (s s' : State) \u2192 motive n.succ s s') \u2192 motive x x_1 x_2 := fun {State} motive x x_1 x_2 h_1 h_2 => Nat.casesOn x (h_1 x_1 x_2) fun n => h_2 n x_1 x_2"
+      }
+    ]
+  },
+  "defaults": [
+    {
+      "constant": "LifoBackpressure.Statements.NetworkModel.MarkovProcess.mk",
+      "file": "Statements/SystemModel.lean",
+      "lines": [
+        124,
+        124
+      ],
+      "construct": "ENNReal.ofReal"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.NetworkModel.Policy.avgBacklog",
+      "file": "Statements/SystemModel.lean",
+      "lines": [
+        150,
+        158
+      ],
+      "construct": "HDiv.hDiv",
+      "type": "EReal"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.NetworkModel.Policy.avgBacklog",
+      "file": "Statements/SystemModel.lean",
+      "lines": [
+        150,
+        158
+      ],
+      "construct": "MeasureTheory.integral"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.NetworkModel.Policy.avgCost",
+      "file": "Statements/SystemModel.lean",
+      "lines": [
+        166,
+        174
+      ],
+      "construct": "HDiv.hDiv",
+      "type": "EReal"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.NetworkModel.Policy.avgCost",
+      "file": "Statements/SystemModel.lean",
+      "lines": [
+        166,
+        174
+      ],
+      "construct": "MeasureTheory.integral"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.NetworkModel.optCost",
+      "file": "Statements/SystemModel.lean",
+      "lines": [
+        176,
+        179
+      ],
+      "construct": "iInf"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.Theorem2Statement",
+      "file": "Statements/MarkovTradeoff.lean",
+      "lines": [
+        14,
+        29
+      ],
+      "construct": "HDiv.hDiv",
+      "type": "\u211d"
+    }
+  ]
+}

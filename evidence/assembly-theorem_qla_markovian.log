@@ -1,0 +1,2 @@
+'Assembly.theorem_qla_markovian' depends on axioms: [propext, Classical.choice, Quot.sound]
+PROOF-ATLAS-DECL-KIND theorem
