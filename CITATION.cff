@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use this Lean 4 formalization or Proof Atlas artifact in your research, please cite both this software repository and the original paper below."
+title: "lifo-backpressure-lean: Lean 4 Formalization and Proof Atlas of LIFO-Backpressure Achieves Near-Optimal Utility-Delay Tradeoff"
+type: software
+authors:
+  - family-names: Moeller
+    given-names: Scott
+    affiliation: "Autonomous Networks Research Group (ANRG), University of Southern California"
+year: 2026
+version: "1.0.0"
+date-released: "2026-11-26"
+repository-code: "https://github.com/electronjoe/lifo-backpressure-lean"
+url: "https://electronjoe.github.io/lifo-backpressure-lean/"
+license: MIT
+keywords:
+  - Lean 4
+  - formal verification
+  - stochastic network optimization
+  - backpressure
+  - LIFO queueing
+  - Lyapunov drift
+  - Proof Atlas
+preferred-citation:
+  type: article
+  title: "LIFO-Backpressure Achieves Near-Optimal Utility-Delay Tradeoff"
+  authors:
+    - family-names: Huang
+      given-names: Longbo
+    - family-names: Moeller
+      given-names: Scott
+    - family-names: Neely
+      given-names: Michael J.
+    - family-names: Krishnamachari
+      given-names: Bhaskar
+  journal: "IEEE/ACM Transactions on Networking"
+  volume: 21
+  issue: 3
+  start: 831
+  end: 844
+  year: 2012
+  doi: "10.1109/TNET.2012.2210443"
+  identifiers:
+    - type: other
+      value: "arXiv:1008.4895v2"
+      description: "arXiv preprint edition formalized in this repository"
