@@ -1,13 +1,60 @@
 {
   "schema_version": 1,
+  "paper": {
+    "overview": "Combining standard Backpressure (MaxWeight) scheduling with a Last-In-First-Out (LIFO) buffer discipline achieves time-average utility within $O(1/V)$ of optimal while cutting the average delay of all but an $O(1/V^{\\log V})$ fraction of traffic from $O(V)$ down to $O([\\log V]^2)$ under general finite-state Markovian dynamics—without requiring prior traffic statistics.",
+    "hero_blurb": "Under LIFO-Backpressure ($V \\ge 1$), all but an $O(1/V^{\\log V})$ fraction of arriving packets depart with average delay at most $[2D + 2K(\\log V)^2 + 2\\delta_{\\max} + 1]/\\tilde{\\lambda}_j = O([\\log V]^2)$.",
+    "fig_caption": "Fig. 1. Exponential attraction traps Backpressure queue backlogs inside an $O([\\log V]^2)$ band $[Q_{\\mathrm{Low}}, Q_{\\mathrm{High}}]$ around $\\gamma_V^* = \\Theta(V)$, so LIFO serves almost all arrivals from the top band."
+  },
   "claims": {
     "theorem:little1": {
       "title": "Modified Little's Theorem for LIFO Systems",
       "reference": "Theorem 1",
       "page": 5,
       "headline": true,
+      "paper_loc": "Section VI-B (L515–534); proof in Appendix A (L1019–1080)",
+      "proof_origin": "Main paper (Appendix A)",
       "lamport": "lamport/theorem-little1.md",
-      "summary": "For a finite set B of buffer locations in a LIFO queue where arrivals into B have liminf rate at least lambda_min > 0 and infinitely many jobs depart with probability 1, the limsup average delay of departing jobs from B is at most |B| / lambda_min."
+      "summary": "In a Last-In-First-Out (LIFO) queue, packets stuck near the bottom of the buffer can wait forever—yet packets arriving into a bounded band of slots near the top don't have to! This theorem proves a sample-path version of Little's Law for just those packets that *actually depart* from a finite set of buffer positions $\\mathcal{B}$: as long as arrivals into $\\mathcal{B}$ occur at rate at least $\\lambda_{\\min} > 0$ and infinitely many jobs eventually leave, the long-run average delay of departing jobs is at most $|\\mathcal{B}| / \\lambda_{\\min}$. Remarkably, the bound depends only on the *width* $|\\mathcal{B}|$ of the active slot band, not on the huge base backlog sitting underneath it.",
+      "sketch": "Fix any good sample path where both hypotheses hold. Because each buffer slot holds at most one job at a time, the total time all departing jobs combined spend inside any single slot up to time $t$ cannot exceed $t$; summing over all $|\\mathcal{B}|$ slots bounds total departing delay by $|\\mathcal{B}|\\cdot t$. Meanwhile, at time $t$ at most $|\\mathcal{B}|$ arrived jobs can still be sitting in $\\mathcal{B}$, so departures satisfy $D(t) \\ge N(t) - |\\mathcal{B}|$. Dividing the delay upper bound by $D(t)$ and taking $\\limsup_{t\\to\\infty}$ immediately gives $|\\mathcal{B}| / \\lambda_{\\min}$.",
+      "paper_statement": "Suppose there is a constant $\\lambda_{\\min} > 0$ such that with probability 1, $\\liminf_{t\\to\\infty} \\frac{N(t)}{t} \\ge \\lambda_{\\min}$, and further suppose $\\lim_{t\\to\\infty} D(t) = \\infty$ with probability 1. Then the average delay $\\overline{W}$ of departing jobs from $\\mathcal{B}$ satisfies $$\\overline{W} \\triangleq \\limsup_{t\\to\\infty} \\frac{1}{D(t)}\\sum_{i=1}^{D(t)} W_i \\le \\frac{|\\mathcal{B}|}{\\lambda_{\\min}}.$$",
+      "witness_note": "Section VI-A 2-slot LIFO queue witness with fair-coin probability measure.",
+      "fidelity_summary": "All 7 obligations align (1 minor reading: discrete slotted time matching Section III rather than Appendix A's continuous integral).",
+      "diff_spans": {
+        "paper": [
+          { "text": "Consider a LIFO queueing system with a " },
+          { "text": "finite set $\\mathcal{B}$ of buffer locations (size $|\\mathcal{B}|$)", "case": "C1", "polarity": "agrees" },
+          { "text": ", where " },
+          { "text": "each slot holds at most one job and a job remains in its assigned slot until departure", "case": "C3", "polarity": "agrees" },
+          { "text": " (proved in Appendix A using " },
+          { "text": "continuous-time integral $\\int_0^t Q^{(b)}(\\tau)\\,d\\tau$", "case": "C4", "polarity": "nuance" },
+          { "text": "). Let " },
+          { "text": "$N(t)$ be arrivals into $\\mathcal{B}$, $D(t)$ departures, and $W_i$ individual delays", "case": "C2", "polarity": "agrees" },
+          { "text": ". Assume with probability 1 that " },
+          { "text": "$\\liminf_{t\\to\\infty} N(t)/t \\ge \\lambda_{\\min} > 0$", "case": "C5", "polarity": "agrees" },
+          { "text": " and " },
+          { "text": "$\\lim_{t\\to\\infty} D(t) = \\infty$", "case": "C6", "polarity": "agrees" },
+          { "text": ". Then with probability 1, " },
+          { "text": "$\\overline{W} := \\limsup_{t\\to\\infty} \\frac{1}{D(t)}\\sum_{i=1}^{D(t)} W_i \\le |\\mathcal{B}| / \\lambda_{\\min}$", "case": "C7", "polarity": "agrees" },
+          { "text": "." }
+        ],
+        "lean": [
+          { "text": "For any " },
+          { "text": "finite type `B` (`Fintype.card B`) and probability space `(\\Omega, \\mu)`", "case": "C1", "polarity": "agrees" },
+          { "text": ", let `sys : \\Omega \\to BufferSystem B \\iota` assign each job " },
+          { "text": "discrete time slots `arrival : \\iota \\to \\mathbb{N}`, `depart : \\iota \\to WithTop \\mathbb{N}`", "case": "C4", "polarity": "nuance" },
+          { "text": " and a " },
+          { "text": "fixed slot `slot : \\iota \\to B` with pairwise disjoint residency intervals $[a_k, d_k)$", "case": "C3", "polarity": "agrees" },
+          { "text": ". Defining " },
+          { "text": "`arrivalsCount`, `departuresCount`, `jobDelay`, and `avgDelay`", "case": "C2", "polarity": "agrees" },
+          { "text": ", if $\\mu$-a.s. " },
+          { "text": "$\\liminf_{t\\to\\infty} N(t)/t \\ge \\lambda_{\\min} > 0$ in `EReal`", "case": "C5", "polarity": "agrees" },
+          { "text": " and " },
+          { "text": "`Tendsto departuresCount atTop atTop`", "case": "C6", "polarity": "agrees" },
+          { "text": ", then $\\mu$-a.s. " },
+          { "text": "$\\limsup_{t\\to\\infty} \\mathrm{avgDelay}(t) \\le |B| / \\lambda_{\\min}$ in `EReal`", "case": "C7", "polarity": "agrees" },
+          { "text": "." }
+        ]
+      }
     },
     "theorem:qla-markovian": {
       "title": "[O(1/V), O(V)] Utility-Delay Tradeoff Under Markovian Dynamics",
@@ -15,41 +62,369 @@
       "page": 5,
       "headline": true,
       "basis": "lean",
+      "paper_loc": "Section VI-C (L540–549); cites companion arXiv:1008.0200v1",
+      "proof_origin": "Companion paper arXiv:1008.0200v1 (proved from scratch via Poisson route)",
       "lamport": "lamport/theorem-qla-markovian.md",
-      "summary": "Under a finite-state irreducible aperiodic Markovian network state process S(t) and the eta-slackness condition (2), Backpressure (with either FIFO or LIFO) achieves expected time-average cost f_av^{BP} = f_av^* + O(1/V) and expected time-average backlog O(V). Proof is cited from arXiv:1008.0200v1 [17]."
+      "summary": "Standard Backpressure (MaxWeight) routing and scheduling doesn't care whether you serve packets FIFO or LIFO—the queue *sizes* evolve identically. This theorem guarantees that even when network channels and traffic states evolve as a correlated finite-state Markov chain $S(t)$ (not just i.i.d.), tuning the single control knob $V \\ge 1$ pushes average operating cost within $O(1/V)$ of the best possible stable policy—including clairvoyant policies—while keeping average total queue backlog bounded by $O(V)$.",
+      "sketch": "While the companion paper [17] uses variable renewal return times and Carathéodory strong duality, our Lean formalization takes a cleaner, self-contained route: we prove finite-state irreducibility and aperiodicity imply Doeblin $L^1$ geometric mixing (`Routine/MarkovMixing.lean`), solve Poisson's equation for the state-dependent dual function, and telescope a perturbed quadratic Lyapunov function $L(t) + h(q(t), S(t))$. Pairing this with a 10-line elementary weak-duality inequality yields both $O(V)$ stability and $f^*_{av} + O(1/V)$ optimality uniformly in $V \\ge 1$.",
+      "paper_statement": "Suppose $S(t)$ is a finite-state irreducible and aperiodic Markov chain and the $\\eta$-slackness condition (2) holds. Then Backpressure (with either FIFO or LIFO) achieves $$f_{av}^{BP} = f_{av}^* + O(1/V), \\qquad \\overline{q}^{BP} = O(V),$$ where $f_{av}^{BP}$ and $\\overline{q}^{BP}$ are the expected time-average cost and backlog under Backpressure.",
+      "witness_note": "2-action stochastic network model verifying slackness, Backpressure rule, and stability.",
+      "fidelity_summary": "Lean proves MORE (non-causal optCost benchmark), narrows cost to f ∈ [0, δ_max], and uses an alternative Poisson-equation proof route.",
+      "route_note": "The paper cites companion [17] (variable renewal return times + Carathéodory strong duality), whereas Lean proves the exact same Theorem 2 via **Doeblin $L^1$ mixing + Poisson's equation + elementary weak duality**. Because of this, the companion paper's renewal-time proof is *not* step-checked—while co-authors gain a shorter, self-contained alternative proof.",
+      "diff_spans": {
+        "paper": [
+          { "text": "In " },
+          { "text": "discrete slotted time with $r \\ge 1$ queues", "case": "C1", "polarity": "agrees" },
+          { "text": " and a " },
+          { "text": "finite-state irreducible aperiodic Markov chain $S(t)$ (stationary $\\pi > 0$)", "case": "C2", "polarity": "agrees" },
+          { "text": ", with " },
+          { "text": "compact $\\mathcal{X}^{(s_i)}$ and $\\delta_{\\max}$-bounded continuous $f \\ge 0$ (or parenthetically $f \\le 0$ for reward), $A_j, \\mu_j$", "case": "C3", "polarity": "gap" },
+          { "text": ", " },
+          { "text": "queue dynamics $q_j(t+1) = \\max[q_j(t) - \\mu_j(t), 0] + A_j(t)$ with $q(0) = 0$", "case": "C4", "polarity": "agrees" },
+          { "text": ", and " },
+          { "text": "countable Slater $\\eta$-slackness (Eq. 2)", "case": "C5", "polarity": "nuance" },
+          { "text": ": under " },
+          { "text": "Backpressure Eq. (6) (FIFO or LIFO)", "case": "C6", "polarity": "nuance" },
+          { "text": " with " },
+          { "text": "$V \\ge 1$ ($V$-independent constants)", "case": "C8", "polarity": "agrees" },
+          { "text": ", compared against " },
+          { "text": "the optimal cost $f^*_{av}$ over all feasible causal stable policies", "case": "C7", "polarity": "stronger" },
+          { "text": ", Backpressure achieves " },
+          { "text": "$f^{BP}_{av} = f^*_{av} + O(1/V)$", "case": "C9", "polarity": "agrees" },
+          { "text": " and " },
+          { "text": "stability with $\\overline{q}^{BP} = O(V)$", "case": "C10", "polarity": "agrees" },
+          { "text": "." }
+        ],
+        "lean": [
+          { "text": "For any `NetworkModel M` with " },
+          { "text": "$M.r > 0$ queues and time $t \\in \\mathbb{N}$", "case": "C1", "polarity": "agrees" },
+          { "text": ", " },
+          { "text": "finite irreducible aperiodic Markov kernel $P$ with $\\pi > 0$", "case": "C2", "polarity": "agrees" },
+          { "text": ", " },
+          { "text": "explicitly `Nonempty` compact `Action s` and nonnegative `cost` $\\in [0, \\delta_{\\max}]$", "case": "C3", "polarity": "gap" },
+          { "text": ", " },
+          { "text": "`queueNext` dynamics with `queue 0 = 0`", "case": "C4", "polarity": "agrees" },
+          { "text": ", and " },
+          { "text": "finite-mixture `HasSlackness η` (equivalent via Carathéodory)", "case": "C5", "polarity": "nuance" },
+          { "text": ": there exist " },
+          { "text": "$V$-, $(\\Omega,\\mu)$-, and initial-state-independent $C_{\\mathrm{cost}}, C_{q0}, C_{q1} \\ge 0$", "case": "C8", "polarity": "agrees" },
+          { "text": " such that for all $V \\ge 1$ and every policy with " },
+          { "text": "deterministic state-backlog tie-breaking `FollowsBackpressure V`", "case": "C6", "polarity": "nuance" },
+          { "text": ", benchmarking against " },
+          { "text": "`optCost` over ALL measurable (even non-causal/clairvoyant) stable policies", "case": "C7", "polarity": "stronger" },
+          { "text": ", we have " },
+          { "text": "$f^*_{av} \\le f^{BP}_{av} \\le f^*_{av} + C_{\\mathrm{cost}}/V$", "case": "C9", "polarity": "agrees" },
+          { "text": " and " },
+          { "text": "`pol.IsStable` with $\\overline{q}^{BP} \\le C_{q0} + C_{q1} V$", "case": "C10", "polarity": "agrees" },
+          { "text": "." }
+        ]
+      }
     },
     "thm:prob_multi_con": {
       "title": "Exponential Attraction of Queue Backlogs to the Dual Optimum",
       "reference": "Theorem 3",
       "page": 5,
       "headline": true,
+      "paper_loc": "Section VI-C (L553–570); cites companion arXiv:0904.3795v1",
+      "proof_origin": "Companion paper arXiv:0904.3795v1 (proved from scratch in Lean)",
       "lamport": "lamport/thm-prob-multi-con.md",
-      "summary": "If the dual optimum gamma_V^* is unique, slackness (2) holds, and the dual function g satisfies the polyhedral growth bound g(gamma_V^*) >= g(gamma) + L ||gamma_V^* - gamma|| with L > 0 independent of V, then there exist V-independent constants D, K, c^* such that the time-average probability that any queue deviates from gamma_{Vj}^* by more than D + Km is at most c^* e^{-m}. Proof is cited from arXiv:0904.3795v1 [9]."
+      "summary": "Theorem 2 says Backpressure queues sit at height $\\Theta(V)$, which sounds terrible for delay—unless the queues stay tightly clustered around a single point! Theorem 3 proves that when the dual objective has a unique, sharply peaked (\"polyhedral\") optimum $\\boldsymbol{\\gamma}_V^*$, the queue vector is **exponentially attracted** to $\\boldsymbol{\\gamma}_V^*$: the fraction of time *any* queue wanders more than distance $D + Km$ away from $\\gamma_{Vj}^*$ decays exponentially fast as $c^* e^{-m}$, with constants $D, K, c^*$ completely independent of $V$.",
+      "sketch": "Because Backpressure choices form a subgradient of the state-wise dual function $g_{S(t)}$, the squared Euclidean distance $\\|q(t) - \\gamma_V^*\\|^2$ drifts downward whenever we average over a $V$-independent mixing window $T_\\nu$ (from Doeblin mixing in `Routine/MarkovMixing.lean`). Combined with the polyhedral dual slope $L > 0$, Euclidean distance $Y(t) = \\|q(t) - \\gamma_V^*\\|$ enjoys strict linear negative drift $-\\eta_d$ outside a constant radius $D$. Applying a Padé exponential bound (`Routine/BackpressureDrift.lean`) to $e^{w\\max(Y(t)-D,0)}$ and telescoping yields a uniform exponential moment bound $c^*$, from which Markov's inequality produces $c^* e^{-m}$.",
+      "paper_statement": "Suppose $\\boldsymbol{\\gamma}_V^*$ is unique, $\\eta$-slackness (2) holds, and $g(\\boldsymbol{\\gamma}_V^*) \\ge g(\\boldsymbol{\\gamma}) + L\\|\\boldsymbol{\\gamma}_V^* - \\boldsymbol{\\gamma}\\|$ for all $\\boldsymbol{\\gamma} \\succeq 0$ ($L > 0$ independent of $V$). Then there exist $V$-independent constants $D, K, c^* = \\Theta(1)$ such that for any $m \\in \\mathbb{R}_+$, $$\\mathcal{P}^{(r)}(D, Km) \\triangleq \\limsup_{t\\to\\infty}\\frac{1}{t}\\sum_{\\tau=0}^{t-1} \\Pr\\{\\exists j,\\, |q_j(\\tau) - \\gamma_{Vj}^*| > D + Km\\} \\le c^* e^{-m}.$$",
+      "witness_note": "2-action model verifying unique dual optimum $\\gamma_V^*$ and polyhedral slope $L > 0$.",
+      "fidelity_summary": "Lean adds explicit V ≥ 1 (omitted from Theorem 3's box) and narrows cost to f ∈ [0, δ_max]; all other 7 obligations match.",
+      "diff_spans": {
+        "paper": [
+          { "text": "Under the " },
+          { "text": "Section III–V stochastic network model", "case": "C1", "polarity": "gap" },
+          { "text": " and " },
+          { "text": "Backpressure (FIFO or LIFO)", "case": "C3", "polarity": "nuance" },
+          { "text": " (with " },
+          { "text": "control parameter $V$ — lower bound $V \\ge 1$ left implicit here", "case": "C7", "polarity": "gap" },
+          { "text": "), suppose the " },
+          { "text": "dual optimum $\\boldsymbol{\\gamma}_V^*$ of $g(\\boldsymbol{\\gamma})$", "case": "C2", "polarity": "agrees" },
+          { "text": " is " },
+          { "text": "unique", "case": "C4", "polarity": "agrees" },
+          { "text": ", " },
+          { "text": "Slater $\\eta$-slackness (Eq. 2)", "case": "C5", "polarity": "nuance" },
+          { "text": " holds, and " },
+          { "text": "$g(\\boldsymbol{\\gamma}_V^*) \\ge g(\\boldsymbol{\\gamma}) + L\\|\\boldsymbol{\\gamma}_V^* - \\boldsymbol{\\gamma}\\|$ for $V$-independent $L > 0$", "case": "C6", "polarity": "agrees" },
+          { "text": ". Then " },
+          { "text": "there exist $V$-independent constants $D, K, c^* = \\Theta(1)$", "case": "C8", "polarity": "agrees" },
+          { "text": " such that for all $m \\ge 0$, " },
+          { "text": "$\\mathcal{P}^{(r)}(D, Km) \\le c^* e^{-m}$", "case": "C9", "polarity": "agrees" },
+          { "text": "." }
+        ],
+        "lean": [
+          { "text": "For any " },
+          { "text": "`NetworkModel M` ($f \\in [0, \\delta_{\\max}]$, nonempty compact actions)", "case": "C1", "polarity": "gap" },
+          { "text": ", " },
+          { "text": "finite-mixture `HasSlackness η`", "case": "C5", "polarity": "nuance" },
+          { "text": ", and " },
+          { "text": "$V$-independent $L > 0$ (`DualPolyhedral` in Euclidean norm)", "case": "C6", "polarity": "agrees" },
+          { "text": ": " },
+          { "text": "there exist $D, K, c^* > 0$ quantified outside $\\forall V, \\gamma^*, \\Omega, \\mu, m$", "case": "C8", "polarity": "agrees" },
+          { "text": " such that for all " },
+          { "text": "$1 \\le V$ (explicitly assumed)", "case": "C7", "polarity": "gap" },
+          { "text": ", every " },
+          { "text": "dual optimum of separable `dual M V`", "case": "C2", "polarity": "agrees" },
+          { "text": " satisfying " },
+          { "text": "`IsUniqueDualOpt V γstar`", "case": "C4", "polarity": "agrees" },
+          { "text": ", and every " },
+          { "text": "deterministic-tie-breaking `FollowsBackpressure V` policy", "case": "C3", "polarity": "nuance" },
+          { "text": ", for all $m \\ge 0$: " },
+          { "text": "`deviationProb pol γstar D (K * m)` $\\le c^* e^{-m}$ in `EReal`", "case": "C9", "polarity": "agrees" },
+          { "text": "." }
+        ]
+      }
     },
     "thm:qlalifo_delay": {
       "title": "LIFO-Backpressure Throughput Fraction and O([log V]^2) Delay Bound",
       "reference": "Theorem 4",
       "page": 5,
       "headline": true,
+      "paper_loc": "Section VI-C (L593–666) — Headline Result",
+      "proof_origin": "Main paper (Section VI-C) · Composed from Theorems 1, 2 & 3",
       "lamport": "lamport/thm-qlalifo-delay.md",
-      "summary": "Under V >= 1, unique gamma_V^*, slackness (2), and polyhedral dual growth (15), for any queue j with positive time-average arrival rate lambda_j > 0, the rate lambda_tilde_j of packets arriving while q_j(t) lies in the O([log V]^2) window B_j around gamma_{Vj}^* and eventually departing satisfies lambda_j >= lambda_tilde_j >= [lambda_j - delta_max c^* / V^{log V}]^+, and their average delay is at most [2D + 2K(log V)^2 + delta_max] / lambda_tilde_j."
+      "summary": "This is the paper's headline payoff: combine Backpressure's $O(1/V)$-optimal utility with a **LIFO** buffer discipline. Because Theorem 3 traps the queue inside a narrow $O([\\log V]^2)$ band $\\mathcal{B}_j$ around $\\gamma_{Vj}^*$ almost all the time, LIFO serves almost every newly arriving packet from the top of the stack before it ever sinks into the $\\Theta(V)$ base backlog. Consequently, all but a tiny $O(1/V^{\\log V})$ fraction of packets eventually depart with average delay just $O([\\log V]^2)$—an exponential delay improvement over FIFO's $O(V)$, with zero loss in utility!",
+      "sketch": "Theorem 4 directly composes Theorems 1, 2, and 3. First, finite average backlog from Theorem 2 plus Fatou's lemma ensures only finitely many packets ever get stranded forever, so the never-departing arrival rate is zero. Second, setting $m = (\\log V)^2$ in Theorem 3 and invoking Dominated Convergence (using a.s.-constant arrival rates) bounds the out-of-window arrival rate by $\\delta_{\\max} c^* / V^{\\log V}$, proving Part (a). Finally, when $\\tilde{\\lambda}_j > 0$, packets arriving inside $\\mathcal{B}_j$ occupy an enlarged integer buffer band $\\tilde{\\mathcal{B}}_j$ of width at most $2D + 2K(\\log V)^2 + 2\\delta_{\\max} + 1$ under Eq. (3); plugging this finite band into Theorem 1 immediately delivers the $O([\\log V]^2)$ delay bound in Part (b).",
+      "paper_statement": "Under $V \\ge 1$, unique $\\boldsymbol{\\gamma}_V^*$, $\\eta$-slackness (2), and polyhedral growth (15), for any queue $j$ with arrival rate $\\lambda_j > 0$, under LIFO-Backpressure: **(a)** the rate $\\tilde{\\lambda}_j$ of packets arriving while $q_j(t) \\in \\mathcal{B}_j$ that eventually depart satisfies $\\lambda_j \\ge \\tilde{\\lambda}_j \\ge [\\lambda_j - \\delta_{\\max} c^* / V^{\\log V}]^+$; **(b)** their average delay is at most $W_{\\mathrm{bound}} \\triangleq [2D + 2K(\\log V)^2 + \\delta_{\\max}] / \\tilde{\\lambda}_j$ *(formalized with explicit $\\tilde{\\lambda}_j > 0$ guard and exact Eq. (3) numerator $+ 2\\delta_{\\max} + 1$)*.",
+      "witness_note": "Full non-degenerate LIFO packet witness satisfying the guarded $0 < \\tilde{\\lambda}_j$ hypothesis.",
+      "fidelity_summary": "Lean adds 3 missing assumptions (λ̃_j > 0, a.s.-constant ergodicity, discrete LIFO slots), fixes reversed [Q_High, Q_Low], and proves looser Eq. (3) constant (+2δ_max + 1 vs +δ_max).",
+      "repair_note": "Lean adds 3 missing assumptions ($\\tilde{\\lambda}_j > 0$, a.s.-constant ergodicity, discrete LIFO slots), fixes reversed $[Q_{\\mathrm{High}}, Q_{\\mathrm{Low}}]$, and proves a looser Eq. (3) constant ($+2\\delta_{\\max}+1$ vs. printed $+\\delta_{\\max}$).",
+      "diff_spans": {
+        "paper": [
+          { "text": "Under the " },
+          { "text": "Section III–V model with LIFO-Backpressure", "case": "C1", "polarity": "gap" },
+          { "text": ", suppose " },
+          { "text": "$V \\ge 1$", "case": "C2", "polarity": "agrees" },
+          { "text": ", " },
+          { "text": "unique $\\boldsymbol{\\gamma}_V^*$, $\\eta$-slackness, and polyhedral growth (15)", "case": "C3", "polarity": "nuance" },
+          { "text": ", and " },
+          { "text": "time averages exist w.p. 1 (L593 — omits a.s. constancy needed by DCT)", "case": "C5", "polarity": "gap" },
+          { "text": ". Define " },
+          { "text": "$\\mathcal{B}_j := [Q_{j,\\mathrm{High}}, Q_{j,\\mathrm{Low}}]$ (reversed endpoints typo at L605/L664)", "case": "C4", "polarity": "nuance" },
+          { "text": " using " },
+          { "text": "informal unit packets atop real-valued Eq. (3)", "case": "C7", "polarity": "gap" },
+          { "text": ". For any queue $j$ with " },
+          { "text": "$\\lambda_j > 0$", "case": "C6", "polarity": "agrees" },
+          { "text": ": (a) the rate $\\tilde{\\lambda}_j$ of in-window eventually-departing packets satisfies " },
+          { "text": "$\\tilde{\\lambda}_j \\le \\lambda_j$", "case": "C9", "polarity": "agrees" },
+          { "text": " and " },
+          { "text": "$\\tilde{\\lambda}_j \\ge [\\lambda_j - \\delta_{\\max} c^* / V^{\\log V}]^+$", "case": "C10", "polarity": "agrees" },
+          { "text": "; (b) " },
+          { "text": "(no $\\tilde{\\lambda}_j > 0$ guard — allows $0/0$ for small $V$)", "case": "C8", "polarity": "gap" },
+          { "text": " their average delay is at most " },
+          { "text": "$[2D + 2K(\\log V)^2 + \\delta_{\\max}] / \\tilde{\\lambda}_j$", "case": "C11", "polarity": "gap" },
+          { "text": "." }
+        ],
+        "lean": [
+          { "text": "For any " },
+          { "text": "`NetworkModel M` ($f \\in [0, \\delta_{\\max}]$, deterministic Backpressure)", "case": "C1", "polarity": "gap" },
+          { "text": ", " },
+          { "text": "`HasSlackness η`, `IsUniqueDualOpt`, `DualPolyhedral`", "case": "C3", "polarity": "nuance" },
+          { "text": ", and " },
+          { "text": "$1 \\le V$", "case": "C2", "polarity": "agrees" },
+          { "text": ", with " },
+          { "text": "corrected interval `backlogWindow = Set.Icc qLow qHigh`", "case": "C4", "polarity": "nuance" },
+          { "text": ", an explicit " },
+          { "text": "discrete unit-packet `LifoQueueRealization` coupling slots to Eq. (3)", "case": "C7", "polarity": "gap" },
+          { "text": ", and " },
+          { "text": "deterministic a.s.-constant limits `lamJ`, `lamTilde`", "case": "C5", "polarity": "gap" },
+          { "text": " with " },
+          { "text": "$0 < \\mathrm{lamJ}$", "case": "C6", "polarity": "agrees" },
+          { "text": ": (a) in-window eventually-departing rate converges a.s. to `lamTilde` with " },
+          { "text": "`lamTilde` $\\le$ `lamJ`", "case": "C9", "polarity": "agrees" },
+          { "text": " and " },
+          { "text": "$\\max(\\lambda_j - \\delta_{\\max} c^* / V^{\\log V}, 0) \\le \\tilde{\\lambda}_j$", "case": "C10", "polarity": "agrees" },
+          { "text": "; (b) " },
+          { "text": "assuming explicitly $0 < \\tilde{\\lambda}_j$", "case": "C8", "polarity": "gap" },
+          { "text": ", $\\limsup$ average delay is at most " },
+          { "text": "$[2D + 2K(\\log V)^2 + 2\\delta_{\\max} + 1] / \\tilde{\\lambda}_j$ (sound under Eq. 3 + integer rounding)", "case": "C11", "polarity": "gap" },
+          { "text": "." }
+        ]
+      }
     }
   },
   "dependencies": [
     {
       "claim": "thm:qlalifo_delay",
       "prerequisite": "theorem:qla-markovian",
-      "reason": "Part (a) uses finite expected average backlog from Theorem 2 to deduce that the rate of arriving packets that never depart is zero (Section VI-C, L635-L638), and Part (b) uses queue stability (L665)."
+      "reason": "Part (a) uses finite expected average backlog from Theorem 2 + Fatou's lemma to prove the never-departing packet rate is zero (Section VI-C, L635–L638), and Part (b) uses queue stability (L665)."
     },
     {
       "claim": "thm:qlalifo_delay",
       "prerequisite": "thm:prob_multi_con",
-      "reason": "Part (a) applies Theorem 3 with m = [log(V)]^2 to bound the time-average probability that q_j(tau) leaves [Q_{j,Low}, Q_{j,High}] by c^* e^{-m} = c^* / V^{log V} (Section VI-C, L656-L662)."
+      "reason": "Part (a) evaluates Theorem 3 at m = (log V)² to bound the time-average probability that q_j(τ) leaves [Q_{j,Low}, Q_{j,High}] by c* e^{-m} = c* / V^{log V} (Section VI-C, L656–L662)."
     },
     {
       "claim": "thm:qlalifo_delay",
       "prerequisite": "theorem:little1",
-      "reason": "Part (b) applies Theorem 1 to the buffer window B_tilde_j of width at most 2D + 2K[log(V)]^2 + delta_max (Section VI-C, L664-L665)."
+      "reason": "Part (b) applies Theorem 1 to the enlarged integer buffer window B̃_j of cardinality at most 2D + 2K(log V)² + 2δ_max + 1 (Section VI-C, L664–L665)."
     }
-  ]
+  ],
+  "edit_summaries": {
+    "thm4-partb-guard-and-width": {
+      "headline": "Add $\\tilde{\\lambda}_j > 0$ guard, a.s.-constant ergodicity & exact $+2\\delta_{\\max}+1$ Eq. (3) window width",
+      "severity": "Mathematical fix · Theorem 4",
+      "tone": "coral"
+    },
+    "thm4-reversed-interval": {
+      "headline": "Fix reversed interval $[Q_{j,\\mathrm{High}}, Q_{j,\\mathrm{Low}}]$ & duplicate `= \\defequiv` typo",
+      "severity": "Typo & Eq. (3) shift · Theorem 4",
+      "tone": "coral"
+    },
+    "thm3-v-lower-bound": {
+      "headline": "State $V \\ge 1$ & nonempty compact action sets $\\mathcal{X}^{(s_i)}$ explicitly in Theorem 3",
+      "severity": "Missing hypothesis · Theorem 3",
+      "tone": "amber"
+    },
+    "thm1-discrete-time-sum": {
+      "headline": "Replace continuous integral $\\int_0^t Q^{(b)}(\\tau)\\,d\\tau$ with discrete sum $\\sum_{\\tau=0}^{t-1}$ in Appendix A",
+      "severity": "Notation alignment · Theorem 1",
+      "tone": "teal"
+    }
+  },
+  "layered_graph": {
+    "claim_short_ids": {
+      "theorem:little1": {
+        "id": "T1",
+        "short_title": "Modified Little's Law (LIFO)",
+        "summary": "Sample-path & a.s. delay bound $\\overline{W} \\le |\\mathcal{B}| / \\lambda_{\\min}$ for departing jobs in a finite single-occupancy LIFO buffer band."
+      },
+      "theorem:qla-markovian": {
+        "id": "T2",
+        "short_title": "[O(1/V), O(V)] Markov Tradeoff",
+        "summary": "Uniform $V$-independent $O(1/V)$ cost optimality (against all measurable policies!) and $O(V)$ backlog stability under Markovian $S(t)$ via Poisson telescoping."
+      },
+      "thm:prob_multi_con": {
+        "id": "T3",
+        "short_title": "Exponential Queue Attraction",
+        "summary": "Time-average probability that any queue deviates from $\\gamma_{Vj}^*$ by $> D + Km$ is at most $c^* e^{-m}$ with $V$-independent constants $D, K, c^* > 0$."
+      },
+      "thm:qlalifo_delay": {
+        "id": "T4",
+        "short_title": "LIFO-BP O([log V]²) Delay",
+        "summary": "Headline result composed from Theorems 1–3: throughput fraction $\\tilde{\\lambda}_j \\ge [\\lambda_j - \\delta_{\\max} c^*/V^{\\log V}]^+$ and average delay $\\le (2D + 2K(\\log V)^2 + 2\\delta_{\\max} + 1)/\\tilde{\\lambda}_j$."
+      }
+    },
+    "nodes": [
+      {
+        "id": "S1",
+        "layer": "setup",
+        "ref": "Def S1",
+        "title": "BufferSystem (LIFO Slots)",
+        "file": "lean/Statements/Little.lean",
+        "status": "frozen",
+        "diff_count": 0,
+        "summary": "Finite single-occupancy buffer set $B$ where each job $k$ occupies a fixed slot $\\mathrm{slot}(k) \\in B$ over $[a_k, d_k)$ with finitely many arrivals per finite horizon.",
+        "claim_id": "theorem:little1"
+      },
+      {
+        "id": "S2",
+        "layer": "setup",
+        "ref": "Model S2",
+        "title": "NetworkModel & Eq. (3)",
+        "file": "lean/Statements/SystemModel.lean",
+        "status": "frozen",
+        "diff_count": 1,
+        "summary": "Finite irreducible aperiodic Markov chain $S(t)$ with stationary $\\pi > 0$, nonempty compact actions, continuous bounded $f, A_j, \\mu_j \\in [0, \\delta_{\\max}]$, and $q_j(t+1) = \\max[q_j(t) - \\mu_j(t), 0] + A_j(t)$.",
+        "claim_id": "theorem:qla-markovian"
+      },
+      {
+        "id": "S3",
+        "layer": "setup",
+        "ref": "Assump S3",
+        "title": "η-Slackness & Backpressure",
+        "file": "lean/Statements/SystemModel.lean",
+        "status": "frozen",
+        "diff_count": 0,
+        "summary": "Slater $\\eta$-slackness Eq. (2) (finite convex action mixture giving strictly negative drift $-\\eta$) and MaxWeight Backpressure rule Eq. (6) with parameter $V \\ge 1$.",
+        "claim_id": "theorem:qla-markovian"
+      },
+      {
+        "id": "S4",
+        "layer": "setup",
+        "ref": "Assump S4",
+        "title": "Unique γ*_V & Polyhedral Dual",
+        "file": "lean/Statements/SystemModel.lean",
+        "status": "frozen",
+        "diff_count": 1,
+        "summary": "Unique dual optimum $\\boldsymbol{\\gamma}_V^* \\succeq 0$ and $V$-independent linear polyhedral growth $g(\\boldsymbol{\\gamma}_V^*) \\ge g(\\boldsymbol{\\gamma}) + L\\|\\boldsymbol{\\gamma}_V^* - \\boldsymbol{\\gamma}\\|$ (Eq. 15), plus explicit $V \\ge 1$.",
+        "claim_id": "thm:prob_multi_con"
+      },
+      {
+        "id": "S5",
+        "layer": "setup",
+        "ref": "Assump S5",
+        "title": "LIFO Coupling & Ergodicity",
+        "file": "lean/Statements/LifoDelay.lean",
+        "status": "frozen_repair",
+        "diff_count": 3,
+        "summary": "Explicit discrete unit-packet `LifoQueueRealization` coupling packet slots to Eq. (3), a.s.-constant ergodic arrival limits $(\\lambda_j, \\tilde{\\lambda}_j)$, and the missing $\\tilde{\\lambda}_j > 0$ guard for Part (b).",
+        "claim_id": "thm:qlalifo_delay"
+      },
+      {
+        "id": "R1",
+        "layer": "routine",
+        "ref": "Routine R1",
+        "title": "MarkovMixing.lean",
+        "file": "lean/Routine/MarkovMixing.lean",
+        "status": "verified",
+        "diff_count": 0,
+        "summary": "Statement-isolated finite Markov chain theory: Schur's submonoid theorem $\\to$ primitivity $\\to$ Doeblin $L^1$ geometric mixing $\\to$ Poisson potential $\\to$ convergent interval $T_\\nu$.",
+        "claim_id": "theorem:qla-markovian"
+      },
+      {
+        "id": "R2",
+        "layer": "routine",
+        "ref": "Routine R2",
+        "title": "BackpressureDrift.lean",
+        "file": "lean/Routine/BackpressureDrift.lean",
+        "status": "verified",
+        "diff_count": 0,
+        "summary": "Statement-isolated drift toolkit: one-slot quadratic & squared-distance drift, Euclidean triangle bounds, Padé exponential bound $e^y \\le 1+y+\\frac{y^2}{2(1-y/3)}$, and Cesàro subsequence lemma.",
+        "claim_id": "thm:prob_multi_con"
+      },
+      {
+        "id": "W1",
+        "layer": "witness",
+        "ref": "Witness W1",
+        "title": "LittleWitness (Sec. VI-A)",
+        "file": "lean/Examples/LittleWitness.lean",
+        "status": "witness",
+        "diff_count": 0,
+        "summary": "Compilable non-vacuity witness `theorem1_witness` instantiating `Theorem1Statement` on a concrete 2-slot LIFO queue with fair-coin probability measure.",
+        "claim_id": "theorem:little1"
+      },
+      {
+        "id": "W2",
+        "layer": "witness",
+        "ref": "Witness W2",
+        "title": "NetworkWitnesses (Thms 2–4)",
+        "file": "lean/Examples/NetworkWitnesses.lean",
+        "status": "witness",
+        "diff_count": 0,
+        "summary": "Compilable witnesses `theorem2_witness`, `theorem3_witness`, and `theorem4_witness` (including guarded $0 < \\tilde{\\lambda}_j$) proving all hypotheses are jointly satisfiable.",
+        "claim_id": "thm:qlalifo_delay"
+      }
+    ],
+    "edges": [
+      { "from": "S1", "to": "T1", "kind": "setup", "reason": "BufferSystem defines the finite single-occupancy LIFO buffer model for Theorem 1." },
+      { "from": "S2", "to": "T2", "kind": "setup", "reason": "NetworkModel defines the Markov chain S(t), compact actions, and Eq. (3) queue dynamics." },
+      { "from": "S3", "to": "T2", "kind": "setup", "reason": "Slater η-slackness (Eq. 2) and Backpressure (Eq. 6) drive Lyapunov stability and O(1/V) cost optimality." },
+      { "from": "S2", "to": "T3", "kind": "setup", "reason": "Theorem 3 operates on the identical Section III NetworkModel and Eq. (3) backlog evolution." },
+      { "from": "S3", "to": "T3", "kind": "setup", "reason": "Backpressure optimality provides subgradients of the statewise dual function g_{S(t)}." },
+      { "from": "S4", "to": "T3", "kind": "setup", "reason": "Unique γ*_V and V-independent polyhedral dual slope L > 0 yield linear negative drift outside radius D." },
+      { "from": "S5", "to": "T4", "kind": "setup", "reason": "Couples discrete LIFO packet slots to Eq. (3), supplies a.s.-constant limits for DCT, and guards λ̃_j > 0." },
+      { "from": "R1", "to": "T2", "kind": "routine", "reason": "Doeblin L¹ geometric mixing & Poisson potential eliminate Markov state-transition error." },
+      { "from": "R2", "to": "T2", "kind": "routine", "reason": "One-slot quadratic drift & Cesàro stability subsequence close elementary weak duality." },
+      { "from": "R1", "to": "T3", "kind": "routine", "reason": "Provides the V-independent convergent mixing interval T_ν." },
+      { "from": "R2", "to": "T3", "kind": "routine", "reason": "Squared-distance drift, Euclidean triangle inequality, and Padé exp bound drive exponential contraction." },
+      { "from": "W1", "to": "T1", "kind": "witness", "reason": "theorem1_witness certifies Theorem1Statement hypotheses are non-vacuously satisfiable." },
+      { "from": "W2", "to": "T2", "kind": "witness", "reason": "theorem2_witness instantiates twoActionModel satisfying HasSlackness 1 and Backpressure." },
+      { "from": "W2", "to": "T3", "kind": "witness", "reason": "theorem3_witness proves unique dual optimum and polyhedral slope on twoActionModel." },
+      { "from": "W2", "to": "T4", "kind": "witness", "reason": "theorem4_witness constructs a concrete discrete LIFO packet trajectory with 0 < λ̃_j." }
+    ]
+  }
 }

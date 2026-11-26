@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "rubric_name": "survey-lean-proofs-eng-arxiv",
+  "survey_citation": {
+    "authors": "Scott Moeller & Bhaskar Krishnamachari (ANRG, USC, 2026)",
+    "title": "How Are Engineering Papers Adopting Lean? A Longitudinal Empirical Study of arXiv Preprints, Authoring Paradigms, Kernel Reproducibility, and Semantic Fidelity",
+    "repo_url": "https://github.com/electronjoe/survey-lean-proofs-eng-arxiv",
+    "taxonomy_url": "https://github.com/electronjoe/survey-lean-proofs-eng-arxiv/blob/main/docs/proof-methods.md",
+    "pdf_url": "https://github.com/electronjoe/survey-lean-proofs-eng-arxiv/releases/download/papers-latest/arxiv-empirical.pdf",
+    "census_note": "12,613-paper 15-category census · 27 Layer-A semantic audits · 23 offline clean-room Docker kernel builds"
+  },
+  "paradigm": "P1 + P4 Paranoid Spec Lock",
+  "tier_badge_pending": "Paranoid Gold · Top Decile",
+  "tier_badge_signed": "Tier 3 Gold · Co-Author Signed",
+  "score_pending": "9.1–9.4 / 10",
+  "score_signed": "9.7–9.9 / 10",
+  "headline_summary_pending": "All 4/4 headline theorems unconditionally proved from first principles in {nonempty_loc} non-empty LoC (3.1× smaller than the T2 engineering median) with zero sorry/custom axioms, 4/4 non-vacuity witnesses, Paranoid dual-kernel CI (offline unshare -rn, hash-locked Challenge/Solution comparator, built-in leanchecker --fresh), and complete front-door release hygiene (README, MIT LICENSE, CITATION.cff, v1.0.0). One major trust boundary remains for Full Tier 3 Gold: named human co-author sign-off ({reviewed}/{total}) on the {stmt_raw_loc}-line Statements/*.lean boundary and Theorem 4's 4 proposed LaTeX edits.",
+  "headline_summary_signed": "All 4/4 headline theorems unconditionally proved from first principles in {nonempty_loc} non-empty LoC with zero sorry/custom axioms, 4/4 non-vacuity witnesses, Paranoid dual-kernel CI, complete v1.0.0 front-door release hygiene, and named human co-author sign-off ({reviewed}/{total}).",
+  "layers": [
+    {
+      "id": "A",
+      "name": "Layer A · Semantic Fidelity",
+      "grade_pending": "A−",
+      "grade_signed": "A+",
+      "color_pending": "teal",
+      "color_signed": "green",
+      "summary_pending": "0 undisclosed drift; 5 real Theorem 4 defects & 4 LaTeX edits logged; 4/4 witnesses & 25/25 defaults justified; awaiting {reviewed}/{total} co-author sign-off.",
+      "summary_signed": "0 undisclosed drift; 4/4 witnesses & 25/25 defaults justified; all {reviewed}/{total} statements and Theorem 4 edits signed off by co-authors."
+    },
+    {
+      "id": "B",
+      "name": "Layer B · Kernel Integrity",
+      "grade_pending": "A",
+      "grade_signed": "A",
+      "color_pending": "green",
+      "color_signed": "green",
+      "summary_pending": "Axiom-clean (standard 3 only), 0 sorry/native_decide/unsafe; Paranoid CI passing with offline unshare -rn, Challenge/Solution comparator, and built-in leanchecker --fresh.",
+      "summary_signed": "Axiom-clean (standard 3 only), 0 sorry/native_decide/unsafe; Paranoid CI passing with offline unshare -rn, Challenge/Solution comparator, and built-in leanchecker --fresh."
+    },
+    {
+      "id": "C",
+      "name": "Layer C · Utility & Debt",
+      "grade_pending": "A",
+      "grade_signed": "A",
+      "color_pending": "green",
+      "color_signed": "green",
+      "summary_pending": "Compact {nonempty_loc} non-empty LoC (3.1× below T2 eng. median); 6-layer distilled package; front-door README, MIT LICENSE, CITATION.cff & v1.0.0 release tag complete.",
+      "summary_signed": "Compact {nonempty_loc} non-empty LoC (3.1× below T2 eng. median); 6-layer distilled package; front-door README, MIT LICENSE, CITATION.cff & v1.0.0 release tag complete."
+    }
+  ],
+  "gates": [
+    {
+      "gate": "Gate 1",
+      "name": "Spec Pinning & Hygiene",
+      "status_pending": "partial",
+      "status_signed": "pass",
+      "good": "Statements/*.lean ({stmt_raw_loc} raw LoC) SHA-256 frozen since Gate 1; 4/4 compilable non-vacuity witnesses & {defaults_ok}/{defaults_total} totalized defaults justified.",
+      "improve_pending": "Have human co-authors inspect the {stmt_raw_loc}-line Statements/*.lean boundary and record sign-off on all {total} claims ({reviewed}/{total} → {total}/{total}, Buzzard's Protocol).",
+      "improve_signed": "Complete — all {total}/{total} statements signed off by co-authors."
+    },
+    {
+      "gate": "Gate 2",
+      "name": "Static Hygiene & Isolation",
+      "status_pending": "pass",
+      "status_signed": "pass",
+      "good": "Zero sorry, zero custom axioms, zero native_decide, zero unsafe/macro/notation overrides across {lean_files} Lean files; isolated Prelude/, Statements/ & Routine/.",
+      "improve_pending": "Complete — no static hygiene gaps remain.",
+      "improve_signed": "Complete — no static hygiene gaps remain."
+    },
+    {
+      "gate": "Gate 3",
+      "name": "Dynamic & Multi-Kernel CI",
+      "status_pending": "pass",
+      "status_signed": "pass",
+      "good": "Paranoid CI passing: offline unshare -rn network sandbox, hash-locked Challenge.lean/Solution.lean comparator, official Lean v4.33.1 kernel + built-in leanchecker --fresh (0 warnings).",
+      "improve_pending": "Complete — dual-kernel paranoid CI active on every push to main.",
+      "improve_signed": "Complete — dual-kernel paranoid CI active on every push to main."
+    },
+    {
+      "gate": "Gate 4",
+      "name": "Human Audit & Distillation",
+      "status_pending": "partial",
+      "status_signed": "pass",
+      "good": "{total_cases}-case blind Layer-A comparison (0 undisclosed drift), 4/4 distilled Lamport proofs, 4 synchronized LaTeX patches in manuscript-edits.json, Theorem 2 alternative Poisson route documented.",
+      "improve_pending": "Record co-author approval of Theorem 4's 4 manuscript edits & Theorem 2's Poisson proof route; optionally add step_map bindings and a cross-model audit.",
+      "improve_signed": "Complete — co-authors approved statement alignment, Theorem 2 route, and Theorem 4 revisions."
+    },
+    {
+      "gate": "Gate 5",
+      "name": "Publication & Archival Hygiene",
+      "status_pending": "pass",
+      "status_signed": "pass",
+      "good": "Public GitHub Pages Proof Atlas + live CI receipts + VERIFICATION.md + upgraded README.md (CI badges, repro steps, AI-use disclosure) + MIT LICENSE + CITATION.cff + immutable v1.0.0 tag.",
+      "improve_pending": "Complete — all front-door & archival release artifacts landed in commit a142b35 (v1.0.0).",
+      "improve_signed": "Complete — all front-door & archival release artifacts landed in commit a142b35 (v1.0.0)."
+    }
+  ],
+  "action_plan": [
+    {
+      "id": "p1-paranoid-ci",
+      "priority": "Done",
+      "effort": "Landed in b1f49a6",
+      "closes": "Gate 3 · Modes #5, #7, #8",
+      "title": "Enable 'paranoid' CI mode (Offline unshare -rn + Challenge/Solution + leanchecker --fresh)",
+      "how": "Completed in commit b1f49a6: added Challenge/Solution libraries to lakefile.toml, generated hash-locked Challenge.lean & Solution.lean, patched verify_ci.py for built-in leanchecker --fresh, and verified green on GitHub Actions.",
+      "done": true
+    },
+    {
+      "id": "p1-front-door",
+      "priority": "Done",
+      "effort": "Landed in a142b35",
+      "closes": "Gate 5 · Mode #12",
+      "title": "Upgrade repository front door (README, LICENSE, CITATION.cff) & tag immutable release v1.0.0",
+      "how": "Completed in commit a142b35 (tag v1.0.0): added Verification Manifest summary, CI badges, exact local lake build + leanchecker repro steps, documented Theorem 4 findings, AI-use disclosure, MIT LICENSE, and CITATION.cff.",
+      "done": true
+    },
+    {
+      "id": "p1-human-signoff",
+      "priority": "P1",
+      "effort": "~2 hrs co-author review",
+      "closes": "Gates 1 & 4 · Modes #1, #2, #5",
+      "title": "Record human co-author sign-off on Statements/*.lean & Theorem 4 manuscript edits",
+      "how": "Review the 576-line Statements/*.lean boundary, confirm Theorem 2's alternative Poisson proof route, approve/apply the 4 LaTeX patches in manuscript-edits.json, and run author_review.py to move sign-off from 0/4 → 4/4.",
+      "done": false,
+      "done_when_signed": true
+    },
+    {
+      "id": "p2-deeper-polish",
+      "priority": "P2",
+      "effort": "Optional enhancement",
+      "closes": "Modes #1, #4, #10",
+      "title": "Optional deeper fidelity polish (cross-model audit, step_map DAG, 2-queue witness)",
+      "how": "Run an independent second-model Layer-A audit of Statements/*.lean, populate step_map in reader.json to machine-link lamport/*.md steps to Lean lemmas, and optionally add a 2-state / 2-queue witness in Examples/NetworkWitnesses.lean.",
+      "done": false
+    }
+  ],
+  "modes": [
+    {
+      "id": "#1",
+      "layer": "A",
+      "name": "Statement / Proof Drift",
+      "status_pending": "Strong",
+      "status_signed": "Exemplary",
+      "tone_pending": "good",
+      "tone_signed": "great",
+      "evidence": "37-case blind Layer-A comparison logs every nuance & all 5 Theorem 4 discrepancies (0 undisclosed drift); Gate-1 SHA-locked Statements/*.lean.",
+      "gap_pending": "Record named human co-author sign-off ({reviewed}/{total} → {total}/{total}) on Statements/*.lean and optionally run an independent cross-model audit.",
+      "gap_signed": "None — all {total}/{total} statements signed off by co-authors."
+    },
+    {
+      "id": "#2",
+      "layer": "A",
+      "name": "Scope Downgrading",
+      "status_pending": "Excellent",
+      "status_signed": "Exemplary",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "All 4 headline theorems proved unconditionally (including companion Thms 2 & 3 from scratch); Theorem 2 strictly stronger (non-causal optCost); Theorem 4 Eq. (3) constant difference transparently logged & patched.",
+      "gap_pending": "Approve & apply Theorem 4's proposed LaTeX edit updating W_bound's numerator to +2δ_max + 1 (or explicitly note arrivals-before-service dynamics).",
+      "gap_signed": "None — Theorem 4 revision approved."
+    },
+    {
+      "id": "#3",
+      "layer": "A",
+      "name": "Definition Smuggling",
+      "status_pending": "Strong",
+      "status_signed": "Strong",
+      "tone_pending": "good",
+      "tone_signed": "good",
+      "evidence": "Statements/ isolated from Proofs/ and Routine/ (576 raw LoC total); standard Mathlib MeasureTheory, Filter, Finset primitives; 0 third-party packages.",
+      "gap_pending": "Optional: upstream or deduplicate the 16-line matPow/Irreducible/Aperiodic definitions once Mathlib adds finite Markov mixing.",
+      "gap_signed": "Optional: upstream or deduplicate the 16-line matPow/Irreducible/Aperiodic definitions once Mathlib adds finite Markov mixing."
+    },
+    {
+      "id": "#4",
+      "layer": "A",
+      "name": "Junk Values & Vacuity",
+      "status_pending": "Exemplary",
+      "status_signed": "Exemplary",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "4/4 compilable non-vacuity witnesses in Examples/ (including guarded 0 < λ̃_j in theorem4_witness); 25/25 totalized Lean defaults explicitly audited & justified.",
+      "gap_pending": "Optional: add a 2-state / 2-queue witness in Examples/NetworkWitnesses.lean to strengthen multi-queue sanity coverage.",
+      "gap_signed": "Optional: add a 2-state / 2-queue witness in Examples/NetworkWitnesses.lean to strengthen multi-queue sanity coverage."
+    },
+    {
+      "id": "#5",
+      "layer": "B",
+      "name": "Reward Hacking / Notation",
+      "status_pending": "Strong",
+      "status_signed": "Exemplary",
+      "tone_pending": "good",
+      "tone_signed": "great",
+      "evidence": "Zero custom notation/macros; hash-locked Challenge.lean/Solution.lean comparator enforced in Paranoid CI; Gate-1 statement SHA-256 frozen.",
+      "gap_pending": "Record independent human co-author spec sign-off ({reviewed}/{total} → {total}/{total}) to complete full Role Separation.",
+      "gap_signed": "None — Challenge/Solution hash-lock and human spec sign-off both complete."
+    },
+    {
+      "id": "#6",
+      "layer": "B",
+      "name": "Axioms / sorry / native_decide",
+      "status_pending": "Perfect",
+      "status_signed": "Perfect",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "All 4 Assembly theorems depend strictly on {propext, Classical.choice, Quot.sound}; 0 sorry, 0 custom axioms, 0 native_decide, 0 unsafe/implemented_by.",
+      "gap_pending": "None — complete.",
+      "gap_signed": "None — complete."
+    },
+    {
+      "id": "#7",
+      "layer": "B",
+      "name": "Metaprog. & Side Effects",
+      "status_pending": "Exemplary",
+      "status_signed": "Exemplary",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "Zero custom elaborators, macros, or IO hooks; Paranoid CI builds inside an offline unshare -rn network namespace with Challenge/Solution isolation (landed in b1f49a6).",
+      "gap_pending": "None — complete.",
+      "gap_signed": "None — complete."
+    },
+    {
+      "id": "#8",
+      "layer": "B",
+      "name": "Kernel Soundness Bugs",
+      "status_pending": "Dual-Kernel",
+      "status_signed": "Dual-Kernel",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "Paranoid CI checks every theorem with both the official Lean v4.33.1 kernel and fresh-environment built-in leanchecker --fresh replay (landed in b1f49a6).",
+      "gap_pending": "None — dual-kernel replay active in CI.",
+      "gap_signed": "None — dual-kernel replay active in CI."
+    },
+    {
+      "id": "#9",
+      "layer": "B",
+      "name": "Foundational Drift",
+      "status_pending": "N/A",
+      "status_signed": "N/A",
+      "tone_pending": "neutral",
+      "tone_signed": "neutral",
+      "evidence": "Pure classical real analysis & discrete-time probability; no constructive, homotopy, or physical-unit soundness claims affected.",
+      "gap_pending": "None — not applicable.",
+      "gap_signed": "None — not applicable."
+    },
+    {
+      "id": "#10",
+      "layer": "C",
+      "name": "Proof Bloat / Tech Debt",
+      "status_pending": "Exemplary",
+      "status_signed": "Exemplary",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "{nonempty_loc} non-empty LoC (3.1× below T2 eng. median 14,953); 6-layer distilled architecture (Prelude/Statements/Routine/Proofs/Examples/Assembly); 4/4 Lamport proofs.",
+      "gap_pending": "Optional: populate step_map in reader.json so lamport/*.md steps are machine-checked against compiled Lean lemma names.",
+      "gap_signed": "Optional: populate step_map in reader.json so lamport/*.md steps are machine-checked against compiled Lean lemma names."
+    },
+    {
+      "id": "#11",
+      "layer": "C",
+      "name": "Checker Timeouts",
+      "status_pending": "Excellent",
+      "status_signed": "Excellent",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "Zero maxHeartbeats overrides; clean-room Paranoid CI builds & replays all 26 Lean files with 0 warnings under default heartbeats.",
+      "gap_pending": "None — complete.",
+      "gap_signed": "None — complete."
+    },
+    {
+      "id": "#12",
+      "layer": "C",
+      "name": "Process Opacity",
+      "status_pending": "Exemplary",
+      "status_signed": "Exemplary",
+      "tone_pending": "great",
+      "tone_signed": "great",
+      "evidence": "Root README.md (CI badges, Verification Manifest, repro commands, Theorem 4 findings, AI-use disclosure), MIT LICENSE, CITATION.cff, immutable v1.0.0 tag, VERIFICATION.md, and Proof Atlas (landed in a142b35).",
+      "gap_pending": "None — complete.",
+      "gap_signed": "None — complete."
+    }
+  ],
+  "census_rows": [
+    {
+      "dim": "Four-Way Role",
+      "ours": "Engineering Algorithmic Proof (cs.NI / cs.PF / math.OC)",
+      "benchmark": "Fills near-zero niche: cs.NI = 0/559, cs.PF = 0/200 in T0–T2."
+    },
+    {
+      "dim": "Verification Tier",
+      "ours": "Paranoid Dual-Kernel Gold (4/4 main theorems, 0 sorry/axioms, Challenge/Solution + leanchecker --fresh)",
+      "benchmark": "Exceeds T2 eng. Gold cohort (13/26 = 50.0% Gold); adds dual-kernel + offline sandbox."
+    },
+    {
+      "dim": "Codebase Scale",
+      "ours": "{nonempty_loc} non-empty LoC ({raw_loc} raw across {lean_files} files)",
+      "benchmark": "3.1× smaller than T2 eng. median (14,953 LoC); 7.2× below pooled median (34,579)."
+    },
+    {
+      "dim": "Clean-Room Build",
+      "ours": "Offline Paranoid OOTB Pass (0 warnings, 0 3rd-party packages, pinned Mathlib)",
+      "benchmark": "Beats 72.7% (8/11) compact engineering OOTB pass rate with offline unshare -rn."
+    },
+    {
+      "dim": "Non-Vacuity Hygiene",
+      "ours": "4/4 compilable witnesses + {defaults_ok}/{defaults_total} defaults justified",
+      "benchmark": "Exceeds 59.1% (13/22) engineering cohort rate; includes guarded 0 < λ̃_j."
+    },
+    {
+      "dim": "Layer-A Fidelity",
+      "ours": "0 undisclosed drift + 5 real Theorem 4 defects surfaced & patched",
+      "benchmark": "Matches 0/22 author-owned engineering drift benchmark while improving paper rigor."
+    },
+    {
+      "dim": "Front-Door Release",
+      "ours": "README + Manifest + MIT LICENSE + CITATION.cff + AI disclosure + v1.0.0 tag",
+      "benchmark": "Full Gate-5 archival compliance; awaits only named human co-author sign-off (0/4 → 4/4)."
+    }
+  ]
+}
