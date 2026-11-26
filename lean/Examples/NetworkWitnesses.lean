@@ -212,7 +212,6 @@ noncomputable def witnessLifo : LifoQueueRealization witnessPolicy (0 : Fin 1) �
   depart _ k := ((k + 1 : ℕ) : WithTop ℕ)
   slot _ _ := 0
   arrival_le_depart _ k := by
-    change (k : WithTop ℕ) ≤ ((k + 1 : ℕ) : WithTop ℕ)
     exact_mod_cast Nat.le_succ k
   finite_arrivals _ t := Set.finite_Iio t
   disjoint_slots _ k₁ k₂ hne _ τ hocc := by
