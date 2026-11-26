@@ -1,0 +1,461 @@
+{
+  "theorem:little1": {
+    "bindings": {
+      "paper": "a87588001aee326660cc9a5b7109082c5847b7d7650341c153b26d1167a62ff1",
+      "statement": "a8ad5d7381c2dd637dbf4f32e75e20089ff546149c3212dbb97f47ba49d3a67f",
+      "expected": "LifoBackpressure.Statements.Theorem1Statement",
+      "toolchain": "leanprover/lean4:v4.33.1",
+      "manifest": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096"
+    },
+    "paper_reading": "Consider a LIFO queueing system equipped with a finite set B of buffer locations (of cardinality |B|), where each buffer location holds at most one job at any time and a job entering a buffer location b in B remains in that same location b until it departs. Let N(t) be the cumulative number of arrivals up to time t that occupy a buffer location in B, let D(t) be the cumulative number of departures up to time t from buffer locations in B, and let W_i be the delay (time from arrival to departure) of the i-th job to depart from B. Assume there exists a strictly positive constant lambda_min > 0 such that, with probability 1, liminf_{t -> infinity} N(t)/t >= lambda_min, and further assume that, with probability 1, lim_{t -> infinity} D(t) = infinity (infinitely many departures occur from B). Then with probability 1, the limsup average delay over departing jobs, W_bar := limsup_{t -> infinity} (1 / D(t)) * sum_{i=1}^{D(t)} W_i, satisfies W_bar <= |B| / lambda_min.",
+    "lean_reading": "For any finite type B (with cardinality |B| = Fintype.card B), arbitrary job index type ι, probability space (Ω, μ), sample-path family sys : Ω → BufferSystem B ι, and real constant lamMin > 0: where each BufferSystem assigns every job k a discrete arrival slot arrival k : ℕ, a departure slot depart k : WithTop ℕ (⊤ meaning never departs) with arrival k ≤ depart k, a fixed buffer slot slot k : B, finitely many arrivals before every horizon t, and single-occupancy disjointness of half-open residency intervals [arrival k, depart k) within each slot b ∈ B; define N(t) = |{k | arrival k < t}|, D(t) = |{k | depart k ≤ t}|, jobDelay k = d - arrival k when depart k = some d (and 0 if ⊤), and avgDelay t = (∑_{k : depart k ≤ t} jobDelay k) / D(t). If μ-almost surely liminf_{t → ∞} (N(t) / t : EReal) ≥ lamMin and D(t) → ∞ as t → ∞, then μ-almost surely limsup_{t → ∞} (avgDelay t : EReal) ≤ (|B| / lamMin : EReal).",
+    "paper_refs": "paper/qla-lifo-tech2-v5.tex:L524-L534; L515-L523; L217; L281; L1019-L1080",
+    "lean_refs": "lean/Statements/Little.lean:L15-L107 (BufferSystem, arrivalsCount, departuresSet, departuresCount, jobDelay, totalDelay, avgDelay, Theorem1Statement)",
+    "result": "match",
+    "analysis": {
+      "summary": "LifoBackpressure.Statements.Theorem1Statement matches Paper Theorem 1 (theorem:little1) across all 7 numbered obligations (C1-C7) in the paper's slotted discrete-time setting. It formalizes the fixed-slot single-occupancy buffer discipline on a finite slot set B, keeps both almost-sure hypotheses (liminf N(t)/t >= lambda_min > 0 and D(t) -> infinity), and concludes the exact almost-sure delay upper bound limsup avgDelay(t) <= |B| / lambda_min. The only modeling choice is fixing discrete time t in N (matching Section III and Theorem 4) rather than the continuous-time integral notation written in Appendix A.",
+      "cases": [
+        {
+          "case": "C1: Finite buffer set B and probability space",
+          "paper": "Finite set B of buffer locations with cardinality |B| on a probability space (L517, L530).",
+          "lean": "Quantifies over (B : Type) [Fintype B], (ι : Type), (Ω : Type) [MeasurableSpace Ω], (μ : Measure Ω) [IsProbabilityMeasure μ], and (sys : Ω → BufferSystem B ι), using Fintype.card B for |B|.",
+          "why": "Exact formalization of a finite buffer set and probability space; any empty B makes N(t) = 0 and vacuously falsifies liminf N(t)/t >= lamMin > 0, while nonempty B covers all nontrivial systems.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C2: Arrival count N(t), departure count D(t), delays W_i, and empirical average delay",
+          "paper": "N(t) arrivals into B up to time t; D(t) departures from B up to time t; W_i delay of i-th departing job; W_bar := limsup_{t -> infinity} (1 / D(t)) sum_{i=1}^{D(t)} W_i (L518-L522, L529).",
+          "lean": "arrivalsCount t = |{k | arrival k < t}|, departuresCount t = |{k | depart k <= t}|, totalDelay t = sum_{k : depart k <= t} jobDelay k, avgDelay t = totalDelay t / departuresCount t, and Filter.limsup (fun t => (avgDelay t : EReal)) Filter.atTop.",
+          "why": "Using arrival < t (slots 0..t-1) and depart <= t aligns with discrete t-slot horizon sums (any job arriving before t and not departing by t occupies a slot at time t, so D(t) >= N(t) - |B|, and every job departing by t has occupancy interval inside [0, t)). Shifting t by 1 leaves liminf N(t)/t and limsup avgDelay(t) unchanged.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C3: Fixed-slot single-occupancy buffer discipline",
+          "paper": "Each slot b in B has occupancy Q^(b)(t) in {0, 1}, and a job entering slot b stays in b until departure, giving D(t) >= N(t) - |B| (L217, L1024-L1029, L1072-L1073).",
+          "lean": "BufferSystem fixes slot : ι → B per job, enforces arrival_le_depart, finite_arrivals for every horizon t, and disjoint_slots stating no two distinct jobs in the same slot can both satisfy arrival <= τ < depart at any slot τ.",
+          "why": "Captures the exact single-occupancy fixed-slot invariant used by Appendix A's proof (note neither Appendix A nor Lean needs LIFO ordering specifically beyond fixed-slot single occupancy).",
+          "kind": "agrees"
+        },
+        {
+          "case": "C4: Discrete slotted time domain vs Appendix A continuous-time integral",
+          "paper": "Section III operates in slotted discrete time t in N (L281), whereas Appendix A writes the proof inequality using a continuous integral int_0^t Q^(b)(tau) d tau (L1028) with nonnegative delays W_i >= 0.",
+          "lean": "Fixes discrete time: arrival : ι → ℕ, depart : ι → WithTop ℕ, time horizon t : ℕ, and jobDelay k : ℕ.",
+          "why": "Lean adopts the paper's Section III discrete slotted-time model (which is also the exact form invoked in Theorem 4) rather than generalizing Theorem 1 to continuous-time arrival/departure epochs in R_+.",
+          "kind": "chosen reading"
+        },
+        {
+          "case": "C5: Positive arrival-rate lower bound",
+          "paper": "There exists a constant lambda_min > 0 such that with probability 1, liminf_{t -> infinity} N(t)/t >= lambda_min (L525-L526).",
+          "lean": "0 < lamMin and ∀ᵐ ω ∂μ, (lamMin : EReal) ≤ Filter.liminf (fun t : ℕ => (((sys ω).arrivalsCount t : ℝ) / (t : ℝ) : EReal)) Filter.atTop.",
+          "why": "Exact correspondence in EReal, which avoids any artificial real-valued liminf default if N(t)/t is unbounded above.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C6: Infinitely many departures",
+          "paper": "lim_{t -> infinity} D(t) = infinity with probability 1 (L527).",
+          "lean": "∀ᵐ ω ∂μ, Filter.Tendsto (fun t : ℕ => (sys ω).departuresCount t) Filter.atTop Filter.atTop.",
+          "why": "Exact formalization of D(t) -> infinity almost surely.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C7: Almost-sure average delay upper bound",
+          "paper": "W_bar <= |B| / lambda_min with probability 1 (L528-L530, L1022-L1023).",
+          "lean": "∀ᵐ ω ∂μ, Filter.limsup (fun t : ℕ => ((sys ω).avgDelay t : EReal)) Filter.atTop ≤ (((Fintype.card B : ℝ) / lamMin : ℝ) : EReal).",
+          "why": "Exact match of the conclusion inequality in EReal.",
+          "kind": "agrees"
+        }
+      ],
+      "scope": "Covers Paper Theorem 1 in full for discrete slotted-time fixed-slot single-occupancy buffer systems (including all LIFO systems in the paper and Theorem 4's application). Does not formalize continuous-time arrival/departure timestamps in R_+. All noncomputable definitions (arrivalsCount, departuresCount, totalDelay, avgDelay) use classical Set.Finite.toFinset and do not conflict with any algorithmic claim in the paper; all external dependencies are standard Mathlib/Lean packages.",
+      "default_assessments": {
+        "17496ac8147da2fea163e8476c95919dcc14a1a3e828eb62f102f8fd0fffb8e3": {
+          "status": "justified",
+          "explanation": "In avgDelay, division by departuresCount t defaults to 0 when departuresCount t = 0, but the a.s. hypothesis Tendsto departuresCount atTop atTop guarantees departuresCount t > 0 for all sufficiently large t, so the Filter.limsup tail never divides by zero."
+        },
+        "324f982794a89ab5d027a968a2525f36cb0e96ed9a89d3cda7c303be1a273704": {
+          "status": "justified",
+          "explanation": "In jobDelay, Nat subtraction d - arrival k never truncates because BufferSystem.arrival_le_depart enforces arrival k <= d whenever depart k = some d."
+        },
+        "b6894a83206d09d0e1720d7e3784ae43c10f82e47647ae5d573b25107ed3bf52": {
+          "status": "justified",
+          "explanation": "In Theorem1Statement, EReal division arrivalsCount t / t at t = 0 does not affect Filter.liminf along Filter.atTop, since every t >= 1 has nonzero denominator."
+        },
+        "c4c486e01fc98efcf3be056fd69ff1d436fd27dbdd8daf1cf7e9650cddb72bc8": {
+          "status": "justified",
+          "explanation": "In Theorem1Statement, real division (Fintype.card B : ℝ) / lamMin never divides by zero because 0 < lamMin is an explicit hypothesis."
+        }
+      },
+      "advice": "Recommend approval if discrete slotted time (matching Section III and Theorem 4) is the intended scope of Theorem 1; flag a difference only if you specifically want Theorem 1 stated for continuous-time arrival/departure timestamps in R_+.",
+      "suggested_feedback": "Theorem 1 in Appendix A is proved with continuous-time integrals; please also confirm whether discrete slotted time t in N is sufficient or whether you want a continuous-time version over R_+."
+    }
+  },
+  "theorem:qla-markovian": {
+    "bindings": {
+      "paper": "4ef6357d84861c7f40f993db8c12d8aa00f5190c252e53377a9e059c36787f15",
+      "statement": "b348666c17be732d8b3d759781e05a0f5abea60ac68663865ac05ee05a3b607a",
+      "expected": "LifoBackpressure.Statements.Theorem2Statement",
+      "toolchain": "leanprover/lean4:v4.33.1",
+      "manifest": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096"
+    },
+    "paper_reading": "Under the Section III discrete-time stochastic network model (r >= 1 queues, finite-state irreducible aperiodic Markov chain S(t) with stationary distribution pi > 0, time-invariant compact feasible action sets X^(s_i), continuous time-invariant cost f >= 0, arrival A_j >= 0, and service mu_j >= 0 uniformly bounded by delta_max in (0, infinity), queue dynamics q_j(t+1) = max[q_j(t) - mu_j(t), 0] + A_j(t) with q(0) = 0) and the Slater eta-slackness condition (eq:slackness), Backpressure (eq:QLAeq, with either FIFO or LIFO discipline) for control parameter V >= 1 achieves expected time-average cost f_av^BP = f_av^* + O(1/V) (where f_av^* is the optimal time-average cost over all feasible stable policies) and expected time-average total backlog q_bar^BP = O(V) (in particular, Backpressure is stable).",
+    "lean_reading": "For any NetworkModel M (finite nonempty decidable State, r > 0 queues, irreducible aperiodic stochastic transition matrix P with strictly positive stationary distribution π, compact nonempty topological Action s per state, continuous cost, arrival, and service functions valued in [0, δmax] for δmax > 0) and η : ℝ satisfying M.HasSlackness η (η > 0 and a finite Fin m convex combination of actions per state with stationary expected drift A_j - μ_j <= -η on every queue j): there exist nonnegative constants C_cost, C_q0, C_q1 independent of V, the probability space (Ω, μ), the MarkovProcess realization proc of S(t), and the policy pol, such that for all V >= 1 and every measurable Policy pol on proc satisfying pol.FollowsBackpressure V (governed by a deterministic state-backlog maximizer choice(s, q) of -V f(s, x) + sum_j q_j (μ_j(s, x) - A_j(s, x))), pol is stable (pol.avgBacklog < ⊤), M.optCost proc <= pol.avgCost, pol.avgCost <= M.optCost proc + (C_cost / V : EReal), and pol.avgBacklog <= (C_q0 + C_q1 * V : EReal), where optCost is the EReal infimum of avgCost over all measurable (possibly non-causal) stable policies on proc.",
+    "paper_refs": "paper/qla-lifo-tech2-v5.tex:L540-L549; L280-L337; L426-L443",
+    "lean_refs": "lean/Statements/MarkovTradeoff.lean:L14-L29 (Theorem2Statement); lean/Statements/SystemModel.lean:L17-L208 (matPow, Irreducible, Aperiodic, NetworkModel, HasSlackness, queueNext, MarkovProcess, Policy, Policy.queue, Policy.avgBacklog, Policy.IsStable, Policy.avgCost, optCost, IsBackpressureRule, Policy.FollowsBackpressure)",
+    "result": "match",
+    "stronger_result": "M.optCost proc takes the infimum over all measurable (including non-causal/clairvoyant) stable policies on proc rather than only causal policies, making pol.avgCost <= M.optCost proc + C_cost / V at least as strong as the causal-policy benchmark; moreover, the constants C_cost, C_q0, C_q1 are uniform across all V >= 1, initial state distributions of S(0), probability spaces (Ω, μ), and Backpressure tie-breaking rules.",
+    "analysis": {
+      "summary": "LifoBackpressure.Statements.Theorem2Statement matches Paper Theorem 2 (theorem:qla-markovian) across all 10 numbered obligations (C1-C10), with uniform V-independent [O(1/V), O(V)] cost and backlog bounds and explicit stability. Minor modeling normalizations are cleanly recorded: NetworkModel fixes the primary nonnegative cost-minimization setting f in [0, delta_max] (omitting the parenthetical reward-maximization sign convention f in [-delta_max, 0], which reduces by shifting f by +delta_max), makes Nonempty (Action s) explicit, uses a finite convex combination in HasSlackness (equivalent to Eq. (2)'s countable series by compactness and Caratheodory's theorem), fixes deterministic state-backlog tie-breaking in FollowsBackpressure, and benchmarks against all measurable (possibly non-causal) stable policies in optCost (which strengthens the cost upper bound).",
+      "cases": [
+        {
+          "case": "C1: Slotted time and queue count r >= 1",
+          "paper": "Discrete slotted time t in N and r >= 1 queues (L281).",
+          "lean": "Time index t : ℕ, M.r : ℕ, and M.hr : 0 < M.r.",
+          "why": "Exact correspondence.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C2: Finite-state irreducible aperiodic Markov chain S(t) with stationary distribution pi > 0",
+          "paper": "Finite-state irreducible aperiodic Markov chain S(t) on S = {s_1, ..., s_M} with stationary probabilities pi_{s_i} > 0 (L285-L286, L541).",
+          "lean": "NetworkModel bundles finite nonempty decidable State, stochastic irreducible aperiodic kernel P (via matPow, Irreducible, Aperiodic), strictly positive stationary distribution π, and MarkovProcess encoding cylinder transition probabilities.",
+          "why": "Exact formalization; bundling the unique strictly positive stationary distribution π alongside irreducible aperiodic P is equivalent by finite Markov chain theory.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C3: Compact action sets and bounded continuous cost, arrival, and service functions",
+          "paper": "Time-invariant compact (implicitly nonempty) X^(s_i), continuous time-invariant f, A_j, mu_j uniformly bounded by delta_max in (0, infinity), with f : X^(s_i) -> R_+ (or parenthetically R_- for reward maximization) (L291-L300).",
+          "lean": "NetworkModel requires [CompactSpace (Action s)], [Nonempty (Action s)], continuity of cost, arrival, service, 0 < δmax, and 0 <= cost, arrival, service <= δmax.",
+          "why": "Makes nonemptiness of Action s explicit and restricts to the paper's primary nonnegative cost-minimization convention f in [0, delta_max], excluding negative costs f in [-delta_max, 0] directly (though shifting f by +delta_max with bound 2*delta_max leaves Backpressure argmax and O(1/V) cost optimality unchanged).",
+          "kind": "restriction"
+        },
+        {
+          "case": "C4: Queue dynamics with q(0) = 0",
+          "paper": "q_j(t+1) = max[q_j(t) - mu_j(t), 0] + A_j(t) with q(0) = 0 (L315-L319).",
+          "lean": "Policy.queue 0 ω = 0 and Policy.queue (t+1) ω = queueNext (pol.queue t ω) (M.service ...) (M.arrival ...), where queueNext q μ A j = max (q j - μ j) 0 + A j.",
+          "why": "Exact match to Eq. (3) and initial empty queues.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C5: Slater eta-slackness condition (Eq. 2)",
+          "paper": "Countable collection {x^(s_i)k}_{k=1..infinity} with weights theta^(s_i)_k >= 0 summing to 1 and stationary expected drift <= -eta for some eta > 0 (L300-L305, L541).",
+          "lean": "NetworkModel.HasSlackness η uses a finite index Fin m per state with weights θ s k >= 0 summing to 1 and stationary expected drift <= -η.",
+          "why": "Mathematically equivalent to the paper's countable series: since Action s is compact and arrival - service is continuous, its image K_s in R^r is compact, so conv(K_s) is compact and by Caratheodory's theorem every countable convex combination equals a finite convex combination of at most r + 1 actions.",
+          "kind": "other form"
+        },
+        {
+          "case": "C6: Backpressure policy (Eq. 6) under FIFO or LIFO",
+          "paper": "At each slot t, choose x^(S(t)) maximizing -V f(s_i, x) + sum_j q_j(t) (mu_j(s_i, x) - A_j(s_i, x)), with either FIFO or LIFO queueing discipline (L430-L435, L541).",
+          "lean": "Policy.FollowsBackpressure V pol asserts existence of a deterministic state-backlog rule choice(s, q) satisfying IsBackpressureRule V choice such that pol.act t ω = choice (proc.S t ω) (pol.queue t ω).",
+          "why": "Matches Eq. (6) and covers both FIFO and LIFO because aggregate backlog q(t) is identical under both disciplines; fixes tie-breaking to a deterministic time-homogeneous function choice(s, q) of current state and backlog.",
+          "kind": "chosen reading"
+        },
+        {
+          "case": "C7: Definitions of avgCost, avgBacklog, stability, and optimal stable cost f_av^*",
+          "paper": "limsup expected time-average total backlog < infinity (Eq. 4), limsup expected time-average cost (Eq. 5), and optimal cost f_av^* over all feasible stable policies (L319-L337, L545).",
+          "lean": "Policy.avgBacklog, Policy.IsStable := avgBacklog < ⊤, Policy.avgCost, and M.optCost proc := iInf over all measurable stable Policy proc (without requiring causal adaptedness).",
+          "why": "Exact formulas for Eqs. (4)-(5). Allowing arbitrary measurable (even non-causal/clairvoyant) policies in Policy enlarges the comparison class, making M.optCost proc <= causal optCost and thereby strengthening pol.avgCost <= M.optCost proc + C_cost / V.",
+          "kind": "stronger"
+        },
+        {
+          "case": "C8: Control parameter V >= 1 and V-independence of O(1/V) and O(V) constants",
+          "paper": "O(1/V) and O(V) tradeoff constants independent of V >= 1 (L101, L149, L543).",
+          "lean": "Existential constants C_cost, C_q0, C_q1 >= 0 are quantified outside ∀ V, 1 ≤ V → and outside ∀ Ω μ proc pol.",
+          "why": "Captures exact V-independence over V >= 1, plus uniformity over initial state distributions and probability spaces.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C9: Cost optimality bound f_av^* <= f_av^BP <= f_av^* + C_cost / V",
+          "paper": "f_av^BP = f_av^* + O(1/V) (L543), i.e., f_av^* <= f_av^BP <= f_av^* + C_1 / V.",
+          "lean": "M.optCost proc ≤ pol.avgCost ∧ pol.avgCost ≤ M.optCost proc + ((C_cost / V : ℝ) : EReal).",
+          "why": "Exact two-sided O(1/V) cost optimality bound.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C10: Backlog bound O(V) and stability",
+          "paper": "q_bar^BP = O(V) and Backpressure is stable (L543, L320-L323).",
+          "lean": "pol.IsStable ∧ pol.avgBacklog ≤ ((C_q0 + C_q1 * V : ℝ) : EReal).",
+          "why": "Exact match: for V >= 1, C_q0 + C_q1 * V <= (C_q0 + C_q1) * V, giving q_bar^BP = O(V) and explicit finiteness pol.avgBacklog < ⊤.",
+          "kind": "agrees"
+        }
+      ],
+      "scope": "Covers Paper Theorem 2 in full for the Section III nonnegative cost-minimization model over all V >= 1, with stronger non-causal benchmark optCost and constants uniform over initial state distributions. Reward maximization (f <= 0) reduces immediately by shifting f -> f + delta_max. All noncomputable definitions (avgBacklog, avgCost, optCost) are standard measure-theoretic expectations/infima and do not conflict with any algorithmic claim; all external packages are standard Mathlib/Lean dependencies.",
+      "default_assessments": {
+        "08b927fc6b3de9947b379e1470eec5cbb779525c12f4c22bcd7c36b54fee3018": {
+          "status": "justified",
+          "explanation": "In MarkovProcess.mk, ENNReal.ofReal is only applied to M.P s s', which is guaranteed nonnegative by M.P_nonneg."
+        },
+        "c7ff32b4b5c969b41585fd6ef4004580b1652378765137b4fe54ae777290fbbb": {
+          "status": "justified",
+          "explanation": "In Policy.avgBacklog, EReal division 1 / t at t = 0 does not affect Filter.limsup along Filter.atTop, since every t >= 1 has nonzero denominator."
+        },
+        "b9c01b948af4ae6276e591cf1e694a9e10e0907c9705a298e106f6c3f6c6f093": {
+          "status": "justified",
+          "explanation": "In Policy.avgBacklog, pol.queue τ ω j is measurable by induction from Policy.measurable_arrival and measurable_service and uniformly bounded in [0, τ * M.δmax], hence Bochner integrable on the probability space (Ω, μ)."
+        },
+        "76656fcd00ed8f9805ab64a5026fd3069594f16e7b6a566c7172547d8199e8f3": {
+          "status": "justified",
+          "explanation": "In Policy.avgCost, EReal division 1 / t at t = 0 does not affect Filter.limsup along Filter.atTop, since every t >= 1 has nonzero denominator."
+        },
+        "f2f5ee9e8660b74127b61b7cf3ff33b02d52876239d3fceea016805f391ce1b4": {
+          "status": "justified",
+          "explanation": "In Policy.avgCost, M.cost (proc.S τ ω) (pol.act τ ω) is measurable by Policy.measurable_cost and uniformly bounded in [0, M.δmax], hence Bochner integrable on the probability space (Ω, μ)."
+        },
+        "56d4b5eec2000ee9b9ed85867686f5fe7a4a677cbf62e8046b50f393d87bee62": {
+          "status": "justified",
+          "explanation": "M.optCost is valued in the complete lattice EReal (not ℝ), the set of stable policies is nonempty under HasSlackness (witnessed by Backpressure itself), and every policy has avgCost >= 0 because M.cost >= 0, so the infimum is finite and well-defined."
+        },
+        "8d5c56ced8b4c73f21396ff98d05916f4a89a42b5c1846731790d4c97e2fc51c": {
+          "status": "justified",
+          "explanation": "In Theorem2Statement, real division C_cost / V never divides by zero because 1 <= V is an explicit hypothesis."
+        }
+      },
+      "advice": "Recommend approval. Check only whether you want the parenthetical reward-maximization convention (negative costs f in [-delta_max, 0]) formalized directly rather than via the constant shift f -> f + delta_max, or non-stationary/randomized Backpressure tie-breaking.",
+      "suggested_feedback": "Please consider whether NetworkModel should allow signed costs f in [-delta_max, delta_max] directly (to cover the parenthetical R_- reward maximization convention without shifting f) or whether non-stationary Backpressure tie-breaking should be permitted."
+    }
+  },
+  "thm:prob_multi_con": {
+    "bindings": {
+      "paper": "82f323f7f629bb0eb9f72dc0fd2d0be38a1ab34c92f92428245f99e1cd1729d5",
+      "statement": "bb7fe276932c5aae2b8188ae8545330ae9a60395e21d46b0b50db7a4d66ee5d8",
+      "expected": "LifoBackpressure.Statements.Theorem3Statement",
+      "toolchain": "leanprover/lean4:v4.33.1",
+      "manifest": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096"
+    },
+    "paper_reading": "Under the Section III–V stochastic network model (finite-state irreducible aperiodic Markov chain S(t), compact X^(s_i), delta_max-bounded continuous f, A_j, mu_j, queue dynamics eq:queuedynamic with q(0) = 0) and Backpressure (eq:QLAeq, FIFO or LIFO), suppose the optimal dual multiplier gamma_V^* >= 0 of max_{gamma >= 0} g(gamma) (eq:dualproblem, eq:dual_separable) is unique, Slater eta-slackness (eq:slackness) holds, and g(gamma_V^*) >= g(gamma) + L ||gamma_V^* - gamma|| for all gamma >= 0 with a constant L > 0 independent of V (Euclidean norm). Then there exist constants D, K, c^* = Theta(1) (positive finite constants independent of V and m) such that for all m >= 0, P^(r)(D, K m) := limsup_{t->inf} (1/t) sum_{tau=0}^{t-1} Pr{exists j, |q_j(tau) - gamma_{Vj}^*| > D + K m} <= c^* e^{-m}.",
+    "lean_reading": "For any NetworkModel M, η : ℝ with M.HasSlackness η, and L > 0: there exist strictly positive constants D, K, cstar > 0 (depending only on M, η, L, and independent of V, γstar, Ω, μ, proc, pol, and m) such that for every V >= 1, every γstar : Fin M.r → ℝ satisfying M.IsUniqueDualOpt V γstar and M.DualPolyhedral V γstar L (meaning g(V, γ) + L * eucDist γstar γ <= g(V, γstar) for all γ >= 0, where g(V, γ) = sum_s π_s * inf_{x ∈ Action s} (V f(s, x) + sum_j γ_j (A_j(s, x) - μ_j(s, x)))), every probability space (Ω, μ), MarkovProcess proc, Backpressure policy pol (pol.FollowsBackpressure V), and real m >= 0, the EReal time-average deviation probability deviationProb pol γstar D (K * m) := limsup_{t → ∞} (1/t) sum_{τ < t} (μ {ω | ∃ j, D + K * m < |pol.queue τ ω j - γstar j|}).toReal is at most (cstar * Real.exp (-m) : EReal).",
+    "paper_refs": "paper/qla-lifo-tech2-v5.tex:L553-L570; L280-L337; L426-L467",
+    "lean_refs": "lean/Statements/ExponentialAttraction.lean:L14-L43 (deviationProb, Theorem3Statement); lean/Statements/SystemModel.lean:L17-L208 (NetworkModel, HasSlackness, eucDist, dualState, dual, IsDualOpt, IsUniqueDualOpt, DualPolyhedral, MarkovProcess, Policy, Policy.FollowsBackpressure)",
+    "result": "match",
+    "analysis": {
+      "summary": "LifoBackpressure.Statements.Theorem3Statement matches Paper Theorem 3 (thm:prob_multi_con) across all 9 numbered obligations (C1-C9), preserving the exact quantifier order (V- and m-independent D, K, c* > 0 for V-independent L > 0), exact Euclidean polyhedral dual growth condition, and exact EReal exponential deviation probability bound. Minor explicitness refinements are recorded: NetworkModel fixes nonnegative costs f in [0, delta_max] and explicit Nonempty (Action s), HasSlackness uses an equivalent finite convex combination, FollowsBackpressure fixes deterministic state-backlog tie-breaking, and Lean explicitly assumes 1 <= V (implicit in Theorem 3's display, explicit in Theorem 4 L611).",
+      "cases": [
+        {
+          "case": "C1: Section III stochastic network model",
+          "paper": "Finite-state irreducible aperiodic Markov chain S(t), compact X^(s_i), delta_max-bounded continuous f, A_j, mu_j (with parenthetical R_- reward note), queue dynamics Eq. (3) with q(0) = 0 (L280-L319).",
+          "lean": "NetworkModel M (with f in [0, δmax] and explicit Nonempty (Action s)), MarkovProcess proc, Policy pol with Policy.queue.",
+          "why": "Matches Section III with the same nonnegative-cost normalization f in [0, delta_max] and explicit Action nonemptiness noted for Theorem 2.",
+          "kind": "restriction"
+        },
+        {
+          "case": "C2: Dual function g(gamma) and dual optimum gamma_V^* >= 0",
+          "paper": "g(gamma) = inf_{x^(s_i)} sum_{s_i} pi_{s_i} {V f(s_i, x^(s_i)) + sum_j gamma_j [A_j(s_i, x^(s_i)) - mu_j(s_i, x^(s_i))]} and max_{gamma >= 0} g(gamma) (L449-L467).",
+          "lean": "dualState M V s γ = ⨅ x : M.Action s, (V * M.cost s x + ∑ j, γ j * (M.arrival s x j - M.service s x j)), dual M V γ = ∑ s, M.π s * M.dualState V s γ, and IsDualOpt M V γstar.",
+          "why": "Exact match: because action choices are separable across states s and π_s > 0, the sum of statewise infima equals the joint infimum of the sum.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C3: Backpressure policy with FIFO or LIFO",
+          "paper": "Backpressure (Eq. 6) with either FIFO or LIFO (L430-L435, L558).",
+          "lean": "pol.FollowsBackpressure V (deterministic state-backlog selector choice(s, q) maximizing the Eq. (6) objective).",
+          "why": "Applies identically to FIFO and LIFO since backlog trajectories depend only on aggregate arrivals and service; fixes deterministic time-homogeneous tie-breaking.",
+          "kind": "chosen reading"
+        },
+        {
+          "case": "C4: Uniqueness of gamma_V^*",
+          "paper": "gamma_V^* is unique (L554).",
+          "lean": "M.IsUniqueDualOpt V γstar (IsDualOpt V γstar ∧ ∀ γ, IsDualOpt V γ → γ = γstar).",
+          "why": "Exact correspondence.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C5: Slater eta-slackness (Eq. 2)",
+          "paper": "Countable stationary randomized action mixture giving drift <= -eta on all queues (L300-L305, L554).",
+          "lean": "M.HasSlackness η using a finite Fin m convex combination per state.",
+          "why": "Mathematically equivalent by compactness of Action s, continuity of A_j - μ_j, and Caratheodory's theorem on R^r.",
+          "kind": "other form"
+        },
+        {
+          "case": "C6: Polyhedral linear growth of g(gamma) with V-independent L > 0",
+          "paper": "g(gamma_V^*) >= g(gamma) + L ||gamma_V^* - gamma|| for all gamma >= 0 for some L > 0 independent of V (Euclidean norm; L555-L558).",
+          "lean": "0 < L quantified outside ∀ V, and M.DualPolyhedral V γstar L stating M.dual V γ + L * eucDist γstar γ <= M.dual V γstar for all γ >= 0.",
+          "why": "Exact correspondence with Euclidean distance eucDist and explicit V-independence of L.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C7: Parameter V range and V-independence of D, K, c^*",
+          "paper": "V is the control parameter (implicitly V >= 1 as in Section I and Theorem 4 L611; not explicitly bounded below in Theorem 3 L553-L567), with D, K, c^* = Theta(1) independent of V.",
+          "lean": "Explicitly restricts to 1 <= V, with D, K, cstar > 0 quantified outside ∀ V, 1 <= V ->.",
+          "why": "Theorem 3's box omits an explicit lower bound on V; Lean explicitly states 1 <= V to match the paper's V >= 1 regime (Theorem 4 L599/L611).",
+          "kind": "added hypothesis"
+        },
+        {
+          "case": "C8: Quantifier order for D, K, c^* > 0 and m >= 0",
+          "paper": "There exist constants D, K, c^* = Theta(1) independent of V such that for any m in R_+ (L558-L559).",
+          "lean": "∃ (D K cstar : ℝ), 0 < D ∧ 0 < K ∧ 0 < cstar ∧ ∀ V, 1 ≤ V → ... ∀ m : ℝ, 0 ≤ m → ...",
+          "why": "Exact quantifier nesting ensuring D, K, c* > 0 are independent of V, m, initial state distribution, and probability space.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C9: Exponential deviation probability bound P^(r)(D, K m) <= c^* e^{-m}",
+          "paper": "P^(r)(D, K m) := limsup_{t -> infinity} (1/t) sum_{tau=0}^{t-1} Pr{exists j, |q_j(tau) - gamma_{Vj}^*| > D + K m} <= c^* e^{-m} (L559-L566).",
+          "lean": "deviationProb pol γstar D (K * m) ≤ ((cstar * Real.exp (-m) : ℝ) : EReal).",
+          "why": "Exact correspondence, using strict inequality D + K * m < |pol.queue τ ω j - γstar j| and probability measure μ.",
+          "kind": "agrees"
+        }
+      ],
+      "scope": "Covers Paper Theorem 3 in full for all V >= 1 under the Section III nonnegative-cost model. Explicit 1 <= V aligns with Theorem 4 and is a candidate minor clarification for the manuscript's Theorem 3 statement. All noncomputable definitions (dual, dualState, eucDist, deviationProb) are classical analysis/measure-theory quantities without any algorithmic conflict; all external dependencies are standard Mathlib/Lean packages.",
+      "default_assessments": {
+        "08b927fc6b3de9947b379e1470eec5cbb779525c12f4c22bcd7c36b54fee3018": {
+          "status": "justified",
+          "explanation": "In MarkovProcess.mk, ENNReal.ofReal is only applied to M.P s s', which is guaranteed nonnegative by M.P_nonneg."
+        },
+        "4cb612f71fc19868133f1e7cc9e4a47b30b5a96132ade46393531835ddbd69b3": {
+          "status": "justified",
+          "explanation": "In NetworkModel.dualState, iInf over Action s is taken on a nonempty compact space (M.actionNonempty, M.actionCompact) of a continuous bounded function, so the range is nonempty and bounded below and the infimum is genuine."
+        },
+        "c4a3d5c427459b329e0dcb2d61369b85039d0f24823e9a1967393db00a6ea604": {
+          "status": "justified",
+          "explanation": "In NetworkModel.eucDist, Real.sqrt is applied to ∑ j : Fin r, (a j - b j) ^ 2, which is always nonnegative."
+        },
+        "60c3a27e87e36228426ecb72b7420102b823300121890686cf72456af6c664a5": {
+          "status": "justified",
+          "explanation": "In deviationProb, μ is a probability measure ([IsProbabilityMeasure μ]), so μ {...} <= 1 < ⊤ and ENNReal.toReal never hits the ⊤.toReal = 0 default."
+        },
+        "2ddda513a476f695972d6bc494283e824873e2839179439982fab424742a0336": {
+          "status": "justified",
+          "explanation": "In deviationProb, EReal division 1 / t at t = 0 does not affect Filter.limsup along Filter.atTop, since every t >= 1 has nonzero denominator."
+        }
+      },
+      "advice": "Recommend approval. Optionally consider adding the explicit range V >= 1 (or V > 0) to Theorem 3 in the manuscript so it matches Theorem 4 L611.",
+      "suggested_feedback": "Theorem 3 in the paper does not explicitly state V >= 1; please confirm that restricting Theorem 3 to V >= 1 (matching Theorem 4) and nonnegative costs f in [0, delta_max] matches the intended statement."
+    }
+  },
+  "thm:qlalifo_delay": {
+    "bindings": {
+      "paper": "f007d3b7f2091d7712102673f51f5dd1244df7d271dd74dd4398208574e72efc",
+      "statement": "47754462295bebbcd14e2f6e55aaf15c88a4c4e12c88c5c6dbd3472cd953f099",
+      "expected": "LifoBackpressure.Statements.Theorem4Statement",
+      "toolchain": "leanprover/lean4:v4.33.1",
+      "manifest": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096"
+    },
+    "paper_reading": "Under the Section III–V stochastic network model running LIFO-Backpressure, suppose V >= 1, gamma_V^* is unique, Slater slackness (eq:slackness) holds, g(gamma_V^*) >= g(gamma) + L ||gamma_V^* - gamma|| for all gamma >= 0 with L > 0 independent of V, and time averages under Backpressure exist with probability 1 (and equal their limiting expectations in the proof's DCT step). Let D, K, c^* = Theta(1) be the constants from Theorem 3, Q_{j,High} := gamma_{Vj}^* + D + K [log(V)]^2, Q_{j,Low} := max[gamma_{Vj}^* - D - K [log(V)]^2, 0], and B_j := [Q_{j,Low}, Q_{j,High}] (endpoints reversed as a typo at L605/L664). For any queue j with time-average arrival rate lambda_j > 0: (a) the rate lambda_tilde_j of packets arriving when q_j(t) in B_j that eventually depart satisfies lambda_j >= lambda_tilde_j >= [lambda_j - delta_max c^* / V^{log(V)}]^+; (b) the average delay of these packets is at most W_bound := [2 D + 2 K [log(V)]^2 + delta_max] / lambda_tilde_j.",
+    "lean_reading": "For any NetworkModel M, η : ℝ with M.HasSlackness η, and L > 0: there exist strictly positive constants D, K, cstar > 0 independent of V, γstar, Ω, μ, proc, pol, j, and the packet realization such that for every V >= 1, every γstar satisfying M.IsUniqueDualOpt V γstar and M.DualPolyhedral V γstar L, every probability space (Ω, μ), MarkovProcess proc, Backpressure policy pol (pol.FollowsBackpressure V), queue j : Fin M.r, discrete unit-packet LIFO buffer realization Q : LifoQueueRealization pol j ι (integer packet arrivals matching M.arrival, fixed nonnegative integer slots with max(q_j(τ) - δmax, 0) <= slot < q_j(τ) + δmax, disjoint slot occupancy, never-departing count <= q_j(τ), and measurability of never-departing count), and deterministic reals lamJ > 0 and lamTilde to which the full arrival rate and in-window arrival rate (with backlogWindow = [qLow, qHigh]) converge μ-almost surely: (a) the arrival rate of in-window eventually-departing packets converges μ-almost surely to lamTilde, and max(lamJ - M.δmax * cstar / V^(Real.log V), 0) <= lamTilde <= lamJ; (b) assuming additionally 0 < lamTilde, the limsup average delay of Q.windowBufferSystem (restricted to in-window eventually-departing packets) satisfies limsup avgDelay(t) <= ((2 * D + 2 * K * (Real.log V)^2 + 2 * M.δmax + 1) / lamTilde : EReal) μ-almost surely.",
+    "paper_refs": "paper/qla-lifo-tech2-v5.tex:L610-L629; L586-L607; L635-L666; L315-L319",
+    "lean_refs": "lean/Statements/LifoDelay.lean:L19-L172 (qHigh, qLow, backlogWindow, LifoQueueRealization, windowDepartingSet, windowDepartingArrivals, enlargedBufferSlots, windowBufferSystem, Theorem4Statement); lean/Statements/Little.lean:L15-L77; lean/Statements/SystemModel.lean:L17-L208",
+    "result": "difference",
+    "issue": "Theorem4Statement formalizes the clean, mathematically sound version of Theorem 4 and therefore differs from the printed manuscript in five concrete ways (one coarser constant in Part (b) plus four missing hypotheses/corrections): (1) Part (b)'s numerator is 2D + 2K[log V]^2 + 2*delta_max + 1 rather than the paper's 2D + 2K[log V]^2 + delta_max, because under Eq. (3) service up to delta_max occurs before arrivals so arriving packets can enter slots as low as max(Q_{j,Low} - delta_max, 0) (adding +delta_max to the buffer window width) and discrete integer slot counting adds at most +1; (2) Part (b) adds the explicit guard 0 < lamTilde (omitted in the paper, where V >= 1 alone allows lamTilde = 0 and division by zero in W_bound); (3) Lean assumes a.s.-constant deterministic time-average arrival rates lamJ and lamTilde (whereas L593 only states that time averages exist a.s., which is insufficient for the DCT step equating sample-path averages to expectations at L641-L648); (4) Lean adds an explicit discrete unit-packet LifoQueueRealization coupling packets and integer slots to real-valued Eq. (3) dynamics; and (5) Lean corrects the reversed-endpoint typo B_j = [Q_{j,High}, Q_{j,Low}] at L605/L664 to [Q_{j,Low}, Q_{j,High}].",
+    "actor": "Author",
+    "next": "Review the five mathematical discrepancies and record synchronized manuscript revision suggestions in manuscript-edits.json (updating W_bound to include +2*delta_max + 1 under Eq. (3) or explicitly adopting arrivals-before-service dynamics, adding the lambda_tilde_j > 0 guard in Part (b), stating a.s.-constant/ergodic time averages at L593, stating the integer-packet LIFO slot model, and reversing the endpoint typos at L605 and L664), then confirm whether Theorem4Statement is the desired target statement for formal verification.",
+    "analysis": {
+      "summary": "LifoBackpressure.Statements.Theorem4Statement intentionally formalizes the mathematically sound version of Paper Theorem 4 (thm:qlalifo_delay) across all 11 numbered obligations (C1-C11), exposing genuine gaps and a constant error in the printed manuscript. Part (a) matches the paper's rate bounds verbatim once a.s.-constant time averages (C5) and a discrete unit-packet LIFO realization (C7) are added and the reversed-endpoint typo at L605 is corrected (C4). Part (b) adds the missing guard 0 < lamTilde (C8) to avoid division by zero when V >= 1 is small, and proves the coarser bound (2D + 2K[log V]^2 + 2*delta_max + 1) / lamTilde instead of the paper's (2D + 2K[log V]^2 + delta_max) / lamTilde (C11, weaker conclusion) because Eq. (3) serves up to delta_max packets before arrivals—shifting the bottom reachable buffer slot down by delta_max—and discrete integer slot counting adds up to +1. Both bounds have the same O([log V]^2 / lamTilde) asymptotic order, but because C11 has a strictly larger numerator, the comparison result is recorded as difference for author review and manuscript revision tracking.",
+      "cases": [
+        {
+          "case": "C1: Section III-V system model under LIFO-Backpressure",
+          "paper": "Section III-V stochastic network model running LIFO-Backpressure (L280-L319, L430-L435, L619).",
+          "lean": "NetworkModel M (f in [0, δmax], explicit Nonempty (Action s)), MarkovProcess proc, Policy pol with pol.FollowsBackpressure V (deterministic choice(s, q)).",
+          "why": "Matches the Section III-V model under the same nonnegative-cost normalization and deterministic Backpressure selector used in Theorems 2 and 3.",
+          "kind": "restriction"
+        },
+        {
+          "case": "C2: Control parameter V >= 1",
+          "paper": "V >= 1 (L599, L611).",
+          "lean": "1 <= V.",
+          "why": "Exact match.",
+          "kind": "agrees"
+        },
+        {
+          "case": "C3: Unique dual optimum, Slater eta-slackness, and V-independent polyhedral dual growth",
+          "paper": "Unique gamma_V^*, eta-slackness (Eq. 2), and g(gamma_V^*) >= g(gamma) + L ||gamma_V^* - gamma|| for all gamma >= 0 with L > 0 independent of V (L611-L617).",
+          "lean": "M.HasSlackness η (finite Fin m convex combination), 0 < L outside ∀ V, M.IsUniqueDualOpt V γstar, and M.DualPolyhedral V γstar L.",
+          "why": "Exact match up to the equivalent finite convex combination form of HasSlackness (by compactness and Caratheodory's theorem).",
+          "kind": "other form"
+        },
+        {
+          "case": "C4: Constants D, K, c^* and backlog window B_j",
+          "paper": "D, K, c^* = Theta(1) from Theorem 3; Q_{j,High} = gamma_{Vj}^* + D + K[log V]^2, Q_{j,Low} = max[gamma_{Vj}^* - D - K[log V]^2, 0], and B_j := [Q_{j,High}, Q_{j,Low}] (reversed endpoints at L605/L664; corrected to [Q_{j,Low}, Q_{j,High}] at L652).",
+          "lean": "Existential D, K, cstar > 0 independent of V (instantiated by Theorem 3 in the proof); qHigh, qLow, and backlogWindow := Set.Icc (qLow ...) (qHigh ...).",
+          "why": "Corrects the typographical reversal [Q_{j,High}, Q_{j,Low}] at L605/L664 to the non-empty interval [Q_{j,Low}, Q_{j,High}] actually used in the proof at L652.",
+          "kind": "chosen reading"
+        },
+        {
+          "case": "C5: Almost-sure constancy (ergodicity) of time-average arrival rates",
+          "paper": "L593 assumes only that time averages under Backpressure exist with probability 1, yet L641-L648 invokes DCT to equate the a.s. sample-path average to the limiting expectation.",
+          "lean": "Explicitly takes deterministic constants lamJ, lamTilde : ℝ and assumes the full arrival rate converges a.s. to lamJ and the in-window arrival rate converges a.s. to lamTilde.",
+          "why": "Without a.s. constancy (ergodicity), a random a.s. limit X(ω) only satisfies E[X] = lim (1/t) sum E[...], not X(ω) = lim (1/t) sum E[...] a.s. Lean adds the exact deterministic-limit hypothesis needed to make the proof valid.",
+          "kind": "added hypothesis"
+        },
+        {
+          "case": "C6: Positive time-average input rate lambda_j > 0 for queue j",
+          "paper": "For any queue j with time-average input rate lambda_j > 0 (L587-L591, L618).",
+          "lean": "∀ (j : Fin M.r) ... (lamJ : ℝ), 0 < lamJ and a.s. convergence of (1/t) sum_{τ < t} A_j(τ) to lamJ.",
+          "why": "Exact correspondence (with a.s. constancy tracked separately in C5).",
+          "kind": "agrees"
+        },
+        {
+          "case": "C7: Discrete unit-packet LIFO buffer realization",
+          "paper": "Section III defines real-valued A_j, mu_j, q_j in R_+, while L205, L217, L594, and L664-L665 informally treat packets as unit-sized discrete jobs occupying fixed LIFO buffer slots so Theorem 1 applies.",
+          "lean": "Explicitly quantifies over a LifoQueueRealization pol j ι coupling discrete packets (arrival, depart, integer slot) to M.arrival and pol.queue via arrivals_at_eq, slot_bounds (max(q_j(τ) - δmax, 0) <= slot < q_j(τ) + δmax), disjoint_slots, never_depart_le_queue, and measurable_never_depart.",
+          "why": "Makes explicit the unstated discrete unit-packet LIFO slot model required to define individual packet delays and invoke Theorem 1.",
+          "kind": "added hypothesis"
+        },
+        {
+          "case": "C8: Missing positivity guard lambda_tilde_j > 0 in Part (b)",
+          "paper": "Theorem 4 states Part (b) without requiring lambda_tilde_j > 0, even though V >= 1 allows lambda_j - delta_max * c^* / V^{log V} <= 0 and lambda_tilde_j = 0, causing division by zero in W_bound (L624, L628).",
+          "lean": "Explicitly guards Part (b) with 0 < lamTilde →.",
+          "why": "Necessary for well-definedness of W_bound and to satisfy Theorem 1's strict positivity hypothesis lambda_min > 0 (and guarantee infinitely many departures).",
+          "kind": "added hypothesis"
+        },
+        {
+          "case": "C9: Part (a) identification of lambda_tilde_j and upper bound lambda_tilde_j <= lambda_j",
+          "paper": "The rate lambda_tilde_j of packets arriving when q_j(t) in B_j that eventually depart satisfies lambda_tilde_j <= lambda_j (L621-L624).",
+          "lean": "Concludes both ∀ᵐ ω ∂μ, Tendsto (fun t => Q.windowDepartingArrivals / t) atTop (nhds lamTilde) and lamTilde <= lamJ.",
+          "why": "Exact match (and explicitly confirms the paper's claim at L637-L638 that the eventually-departing in-window rate equals the total in-window arrival rate).",
+          "kind": "agrees"
+        },
+        {
+          "case": "C10: Part (a) lower bound lambda_tilde_j >= [lambda_j - delta_max c^* / V^{log(V)}]^+",
+          "paper": "lambda_tilde_j >= [lambda_j - delta_max c^* / V^{log(V)}]^+ (L624).",
+          "lean": "max (lamJ - M.δmax * cstar / (V ^ Real.log V)) 0 <= lamTilde.",
+          "why": "Exact match (for V >= 1, V^(Real.log V) = exp((log V)^2) matches e^{-m} at m = [log V]^2).",
+          "kind": "agrees"
+        },
+        {
+          "case": "C11: Part (b) average delay bound numerator (+2*delta_max + 1 vs +delta_max)",
+          "paper": "Average delay of in-window eventually-departing packets is at most [2D + 2K[log(V)]^2 + delta_max] / lambda_tilde_j, asserting |B̃_j| <= 2D + 2K[log(V)]^2 + delta_max for B̃_j = [Q_{j,High} + delta_max, Q_{j,Low}] (L628, L664-L665).",
+          "lean": "∀ᵐ ω ∂μ, Filter.limsup (fun t => ((Q.windowBufferSystem ...).avgDelay t : EReal)) Filter.atTop <= (((2 * D + 2 * K * (Real.log V) ^ 2 + 2 * M.δmax + 1) / lamTilde : ℝ) : EReal).",
+          "why": "Under Eq. (3) (q_j(t+1) = max(q_j(t) - mu_j(t), 0) + A_j(t)), service mu_j(t) <= delta_max occurs before arrivals A_j(t) <= delta_max, so packets arriving when q_j(t) in [Q_{j,Low}, Q_{j,High}] can land in integer slots down to max(Q_{j,Low} - delta_max, 0) and up to < Q_{j,High} + delta_max. The interval [max(Q_{j,Low} - delta_max, 0), Q_{j,High} + delta_max) has width at most 2D + 2K[log V]^2 + 2*delta_max and contains Ceil(b) - Ceil(a) < (b - a) + 1 integer slots, yielding the sound numerator 2D + 2K[log V]^2 + 2*delta_max + 1. Note also that while enlargedBufferSlots uses Nat.floor at the lower endpoint, avgDelay is independent of the ambient slot set B, so the proof can invoke Theorem 1 on the tighter subset Ico (Nat.ceil ...) (Nat.ceil ...) of cardinality <= 2D + 2K[log V]^2 + 2*delta_max + 1. Because the formalized numerator exceeds the paper's by delta_max + 1, this is a weaker (coarser) constant bound, though still O([log V]^2 / lambda_tilde_j).",
+          "kind": "weaker conclusion"
+        }
+      ],
+      "scope": "Theorem4Statement captures the complete mathematically sound O([log V]^2) LIFO-Backpressure delay guarantee (Part (a) exact, Part (b) with the sound numerator 2D + 2K[log V]^2 + 2*delta_max + 1 under Eq. (3) and explicit 0 < lamTilde guard). It does not prove the printed manuscript's tighter numerator 2D + 2K[log V]^2 + delta_max under Eq. (3), nor does it hold without a.s.-constant time averages, 0 < lamTilde, and a discrete packet realization. All noncomputable definitions are classical analysis/cardinality/measure-theory operations without any algorithmic conflict; all external dependencies are standard Mathlib/Lean packages.",
+      "default_assessments": {
+        "17496ac8147da2fea163e8476c95919dcc14a1a3e828eb62f102f8fd0fffb8e3": {
+          "status": "justified",
+          "explanation": "In avgDelay of windowBufferSystem, under the Part (b) guard 0 < lamTilde, Part (a) gives a.s. arrival rate lamTilde > 0 into the finite enlarged buffer set, forcing departuresCount t -> infinity a.s. so the Filter.limsup tail never divides by zero."
+        },
+        "324f982794a89ab5d027a968a2525f36cb0e96ed9a89d3cda7c303be1a273704": {
+          "status": "justified",
+          "explanation": "In jobDelay, Nat subtraction d - arrival k never truncates because LifoQueueRealization.arrival_le_depart guarantees arrival k <= d whenever depart k = some d."
+        },
+        "08b927fc6b3de9947b379e1470eec5cbb779525c12f4c22bcd7c36b54fee3018": {
+          "status": "justified",
+          "explanation": "In MarkovProcess.mk, ENNReal.ofReal is only applied to M.P s s', which is guaranteed nonnegative by M.P_nonneg."
+        },
+        "4cb612f71fc19868133f1e7cc9e4a47b30b5a96132ade46393531835ddbd69b3": {
+          "status": "justified",
+          "explanation": "In NetworkModel.dualState, iInf over Action s is taken on a nonempty compact space (M.actionNonempty, M.actionCompact) of a continuous bounded function, so the infimum is genuine and finite."
+        },
+        "c4a3d5c427459b329e0dcb2d61369b85039d0f24823e9a1967393db00a6ea604": {
+          "status": "justified",
+          "explanation": "In NetworkModel.eucDist, Real.sqrt is applied to a finite sum of squares, which is always nonnegative."
+        },
+        "50e3f4ba7ad59720bf50879eb8d9a73517ccf82aac579108b611e19ee7a55143": {
+          "status": "justified",
+          "explanation": "In Theorem4Statement, real divisions are: 1 / t inside Filter.Tendsto along Filter.atTop (t = 0 is ignored by the tail), M.δmax * cstar / (V ^ Real.log V) where 1 <= V ensures V ^ Real.log V >= 1 > 0, and (2*D + 2*K*(Real.log V)^2 + 2*M.δmax + 1) / lamTilde which is explicitly guarded by 0 < lamTilde."
+        },
+        "989fe608457c89d97bad85f390139c4bd250527c0e075557a43c55c1b0e34799": {
+          "status": "justified",
+          "explanation": "In Theorem4Statement, Real.log V is evaluated only under the explicit hypothesis 1 <= V, where V > 0 and Real.log V >= 0."
+        },
+        "518d2b02a04eaf855157bac87b36130dc000e0e83ab70ee563fb92ccf36c2ffd": {
+          "status": "justified",
+          "explanation": "In qHigh, Real.log V is invoked in Theorem4Statement only under 1 <= V, where V > 0."
+        },
+        "a06e664502156d22b12dfd8255b71a163dfbc3f7dadbdf14ce8fcd3c3384751b": {
+          "status": "justified",
+          "explanation": "In qLow, Real.log V is invoked in Theorem4Statement only under 1 <= V, where V > 0."
+        }
+      },
+      "advice": "Do not approve as an exact match to the unedited manuscript; instead review the five identified manuscript discrepancies (especially the +2*delta_max + 1 buffer width under Eq. (3) and the missing lambda_tilde_j > 0 guard in Part (b)), track them as proposed manuscript revisions in manuscript-edits.json, and confirm whether Theorem4Statement should be accepted as the clean target formal statement.",
+      "suggested_feedback": "Theorem 4 in the manuscript needs five mathematical clarifications/fixes to match the true statement proved in Lean: (1) under Eq. (3) service-before-arrival dynamics and integer slot rounding, enlarge the buffer window to [max(Q_{j,Low} - delta_max, 0), Q_{j,High} + delta_max) and update W_bound's numerator to 2D + 2K[log(V)]^2 + 2*delta_max + 1; (2) add the hypothesis lambda_tilde_j > 0 to Part (b); (3) strengthen the L593 assumption from 'time averages exist a.s.' to 'time averages exist and are a.s. constant'; (4) state the integer unit-packet LIFO buffer slot assumptions explicitly; and (5) fix the reversed interval endpoints at L605 and L664."
+    }
+  }
+}

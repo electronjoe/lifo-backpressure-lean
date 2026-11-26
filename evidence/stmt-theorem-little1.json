@@ -1,0 +1,296 @@
+{
+  "statement_only": true,
+  "contract": "Contracts/Theorem1Statement.lean",
+  "expected": "LifoBackpressure.Statements.Theorem1Statement",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "axiom_profile": "Standard classical axioms (Classical.choice, Quot.sound, propext)",
+  "external_packages": [
+    {
+      "name": "aesop",
+      "rev": "3448c0bcc5ce01b2d1546e483ec3620e32df3d0e",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/aesop"
+    },
+    {
+      "name": "batteries",
+      "rev": "4488d40d070b9700d4d5a6aa342f0d40c31b2a2d",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/batteries"
+    },
+    {
+      "name": "Cli",
+      "rev": "6130a47896ce867c6a4a55373441e59e565bad0f",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover/lean4-cli"
+    },
+    {
+      "name": "importGraph",
+      "rev": "16f02aa7642864af59f1ff0e384a015994db9118",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/import-graph"
+    },
+    {
+      "name": "LeanSearchClient",
+      "rev": "5f4d51b81cbd3f6b32b156bfad9056621a040404",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/LeanSearchClient"
+    },
+    {
+      "name": "mathlib",
+      "rev": "0df444a360eaa60ab8c11dca51a86af692955474",
+      "direct": true,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/mathlib4.git"
+    },
+    {
+      "name": "plausible",
+      "rev": "b7eb3304aeae834b12dda98993a37f6a41f6f0bb",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/plausible"
+    },
+    {
+      "name": "proofwidgets",
+      "rev": "4be2e3d5087eeb272cf5a8853b8f9dd025ef5957",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/ProofWidgets4"
+    },
+    {
+      "name": "Qq",
+      "rev": "92c15be17b7caf78c2ad767ec40f89052d908d81",
+      "direct": false,
+      "third_party": false,
+      "url": "https://github.com/leanprover-community/quote4"
+    }
+  ],
+  "targets": [],
+  "input_scope": "module-closure",
+  "checked_inputs": {
+    "Contracts/Theorem1Statement.lean": "6e4de1cc6148a4d58311643b7c2cc8af9f5086e50e410fe130b540019c98f7c3",
+    "Prelude.lean": "e6864d66bad90c63d1d67823febbb1048985b8921d4a0d5fd0481346e39a2a4c",
+    "Statements/Little.lean": "e15796718bb358fe36c630f12f7ba19cdd58a42211a713a70db9bf330a7d9ac2",
+    "lake-manifest.json": "8b33a113c4c29c2b9df7ccb89dfb3e01e6236c87f5b562744afd57bfd73b3096",
+    "lakefile.toml": "648983835bb95c7632e9469301891733b17a1e13cb395d0b8e4bc5663cf88722",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "checked_lean_loc": 77,
+  "statements": [
+    "Statements"
+  ],
+  "hygiene": {
+    "checked": true,
+    "statements_checked": true
+  },
+  "lean_output": "'LifoBackpressure.Statements.Theorem1Statement' depends on axioms: [propext, Classical.choice, Quot.sound]",
+  "statement": {
+    "expected": "LifoBackpressure.Statements.Theorem1Statement",
+    "sha256": "a8ad5d7381c2dd637dbf4f32e75e20089ff546149c3212dbb97f47ba49d3a67f",
+    "constants": [
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem",
+        "file": "Statements/Little.lean",
+        "lines": [
+          15,
+          33
+        ],
+        "sha256": "e9ca5da5814901fab51a3b3ec9ee8fbf3a816c25d37e92aeb98a0e02ea4de753",
+        "noncomputable": false,
+        "pp_no_notation": "(B : Type u_1) \u2192 [Fintype B] \u2192 Type u_2 \u2192 Type (max u_1 u_2)"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.arrival",
+        "file": "Statements/Little.lean",
+        "lines": [
+          20,
+          20
+        ],
+        "sha256": "d078a656bfde69778fd0178ff9188a4a1560741f29020ddc9cd17249237b9b4f",
+        "noncomputable": false,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 \u03b9 \u2192 Nat := fun B [Fintype B] \u03b9 self => self.1"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.arrivalsCount",
+        "file": "Statements/Little.lean",
+        "lines": [
+          57,
+          59
+        ],
+        "sha256": "6f724c114cfbbe4109e7e0659556cfad9c1785c02a7023aff360479ead6a2417",
+        "noncomputable": true,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 Nat \u2192 Nat := fun {B} [Fintype B] {\u03b9} sys t => \u22ef.toFinset.card"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.avgDelay",
+        "file": "Statements/Little.lean",
+        "lines": [
+          75,
+          77
+        ],
+        "sha256": "8afdb13283a2c77e326d2160a2e763034a8807e3e251182bbf83889802b8b4e9",
+        "noncomputable": true,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 Nat \u2192 Real := fun {B} [Fintype B] {\u03b9} sys t => HDiv.hDiv \u2191(sys.totalDelay t) \u2191(sys.departuresCount t)"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.depart",
+        "file": "Statements/Little.lean",
+        "lines": [
+          22,
+          22
+        ],
+        "sha256": "9e35b960efbb5c604e076e5604ef98eb3c1904ae9278faf533d825386dd20beb",
+        "noncomputable": false,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 \u03b9 \u2192 WithTop Nat := fun B [Fintype B] \u03b9 self => self.2"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.departuresCount",
+        "file": "Statements/Little.lean",
+        "lines": [
+          61,
+          63
+        ],
+        "sha256": "fb24dbcff4ff7023b9fb7da40ada03d51ddfa25b6509f0ab0cbeaaaba903bf88",
+        "noncomputable": true,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 Nat \u2192 Nat := fun {B} [Fintype B] {\u03b9} sys t => \u22ef.toFinset.card"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.departuresSet",
+        "file": "Statements/Little.lean",
+        "lines": [
+          43,
+          45
+        ],
+        "sha256": "55be5a85f8e6e79c1ed2d961285faee2c38fdae5b0cffca42f6eaf6443f3b50c",
+        "noncomputable": false,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 Nat \u2192 Set \u03b9 := fun {B} [Fintype B] {\u03b9} sys t => Set.ofPred fun k => LE.le (sys.depart k) \u2191t"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.finite_arrivals",
+        "file": "Statements/Little.lean",
+        "lines": [
+          28,
+          28
+        ],
+        "sha256": "6f13f3800a762956b0c29642e952b2569eef42f682b195a7ada0519457c9210d",
+        "noncomputable": false,
+        "pp_no_notation": "\u2200 {B : Type u_1} [inst : Fintype B] {\u03b9 : Type u_2} (self : LifoBackpressure.Statements.BufferSystem B \u03b9) (t : Nat),\n  (Set.ofPred fun k => LT.lt (self.arrival k) t).Finite"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.finite_departures",
+        "file": "Statements/Little.lean",
+        "lines": [
+          47,
+          55
+        ],
+        "sha256": "6b7fdc5fa3c8c81bb0d58ae0bd9aa35f0920c1384075661c673a0ec10e447cd7",
+        "noncomputable": false,
+        "pp_no_notation": "\u2200 {B : Type u_1} [inst : Fintype B] {\u03b9 : Type u_2} (sys : LifoBackpressure.Statements.BufferSystem B \u03b9) (t : Nat),\n  (sys.departuresSet t).Finite"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.jobDelay",
+        "file": "Statements/Little.lean",
+        "lines": [
+          65,
+          69
+        ],
+        "sha256": "450727063b1bc04c217c1206f3932e30c9ab5acfd4754284ae883ed3d6982d3d",
+        "noncomputable": false,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 \u03b9 \u2192 Nat := fun {B} [Fintype B] {\u03b9} sys k =>\n  LifoBackpressure.Statements.BufferSystem.jobDelay.match_1 (fun x => Nat) (sys.depart k)\n    (fun d => HSub.hSub d (sys.arrival k)) fun _ => 0"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.jobDelay.match_1",
+        "file": "Statements/Little.lean",
+        "lines": null,
+        "sha256": "4e1fc956407518c46b18fb1a446160350d23a93aec67219fd9ae1dbc7f976656",
+        "noncomputable": false,
+        "pp_no_notation": "(motive : WithTop Nat \u2192 Sort u_1) \u2192 (x : WithTop Nat) \u2192 ((d : Nat) \u2192 motive (some d)) \u2192 (Unit \u2192 motive none) \u2192 motive x := fun motive x h_1 h_2 => Option.casesOn x (h_2 Unit.unit) fun val => h_1 val"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.mk",
+        "file": "Statements/Little.lean",
+        "lines": [
+          18,
+          18
+        ],
+        "sha256": "07439e76ef5c03730e7bd5cc0284233a0b57dff42ebf6d7fe4cd10c261c9e59b",
+        "noncomputable": false,
+        "pp_no_notation": "{B : Type u_1} \u2192\n  [inst : Fintype B] \u2192\n    {\u03b9 : Type u_2} \u2192\n      (arrival : \u03b9 \u2192 Nat) \u2192\n        (depart : \u03b9 \u2192 WithTop Nat) \u2192\n          (slot : \u03b9 \u2192 B) \u2192\n            (\u2200 (k : \u03b9), LE.le (\u2191(arrival k)) (depart k)) \u2192\n              (\u2200 (t : Nat), (Set.ofPred fun k => LT.lt (arrival k) t).Finite) \u2192\n                (\u2200 (k\u2081 k\u2082 : \u03b9),\n                    Ne k\u2081 k\u2082 \u2192\n                      Eq (slot k\u2081) (slot k\u2082) \u2192\n                        \u2200 (\u03c4 : Nat),\n                          Not\n                            (And (And (LE.le (arrival k\u2081) \u03c4) (LT.lt (\u2191\u03c4) (depart k\u2081)))\n                              (And (LE.le (arrival k\u2082) \u03c4) (LT.lt (\u2191\u03c4) (depart k\u2082))))) \u2192\n                  LifoBackpressure.Statements.BufferSystem B \u03b9"
+      },
+      {
+        "name": "LifoBackpressure.Statements.BufferSystem.totalDelay",
+        "file": "Statements/Little.lean",
+        "lines": [
+          71,
+          73
+        ],
+        "sha256": "d89c404509fb2d254e84d8c981ca01e4c193997b0d16b5228868fdd432fd4482",
+        "noncomputable": true,
+        "pp_no_notation": "{B : Type u_1} \u2192 [inst : Fintype B] \u2192 {\u03b9 : Type u_2} \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9 \u2192 Nat \u2192 Nat := fun {B} [Fintype B] {\u03b9} sys t => \u22ef.toFinset.sum fun k => sys.jobDelay k"
+      },
+      {
+        "name": "LifoBackpressure.Statements.Theorem1Statement",
+        "file": "Statements/Little.lean",
+        "lines": [
+          93,
+          107
+        ],
+        "sha256": "783a495b288c9a2998ac92efced8ab5020172855e56023fdda948d9e0dd7d6c1",
+        "noncomputable": false,
+        "pp_no_notation": "Prop := \u2200 (B : Type) [inst : Fintype B] (\u03b9 \u03a9 : Type) [inst_1 : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9)\n  [MeasureTheory.IsProbabilityMeasure \u03bc] (sys : \u03a9 \u2192 LifoBackpressure.Statements.BufferSystem B \u03b9) (lamMin : Real),\n  LT.lt 0 lamMin \u2192\n    Filter.Eventually\n        (fun \u03c9 => LE.le (\u2191lamMin) (Filter.liminf (fun t => HDiv.hDiv \u2191\u2191((sys \u03c9).arrivalsCount t) \u2191\u2191t) Filter.atTop))\n        (MeasureTheory.ae \u03bc) \u2192\n      Filter.Eventually (fun \u03c9 => Filter.Tendsto (fun t => (sys \u03c9).departuresCount t) Filter.atTop Filter.atTop)\n          (MeasureTheory.ae \u03bc) \u2192\n        Filter.Eventually\n          (fun \u03c9 =>\n            LE.le (Filter.limsup (fun t => \u2191((sys \u03c9).avgDelay t)) Filter.atTop) \u2191(HDiv.hDiv (\u2191(Fintype.card B)) lamMin))\n          (MeasureTheory.ae \u03bc)"
+      }
+    ]
+  },
+  "defaults": [
+    {
+      "constant": "LifoBackpressure.Statements.BufferSystem.avgDelay",
+      "file": "Statements/Little.lean",
+      "lines": [
+        75,
+        77
+      ],
+      "construct": "HDiv.hDiv",
+      "type": "\u211d"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.BufferSystem.jobDelay",
+      "file": "Statements/Little.lean",
+      "lines": [
+        65,
+        69
+      ],
+      "construct": "HSub.hSub",
+      "type": "\u2115"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.Theorem1Statement",
+      "file": "Statements/Little.lean",
+      "lines": [
+        93,
+        107
+      ],
+      "construct": "HDiv.hDiv",
+      "type": "EReal"
+    },
+    {
+      "constant": "LifoBackpressure.Statements.Theorem1Statement",
+      "file": "Statements/Little.lean",
+      "lines": [
+        93,
+        107
+      ],
+      "construct": "HDiv.hDiv",
+      "type": "\u211d"
+    }
+  ],
+  "reachable_local_defs": 14
+}

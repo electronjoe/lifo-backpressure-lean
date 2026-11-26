@@ -1,0 +1,50 @@
+# Proof Atlas Skill Lessons & Issues Journal
+
+Running log of issues, edge cases, and improvement opportunities encountered while applying `../proof-atlas/build-proof-atlas` (`v0.11.0`) to `arXiv:1008.4895v2` (*LIFO-Backpressure Achieves Near Optimal Utility-Delay Tradeoff*).
+
+---
+
+## 2026-11-26 — Initial Setup & Inventory
+
+### 1. `import_arxiv.py` regex fails on nested braces in `\newtheorem`
+* **Where:** `build-proof-atlas/scripts/import_arxiv.py` L198 (`r"\\newtheorem\*?\{([\w*-]+)\}(?:\[[^\]]+\])?\{([^{}]+)\}"`).
+* **Symptom:** `paper/qla-lifo-tech2-v5.tex` L93 declares `\newtheorem{thm}{\textbf{Theorem}}` (very common in older IEEEtran papers). Because `[^{}]+` forbids nested braces, `import_arxiv.py` does not recognize `thm` as a Theorem environment.
+* **Workaround:** Created `project.json` manually with `"environments": ["claim", "coro", "lemma", "main", "prop", "thm"]`.
+* **Suggested fix:** Strip simple formatting wrappers (`\textbf{...}`, `\emph{...}`, `\textnormal{...}`) or parse one level of balanced braces in `\newtheorem` declarations.
+
+### 2. `atlas.py` `HEADLINE_KINDS` misclassifies `\begin{thm}` as Supporting
+* **Where:** `build-proof-atlas/scripts/atlas.py` L19 (`HEADLINE_KINDS = frozenset({"theorem", "corollary", "proposition"})`) and L367 (`claim["kind"].casefold() in HEADLINE_KINDS`).
+* **Symptom:** Because `inventory()` sets `kind` to the raw LaTeX environment name (`thm`), all four theorems default to `supporting` rather than `headline` unless `"headline": true` is overridden per claim in `reader.json`.
+* **Workaround:** Set `"headline": true` explicitly for all four claims in `reader.json`.
+* **Suggested fix:** Include common aliases (`thm`, `cor`, `coro`, `prop`, `main`) in `HEADLINE_KINDS`, or map `\newtheorem` environments to their canonical printed kind in `project.json`.
+
+### 3. `import_arxiv.py` requires a brand-new directory
+* **Where:** `build-proof-atlas/scripts/import_arxiv.py` L244–245 (`if target.exists(): parser.error(...)`).
+* **Symptom:** When starting a Proof Atlas inside an already-initialized Git repository that already contains `paper/` (`.tex` + `.pdf`) and `references/`, `import_arxiv.py` cannot bootstrap into `.` in place.
+* **Workaround:** Authored `project.json`, `reader.json`, and `import-review.json` directly against `paper/qla-lifo-tech2-v5.tex` and `paper/1008.4895v2.pdf`.
+* **Suggested fix:** Add an `--init-existing` or `atlas.py init` command that hashes existing local `.tex` and `.pdf` files into `project.json` in an existing repo root.
+
+### 4. Detached proofs skipped by `inventory()` when a brief commentary paragraph intervenes
+* **Where:** `build-proof-atlas/scripts/atlas.py` L104 (`re.match(r"\s*\\begin\{proof\}.*?\\end\{proof\}", clean[stop:], re.S)`).
+* **Symptom:** In `paper/qla-lifo-tech2-v5.tex`, Theorem 4 (`\end{thm}` at L629) is followed by a 3-line summary paragraph (L631–633) before `\begin{proof} (Theorem \ref{thm:qlalifo_delay})` at L635. As a result, `inventory()` sets `adjacent_proof: False` and truncates the Paper-view excerpt before the proof. Similarly, Theorem 1's proof is in Appendix A (L1019–1080) and Theorems 2–3's proofs are in bundled companion papers under `references/`.
+* **Suggested fix:** Support an optional `proof_location` / `proof_excerpt` (or explicit line range / companion TeX path) in `reader.json` so detached proofs and companion-paper proofs appear cleanly in the Paper view.
+
+### 5. Optional PDF text/render tools not checked upfront
+* **Where:** `import_arxiv.py` L115–126 (`pdftotext` / `fitz`), and `SKILL.md` Folio hero figure cropping.
+* **Symptom:** When `poppler-utils` (`pdftotext`/`pdftoppm`), `python3-fitz` (PyMuPDF), and `Pillow` are absent in a minimal Linux container, `import_arxiv.py` silently returns empty page lists without warning why page matching failed, and cropping Folio hero figures is unavailable until those packages are installed. (User subsequently installed `poppler-utils`, `python3-fitz`, and `python3-pil`, after which Fig. 1 cropped cleanly.)
+* **Suggested fix:** Emit an explicit warning in `import_arxiv.py` when neither `pdftotext` nor `fitz` is found, and document the recommended system packages (`poppler-utils`, `python3-fitz`, `python3-pil`) in a prerequisites section of `SKILL.md`.
+
+### 6. `atlas.atomic()` creates files with `0600` permissions
+* **Where:** `build-proof-atlas/scripts/atlas.py` L68–71 (`NamedTemporaryFile` + `os.replace`).
+* **Symptom:** Generated files such as `.github/workflows/verify-lean.yml` and `dist/*.html` are created with mode `0600` rather than respecting the user's `umask` (`0644`). Harmless for Git blobs (which normalize to `0644`), but awkward when serving `dist/` via another user/webserver.
+* **Suggested fix:** Set readable permissions (e.g., `os.chmod(temp.name, 0o644)`) or apply the current `umask` before `os.replace`.
+
+### 7. Gate 1 `--statement-only` has no batch mode CLI
+* **Where:** `build-proof-atlas/scripts/audit_lean.py`.
+* **Symptom:** Auditing 4 statements sequentially via `audit_lean.py --statement-only` pays the full Lake/Mathlib startup cost per claim (~35s × 4 ≈ 2.3 min), even though `audit_lean.py` already implements `audit_batch` internally for `verify_ci.py`.
+* **Suggested fix:** Expose a `--batch` / multi-claim CLI mode for `--statement-only` Gate 1 audits so all `Statements/` claims can be fingerprinted in a single Lake invocation.
+
+### 8. `atlas.py manifest` LaTeX snippet leaves Unicode symbols unescaped and flags classical `noncomputable` definitions as caveats
+* **Where:** `build-proof-atlas/scripts/atlas.py` (`manifest` LaTeX formatter).
+* **Symptom:** (a) Free-text strings from `stronger_result` (such as `(Ω, μ)`) are emitted verbatim into `\paragraph{Formal Verification and Scope.}` without escaping Greek Unicode characters for `pdflatex`. (b) On classical real-analysis / probability theorems (with no algorithmic/computability claim), every `noncomputable` helper (`Real.log`, `Real.sqrt`, Bochner integral, `Set.Finite.toFinset`) is listed verbosely under "Active formalization scope caveats", drowning out the genuine mathematical caveats.
+* **Suggested fix:** Escape common Unicode math symbols (`Ω`, `μ`, `≤`, `≥`, `λ`, etc.) in the LaTeX emitter, and either suppress `noncomputable` from the prose caveat list when no `weaker conclusion` / algorithmic conflict is flagged or summarize it concisely (e.g., "uses classical real/measure definitions").

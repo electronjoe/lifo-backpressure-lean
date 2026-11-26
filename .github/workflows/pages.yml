@@ -1,0 +1,80 @@
+name: Publish Proof Atlas
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Verify Lean claims"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: proof-atlas-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build explorer and dashboard from project records
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          args=()
+          if python3 -c 'import json,sys; sys.exit(json.load(open("project.json")).get("hosting",{}).get("lean_ci") != "enabled")'; then
+            runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/verify-lean.yml/runs?branch=main&head_sha=$GITHUB_SHA&per_page=30" --jq '.workflow_runs | map(select(.event=="push" or .event=="workflow_dispatch")) | first | select(.conclusion=="success") | [.id,.run_attempt] | @tsv') || runs=""
+            if [[ -n "$runs" ]]; then
+              read -r id attempt <<< "$runs"
+              if gh run download "$id" --name "lean-verification-$GITHUB_SHA-$attempt" --dir "$RUNNER_TEMP/atlas-evidence"; then
+                args=(--ci-receipt "$RUNNER_TEMP/atlas-evidence/lean-verification.json" --commit "$GITHUB_SHA")
+                artifact_id=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$id/artifacts?name=lean-verification-$GITHUB_SHA-$attempt" --jq '.artifacts[] | select(.expired == false) | .id' | head -1)
+                if [[ "$artifact_id" =~ ^[0-9]+$ ]]; then
+                  args+=(--artifact-id "$artifact_id")
+                fi
+              fi
+            fi
+          fi
+          python3 tools/proof-atlas/scripts/atlas.py build . "${args[@]}"
+      - name: Check publication files and evidence links
+        run: |
+          python3 - <<'PY'
+          import json
+          from hashlib import sha256
+          from pathlib import Path
+          root = Path("dist")
+          for name in ("index.html", "proofs/index.html", "progress.html", "manuscript.pdf", "graph.js", "dagre/dagre.min.js"):
+              assert (root / name).stat().st_size, name
+          from html import escape
+          project = json.loads(Path("project.json").read_text())
+          for name in ("index.html", "proofs/index.html", "progress.html"):
+              html = (root / name).read_text(encoding="utf-8")
+              caption = html.split("</h1>", 1)[1].split("</p>", 1)[0]
+              assert '<a href="manuscript.pdf">' in caption, f"{name}: missing header PDF link"
+              if publication := project.get("publication"):
+                  assert f'<a href="{escape(publication, quote=True)}">' in caption, f"{name}: missing publication link"
+          for item in project.get("work", {}).values():
+              if log := item.get("run_log"):
+                  body = Path(log).read_bytes()
+                  assert (root / "logs" / (sha256(body).hexdigest() + ".txt")).read_bytes() == body
+          PY
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - name: Publish
+        id: publish
+        uses: actions/deploy-pages@v4

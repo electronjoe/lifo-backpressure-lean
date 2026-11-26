@@ -1,6 +1,14 @@
 # Lean 4 / Lake
 /.lake
 /build
+/lean/.lake
+/lean/build
+
+# Proof Atlas generated/ephemeral files
+/dist
+/.proof-atlas-activity
+__pycache__/
+*.pyc
 
 # LaTeX build artifacts
 *.aux

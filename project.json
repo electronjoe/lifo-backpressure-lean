@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "title": "LIFO-Backpressure Achieves Near Optimal Utility-Delay Tradeoff",
+  "authors": [
+    "Longbo Huang",
+    "Scott Moeller",
+    "Michael J. Neely",
+    "Bhaskar Krishnamachari"
+  ],
+  "edition": "arXiv:1008.4895v2",
+  "citation_details": "3 Apr 2011 (arXiv preprint; journal version in IEEE/ACM Trans. Netw. 21(3):831-844, 2012)",
+  "revision": "1008.4895v2",
+  "publication": "https://arxiv.org/abs/1008.4895v2",
+  "paper_overview": "This paper proves that combining the standard Backpressure (MaxWeight / QLA) algorithm with a Last-In-First-Out (LIFO) queueing discipline achieves a time-average utility within O(1/V) of optimal while keeping the average delay of all but an O(1/V^{log V}) fraction of traffic bounded by O([log V]^2) under general finite-state Markovian network dynamics, without requiring statistical knowledge of the network randomness or pre-estimated Lagrange multipliers. All four inventoried claims are established theorems (no conjectures are stated); Theorems 2 and 3 cite proofs in companion papers bundled under references/.",
+  "folio": {
+    "short_title": "LIFO-Backpressure",
+    "featured_claim": "thm:qlalifo_delay",
+    "blurb": "Under LIFO-Backpressure with control parameter V >= 1, all but an O(1/V^{log V}) fraction of arriving packets depart with average delay at most [2D + 2K(log V)^2 + delta_max] / lambda_tilde_j = O([log V]^2).",
+    "figure": {
+      "path": "assets/fig1-lifo-idea.png",
+      "alt": "Simulated single-queue backlog trajectory under Backpressure fluctuating within an O([log V]^2) band around the Theta(V) dual attractor gamma_V^*, paired with a LIFO queue diagram showing arrivals entering and departing inside [Q_Low, Q_High] atop the Theta(V) base backlog.",
+      "caption": "Fig. 1. The LIFO-Backpressure Idea: exponential attraction keeps the backlog within an O([log V]^2) band [Q_Low, Q_High] around gamma_V^*, so LIFO serves almost all arriving packets from the top band.",
+      "page": 2
+    }
+  },
+  "tex": [
+    {
+      "path": "paper/qla-lifo-tech2-v5.tex",
+      "sha256": "5db00bf43e4a238a21a22a86fe41b45c9da52e7023fb08e96e0baccf0250c096"
+    }
+  ],
+  "pdf": {
+    "path": "paper/1008.4895v2.pdf",
+    "sha256": "e58b780d4ab169512cefbf8334bc2f7bbe60451af1ae8b0f675cf911f9cff2b8"
+  },
+  "environments": [
+    "claim",
+    "coro",
+    "lemma",
+    "main",
+    "prop",
+    "thm"
+  ],
+  "claim_order": [
+    "theorem:little1",
+    "theorem:qla-markovian",
+    "thm:prob_multi_con",
+    "thm:qlalifo_delay"
+  ],
+  "hosting": {
+    "decision": "github",
+    "repository": "https://github.com/electronjoe/lifo-backpressure-lean",
+    "visibility": "public",
+    "site": "https://electronjoe.github.io/lifo-backpressure-lean/",
+    "lean_ci": "enabled",
+    "lean_ci_level": "standard"
+  },
+  "proof_work": {
+    "mode": "paper",
+    "profile": "thorough"
+  },
+  "reader": "reader.json",
+  "work": {
+    "theorem:little1": {
+      "status": "drafted",
+      "summary": "Drafted discrete-time LIFO buffer-slot model and Theorem 1 statement; Gate-1 statement-only audit passed.",
+      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
+      "next": "Prove Theorem 1 in Proofs/Little.lean with Section VI-A witness in Examples/LittleWitness.lean and audit closure",
+      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "lean": "lean/Statements/Little.lean",
+      "statement_check": {
+        "audit": "evidence/stmt-theorem-little1.json",
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem1Statement"
+      }
+    },
+    "theorem:qla-markovian": {
+      "status": "drafted",
+      "summary": "Drafted shared Markovian network model and Theorem 2 [O(1/V), O(V)] statement; Gate-1 statement-only audit passed.",
+      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
+      "next": "Prove via Routine/MarkovMixing.lean & Routine/BackpressureDrift.lean (or compose via Assembly.lean)",
+      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "lean": "lean/Statements/MarkovTradeoff.lean",
+      "statement_check": {
+        "audit": "evidence/stmt-theorem-qla-markovian.json",
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem2Statement"
+      }
+    },
+    "thm:prob_multi_con": {
+      "status": "drafted",
+      "summary": "Drafted Theorem 3 exponential attraction statement with V-independent D, K, c*; Gate-1 statement-only audit passed.",
+      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
+      "next": "Prove via Routine/MarkovMixing.lean & Routine/BackpressureDrift.lean (or compose via Assembly.lean)",
+      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "lean": "lean/Statements/ExponentialAttraction.lean",
+      "statement_check": {
+        "audit": "evidence/stmt-thm-prob-multi-con.json",
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem3Statement"
+      }
+    },
+    "thm:qlalifo_delay": {
+      "status": "drafted",
+      "summary": "Drafted clean mathematically sound Theorem 4 statement (explicit lambda_tilde > 0 guard, a.s.-constant rates, Eq. (3) +2 delta_max + 1 slot bound); Gate-1 statement-only audit passed.",
+      "step": "Gate 1 complete (statement-only audit + blind correspondence recorded)",
+      "next": "Prove via Routine/MarkovMixing.lean & Routine/BackpressureDrift.lean (or compose via Assembly.lean)",
+      "updated": "2026-11-26T09:47:57.832274+00:00",
+      "lean": "lean/Statements/LifoDelay.lean",
+      "statement_check": {
+        "audit": "evidence/stmt-thm-qlalifo-delay.json",
+        "package": "lean",
+        "expected": "LifoBackpressure.Statements.Theorem4Statement"
+      }
+    }
+  },
+  "focus": "theorem:little1"
+}

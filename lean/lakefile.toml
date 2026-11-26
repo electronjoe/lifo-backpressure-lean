@@ -1,0 +1,26 @@
+name = "LifoBackpressure"
+version = "0.1.0"
+defaultTargets = ["Statements", "Routine", "Proofs", "Examples", "Assembly"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.33.1"
+
+[[lean_lib]]
+name = "Prelude"
+
+[[lean_lib]]
+name = "Statements"
+
+[[lean_lib]]
+name = "Routine"
+
+[[lean_lib]]
+name = "Proofs"
+
+[[lean_lib]]
+name = "Examples"
+
+[[lean_lib]]
+name = "Assembly"

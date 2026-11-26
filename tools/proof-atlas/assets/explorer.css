@@ -1,0 +1,35 @@
+.feature {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);align-items:center;gap:clamp(1.5rem,4vw,4rem);padding:1.3rem 0;border-block:1px solid var(--rule);border-top:3px double var(--rule)}
+.feature>div:only-child {grid-column:1/-1;max-width:58rem}
+.feature h2 {font:bold clamp(2rem,3.45vw,3.65rem)/1.02 var(--serif);letter-spacing:-.05em;margin:.5rem 0}
+.feature h2 a,.toc-claim {color:var(--ink);text-decoration:none}
+.feature p {font-size:1.1rem;line-height:1.45;max-width:60ch;margin:.65rem 0}
+.read-proof {font-weight:600}.feature figure {margin:0}
+.feature img {width:100%;height:clamp(10rem,17vw,16rem);object-fit:contain;display:block;background:white;border:1px solid var(--rule)}
+.feature figcaption {display:flex;justify-content:space-between;gap:.4rem 1rem;margin-top:.35rem;flex-wrap:wrap}
+.contents {list-style:none;padding:0;margin:0;border-top:1px solid var(--ink)}
+.contents li {display:flex;align-items:center;justify-content:space-between;gap:.7rem;border-bottom:1px solid var(--rule);padding:.57rem 0}
+.toc-claim {display:grid;align-items:baseline;grid-template-columns:clamp(8rem,16vw,14rem) 1fr;gap:.4rem;flex:1}
+.toc-claim strong {font-size:1.12rem}.toc-claim:hover strong {color:var(--accent);text-decoration:underline}
+.contents .status {font:.77rem/1.35 var(--sans);text-align:right;color:var(--muted)}
+.contents .marks {display:flex;flex-direction:column;align-items:flex-end;gap:.15rem}.claim-choice small.approval {font:.68rem/1.35 var(--sans)}.contents .approval.approved,.claim-choice small.approval.approved {color:var(--green)}
+.running {max-width:90rem;margin:.8rem auto 0;padding:0 clamp(1rem,4.5vw,4.5rem);font-size:.78rem}
+.workspace {display:grid;grid-template-columns:minmax(12rem,17rem) minmax(0,1fr);gap:clamp(1.5rem,4.5vw,5rem);align-items:start}
+.workspace>aside {border-top:2px solid var(--ink);padding-top:.7rem}
+.workspace label,.claim-choice small {font:.75rem/1.4 var(--mono);color:var(--muted)}
+.workspace input {display:block;width:100%;padding:.48rem .65rem;border:1px solid var(--rule);background:var(--surface);font:.87rem var(--sans);margin:.35rem 0}
+.claim-choice {display:block;color:var(--ink);border-bottom:1px solid var(--rule);text-decoration:none;padding:.45rem .4rem .45rem .65rem}
+.claim-choice span,.claim-choice small {display:block}.claim-choice[aria-current]{box-shadow:inset 3px 0 var(--accent);background:var(--wash)}
+.claim-choice small:last-child {font:.68rem/1.35 var(--sans);margin-top:.15rem}.claim-choice .verified-badge {color:var(--green)}
+#content {min-width:0}.workspace article>h2 {font:500 clamp(2.2rem,4.5vw,4.4rem)/1.03 var(--serif);letter-spacing:-.055em;margin:.3rem 0 .7rem}
+#content h3 {font:600 1.4rem/1.18 var(--serif);margin:1.45rem 0 .45rem}
+#content p {max-width:74ch}#content ol {padding-left:1.5rem}#content code {overflow-wrap:anywhere}
+.views {margin:1.1rem 0;border-bottom:1px solid var(--rule)}.views a {padding:.45rem .75rem}
+.graph-link,.muted,.lean-checks {font:.86rem/1.5 var(--sans)}.muted{color:var(--muted)}
+.unchecked-note {font:.82rem/1.45 var(--sans);color:var(--muted);border-left:3px solid var(--rule);padding:.1rem 0 .1rem .6rem;margin:.9rem 0 0}
+.badge-note {margin:1.4rem 0 .4rem;padding:.8rem 1rem;background:var(--surface);border:1px solid var(--rule);font:.86rem/1.5 var(--sans);max-width:62rem}
+.badge-note h2 {font:600 .95rem/1.3 var(--sans);margin:0 0 .3rem}.badge-note p {margin:.35rem 0}
+.lean-checks {display:flex;gap:.4rem 1rem;align-items:center;flex-wrap:wrap;padding:.55rem 0}
+.atlas iframe {width:100%;height:min(70vh,54rem);border:1px solid var(--rule);margin:.8rem 0}
+.proof-step {margin:.75rem 0;padding:.3rem 1rem;border-left:2px solid #c4ad9e}.proof-step p{margin:.25rem 0}
+.katex {font-size:1.02em}.katex-display{overflow:auto}
+@media(max-width:760px){.feature,.workspace{grid-template-columns:minmax(0,1fr);gap:1rem}.feature img{height:10.5rem}.contents li{align-items:baseline}.toc-claim{grid-template-columns:1fr;gap:0}.contents .status,.contents .verified-badge{max-width:36%}.workspace aside #claim-list{max-height:6.5rem;overflow:auto}.workspace{padding-top:1rem}.feature p{font-size:1rem}}

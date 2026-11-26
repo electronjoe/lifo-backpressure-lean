@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "edits": {
+    "thm4-reversed-interval": {
+      "claim": "thm:qlalifo_delay",
+      "edition": "arXiv:1008.4895v2",
+      "location": "Section VI-C, L604-L605 and L664",
+      "original": "Define the interval $\\script{B}_j \\defequiv [Q_{j, High}, Q_{j, Low}]$. ... Now define $\\tilde{\\script{B}_j}= \\defequiv [Q_{j, High}+\\delta_{max}, Q_{j, Low}]$.",
+      "replacement": "Define the interval $\\script{B}_j \\defequiv [Q_{j, Low}, Q_{j, High}]$. ... Now define $\\tilde{\\script{B}}_j \\defequiv [\\max[Q_{j, Low}-\\delta_{max}, 0], Q_{j, High}+\\delta_{max}]$.",
+      "reason": "Endpoints of B_j and B_tilde_j are written in reverse order (Q_{j,High} >= Q_{j,Low}), and L664 also has a duplicate \"= \\defequiv\" typo; moreover under Eq. (3) service mu_j(t) <= delta_max precedes arrivals A_j(t), so packets arriving at q_j(t) = Q_{j,Low} can land down to max(Q_{j,Low} - delta_max, 0).",
+      "status": "Proposed"
+    },
+    "thm4-partb-guard-and-width": {
+      "claim": "thm:qlalifo_delay",
+      "edition": "arXiv:1008.4895v2",
+      "location": "Section VI-C, Theorem 4 (L593-L629 and L641-L666)",
+      "original": "(b) The average delay of these packets is at most $W_{bound}$, where: \\[ W_{bound} \\defequiv [2D + 2K[\\log(V)]^2+\\delta_{max}]/\\tilde{\\lambda}_j. \\]",
+      "replacement": "(b) Whenever $\\tilde{\\lambda}_j > 0$, the average delay of these packets is at most $W_{bound}$, where \\[ W_{bound} \\defequiv [2D + 2K[\\log(V)]^2 + 2\\delta_{max} + 1]/\\tilde{\\lambda}_j \\] (assuming discrete unit-size packets under (\\ref{eq:queuedynamic}) and almost-surely constant time-average arrival rates $\\lambda_j, \\tilde{\\lambda}_j$).",
+      "reason": "Four formalization findings: (1) Part (a) allows lambda_tilde_j = 0 for small V >= 1, so Part (b) requires an explicit lambda_tilde_j > 0 guard (present in the commented earlier draft at L678); (2) under Eq. (3) service before arrivals shifts the lowest reachable buffer slot down by delta_max, adding +delta_max to the window width; (3) counting integer buffer slots in a real interval adds +1 from endpoint rounding; (4) the DCT step at L641-L648 requires almost-surely constant (ergodic) time-average limits, not merely a.s. existence.",
+      "status": "Proposed"
+    },
+    "thm3-v-lower-bound": {
+      "claim": "thm:prob_multi_con",
+      "edition": "arXiv:1008.4895v2",
+      "location": "Section VI-C, Theorem 3 (L553-L558)",
+      "original": "Suppose that $\\bv{\\gamma}^*_V$ is unique,  that the slackness condition (\\ref{eq:slackness}) holds, and that  the dual function $g(\\bv{\\gamma})$ satisfies:",
+      "replacement": "Suppose that $V \\ge 1$ (with nonempty compact action sets $\\script{X}^{(s_i)}$), that $\\bv{\\gamma}^*_V$ is unique, that the slackness condition (\\ref{eq:slackness}) holds, and that the dual function $g(\\bv{\\gamma})$ satisfies:",
+      "reason": "Theorem 3 omits V >= 1 (or V > 0) and nonemptiness of X^(s_i), which are needed for Backpressure maximizer existence (Eq. 6) and the scaling relation gamma_V^* = V gamma_0^* used in the companion proof [9].",
+      "status": "Proposed"
+    },
+    "thm1-discrete-time-sum": {
+      "claim": "theorem:little1",
+      "edition": "arXiv:1008.4895v2",
+      "location": "Appendix A, Proof of Theorem 1 (L1026-L1048)",
+      "original": "\\sum_{i=1}^{D^{(b)}(t)} W_i^{(b)} \\leq \\int_0^t Q^{(b)}(\\tau)d\\tau.",
+      "replacement": "\\sum_{i=1}^{D^{(b)}(t)} W_i^{(b)} \\leq \\sum_{\\tau=0}^{t-1} Q^{(b)}(\\tau).",
+      "reason": "Section III specifies discrete slotted time t in {0, 1, 2, ...}, whereas Appendix A writes continuous-time integrals; replacing the integral with the discrete sum over slots 0 <= tau < t aligns Appendix A with the discrete-time model and Theorem 4.",
+      "status": "Proposed"
+    }
+  }
+}

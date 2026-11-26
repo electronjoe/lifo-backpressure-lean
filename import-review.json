@@ -1,0 +1,54 @@
+{
+  "edition_notes": "Bound local files paper/qla-lifo-tech2-v5.tex and paper/1008.4895v2.pdf directly (edition arXiv:1008.4895v2, 3 Apr 2011). Note README.md also cites the 2012 IEEE/ACM ToN journal version.",
+  "environment_notes": [
+    "paper/qla-lifo-tech2-v5.tex declares \\newtheorem{thm}{\\textbf{Theorem}} (nested braces bypass import_arxiv.py's regex and 'thm' is outside atlas.py HEADLINE_KINDS); set headline: true explicitly in reader.json for all four theorems."
+  ],
+  "detached_proofs": [
+    {
+      "claim": "theorem:little1",
+      "location": "paper/qla-lifo-tech2-v5.tex lines 1019-1080 (Appendix A, PDF pp. 9-10)",
+      "note": "Adjacent proof block only says 'See Appendix A.'"
+    },
+    {
+      "claim": "theorem:qla-markovian",
+      "location": "references/1008.0200v1/pure-qla-markovian-v9.tex (thm:generalq L452-L730, thm:primaldualequal L295-L303 & Appendix A L731-L935)",
+      "note": "Adjacent proof block says 'See [17].' Companion arXiv source is bundled under references/."
+    },
+    {
+      "claim": "thm:prob_multi_con",
+      "location": "references/0904.3795v1/delay_reduction_tr_v8_Markovian.tex (theorem:prob_multicon_polyhedral L354-L500, thm:prob_multi_con L507-L531, Appendices A-B L1120-L1333)",
+      "note": "Adjacent proof block says 'See [9].' Companion arXiv source is bundled under references/."
+    },
+    {
+      "claim": "thm:qlalifo_delay",
+      "location": "paper/qla-lifo-tech2-v5.tex lines 635-666 (Section VI-C, PDF p. 6)",
+      "note": "Detached by an intervening 3-line summary paragraph (L631-L633), so atlas.py inventory() marks adjacent_proof=False."
+    }
+  ],
+  "candidate_dependencies": [
+    {
+      "claim": "thm:qlalifo_delay",
+      "prerequisite": "theorem:qla-markovian",
+      "status": "verified"
+    },
+    {
+      "claim": "thm:qlalifo_delay",
+      "prerequisite": "thm:prob_multi_con",
+      "status": "verified"
+    },
+    {
+      "claim": "thm:qlalifo_delay",
+      "prerequisite": "theorem:little1",
+      "status": "verified"
+    }
+  ],
+  "unmatched_pages": [],
+  "page_verification": "All four theorems verified visually from paper/1008.4895v2.pdf (pdftotext and PyMuPDF are not installed in this environment). Theorems 1-3 are on p. 5; Theorem 4 starts on p. 5 and continues onto p. 6.",
+  "source_order_to_review": [
+    "paper/qla-lifo-tech2-v5.tex"
+  ],
+  "unvisited_tex": [
+    "references/0904.3795v1/delay_reduction_tr_v8_Markovian.tex",
+    "references/1008.0200v1/pure-qla-markovian-v9.tex"
+  ]
+}

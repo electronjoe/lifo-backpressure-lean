@@ -1,0 +1,18 @@
+*{box-sizing:border-box}body{margin:0;background:#f9f7f0;color:#252c28;font:17px/1.55 Georgia,serif}header,main{max-width:1080px;margin:auto;padding:1.2rem 4vw}header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #c5c8b9;gap:1rem}header>a{font-size:1.65rem;font-weight:bold;text-decoration:none}header span{color:#a5472f}a{color:#244f41}nav,.buttons{display:flex;gap:1rem;flex-wrap:wrap}nav,label,summary,button,main>p:first-child{font-family:system-ui,sans-serif}h1{font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.05;margin:.5em 0}h2{font-size:1.35rem}.columns{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;border-block:1px solid #c5c8b9;padding:1rem 0}.columns>*{min-width:0}summary{cursor:pointer;color:#295642}pre{white-space:pre-wrap;overflow-wrap:anywhere;font: .87rem/1.45 monospace}form{background:#edeedc;padding:1rem 1.5rem;margin:1rem 0}label{display:block;margin:.7rem 0}input:not([type=hidden]),textarea{display:block;width:100%;max-width:42rem;border:1px solid #848d80;border-radius:4px;padding:.5rem;font:inherit;background:white}button{background:#254b3d;color:white;padding:.6rem .85rem;border:0;border-radius:4px;cursor:pointer}button[value=skip]{background:transparent;color:#254b3d;text-decoration:underline}li{margin:.7rem 0}details{margin:.65rem 0}@media(max-width:660px){.columns{grid-template-columns:1fr}header{align-items:start;flex-direction:column}}.analysis { margin: 1.4rem 0; }
+.analysis h3, .analysis h4 { margin-bottom: .2rem; }
+.analysis p { margin-top: .4rem; }
+.case-table { overflow-x: auto; }
+.case-table table { width: 100%; border-collapse: collapse; }
+.case-table caption { text-align: left; font-weight: bold; }
+.case-table td, .case-table th { vertical-align: top; text-align: left; padding: .55rem; border-bottom: 1px solid #c5c8b9; }
+.case-table thead { font: 600 .9rem system-ui, sans-serif; }
+.analysis aside { padding: .25rem 1rem; border-left: 3px solid #34614c; background: #eeefe5; }
+.analysis blockquote { margin: .4rem 0 .9rem; }
+@media (max-width: 680px) {
+  .case-table table { min-width: 38rem; }
+}
+.edit { padding: .3rem 0 1rem; border-bottom: 1px solid #c5c8b9; }
+.edit h4 { margin: .7rem 0 .1rem; }
+.edit-text { white-space: pre-wrap; margin-top: .2rem; user-select: all; }
+.edit input[type=checkbox] { display: inline-block; width: 1.15rem; height: 1.15rem; margin-right: .3rem; }
+form .buttons { margin: .85rem 0; }

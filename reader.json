@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "claims": {
+    "theorem:little1": {
+      "title": "Modified Little's Theorem for LIFO Systems",
+      "reference": "Theorem 1",
+      "page": 5,
+      "headline": true,
+      "lamport": "lamport/theorem-little1.md",
+      "summary": "For a finite set B of buffer locations in a LIFO queue where arrivals into B have liminf rate at least lambda_min > 0 and infinitely many jobs depart with probability 1, the limsup average delay of departing jobs from B is at most |B| / lambda_min."
+    },
+    "theorem:qla-markovian": {
+      "title": "[O(1/V), O(V)] Utility-Delay Tradeoff Under Markovian Dynamics",
+      "reference": "Theorem 2",
+      "page": 5,
+      "headline": true,
+      "basis": "lean",
+      "lamport": "lamport/theorem-qla-markovian.md",
+      "summary": "Under a finite-state irreducible aperiodic Markovian network state process S(t) and the eta-slackness condition (2), Backpressure (with either FIFO or LIFO) achieves expected time-average cost f_av^{BP} = f_av^* + O(1/V) and expected time-average backlog O(V). Proof is cited from arXiv:1008.0200v1 [17]."
+    },
+    "thm:prob_multi_con": {
+      "title": "Exponential Attraction of Queue Backlogs to the Dual Optimum",
+      "reference": "Theorem 3",
+      "page": 5,
+      "headline": true,
+      "lamport": "lamport/thm-prob-multi-con.md",
+      "summary": "If the dual optimum gamma_V^* is unique, slackness (2) holds, and the dual function g satisfies the polyhedral growth bound g(gamma_V^*) >= g(gamma) + L ||gamma_V^* - gamma|| with L > 0 independent of V, then there exist V-independent constants D, K, c^* such that the time-average probability that any queue deviates from gamma_{Vj}^* by more than D + Km is at most c^* e^{-m}. Proof is cited from arXiv:0904.3795v1 [9]."
+    },
+    "thm:qlalifo_delay": {
+      "title": "LIFO-Backpressure Throughput Fraction and O([log V]^2) Delay Bound",
+      "reference": "Theorem 4",
+      "page": 5,
+      "headline": true,
+      "lamport": "lamport/thm-qlalifo-delay.md",
+      "summary": "Under V >= 1, unique gamma_V^*, slackness (2), and polyhedral dual growth (15), for any queue j with positive time-average arrival rate lambda_j > 0, the rate lambda_tilde_j of packets arriving while q_j(t) lies in the O([log V]^2) window B_j around gamma_{Vj}^* and eventually departing satisfies lambda_j >= lambda_tilde_j >= [lambda_j - delta_max c^* / V^{log V}]^+, and their average delay is at most [2D + 2K(log V)^2 + delta_max] / lambda_tilde_j."
+    }
+  },
+  "dependencies": [
+    {
+      "claim": "thm:qlalifo_delay",
+      "prerequisite": "theorem:qla-markovian",
+      "reason": "Part (a) uses finite expected average backlog from Theorem 2 to deduce that the rate of arriving packets that never depart is zero (Section VI-C, L635-L638), and Part (b) uses queue stability (L665)."
+    },
+    {
+      "claim": "thm:qlalifo_delay",
+      "prerequisite": "thm:prob_multi_con",
+      "reason": "Part (a) applies Theorem 3 with m = [log(V)]^2 to bound the time-average probability that q_j(tau) leaves [Q_{j,Low}, Q_{j,High}] by c^* e^{-m} = c^* / V^{log V} (Section VI-C, L656-L662)."
+    },
+    {
+      "claim": "thm:qlalifo_delay",
+      "prerequisite": "theorem:little1",
+      "reason": "Part (b) applies Theorem 1 to the buffer window B_tilde_j of width at most 2D + 2K[log(V)]^2 + delta_max (Section VI-C, L664-L665)."
+    }
+  ]
+}
