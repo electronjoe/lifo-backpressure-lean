@@ -104,3 +104,53 @@ Running log of issues, edge cases, and improvement opportunities encountered whi
 * **Where:** `build-proof-atlas/references/github-pages.yml` (copied to `.github/workflows/pages.yml`) and `atlas.py manifest`.
 * **Symptom:** Even after `Verify Lean claims` succeeds on `HEAD`, `pages.yml` runs `atlas.py build . --ci-receipt ...` (updating the HTML explorer/dashboard) but does **not** run `atlas.py manifest . --ci-receipt ... --commit ...`, so `dist/VERIFICATION.md` on disk and in the deployed Pages artifact continues to report `Machine verified (CI): 0/4` and *"no GitHub Actions CI verification receipt is attached to this revision"*.
 * **Suggested fix:** Run `python3 tools/proof-atlas/scripts/atlas.py manifest . "${args[@]}"` immediately after `atlas.py build` in `pages.yml` so the deployed `VERIFICATION.md` reflects live CI verification receipts automatically.
+
+---
+
+## 2026-11-26 — UI/UX & Published Site Audit (Reference Prototype: `uiux-demos/v2-audit-workbench.html`)
+
+### 18. `explorer.js` Lamport renderer dumps standard Markdown as raw unformatted text
+* **Where:** `build-proof-atlas/assets/explorer.js` L215–223 (`c.steps.split(/\n\s*\n/)` + `^\*\*(.*?)\*\*` + `rich()`).
+* **Symptom:** `lamport/*.md` files written in standard Markdown (`#` headings, `*Provenance:...*`, indented `- 1.1.` nested bullet steps, inline backticked math) are dumped verbatim with literal `#`, `*`, `- 1.1.`, and backticks inside flat `<p>` tags, making the Lamport Proof tab hard to scan and visually broken compared to TINA's hierarchical `⟨1⟩1.⟨2⟩1` collapsible proof trees (`lamport.js`).
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` (Claim Inspector → Lamport Proof renders collapsible KaTeX `⟨1⟩i` / `⟨1⟩i.⟨2⟩j` step cards with provenance, `Uses`, and Lean declaration links).
+* **Suggested fix:** Parse structured Lamport trees (`⟨1⟩i` collapsible `<details>` groups with `⟨1⟩i.⟨2⟩j` substeps, `Uses` links, Lean lemma refs, and KaTeX `$$...$$`/`$...$` rendering) or ship a lightweight Markdown+KaTeX renderer in `explorer.js` and enforce KaTeX `$...$` formatting in `lamport/*.md`.
+
+### 19. `reader.json` silently omits `"sketch"` and renders raw ASCII math in `"summary"`
+* **Where:** `build-proof-atlas/assets/explorer.js` L150–152 and `build-proof-atlas/scripts/atlas.py` (`build` / `review-work`).
+* **Symptom:** When `reader.json` defines `"summary"` without `"sketch"` (as occurred on all 4 claims in `lifo-backpressure-lean`), the Plain English view renders `"A proof sketch has yet to be recorded."` on every claim. Furthermore, `"summary"` strings written with raw ASCII math (`gamma_V^*`, `delta_max`, `V^{log V}`) without `$...$` delimiters bypass KaTeX completely and read like dense raw code rather than Plain English.
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` (Plain English & High-Level Proof Sketch with KaTeX math for all 4 theorems).
+* **Suggested fix:** Require (or warn in `atlas.py build` and `review-work`) that every headline claim in `reader.json` has both a genuinely accessible `summary` (Plain English with KaTeX `$...$` math) and a non-empty `sketch` (3–5 sentence high-level proof roadmap).
+
+### 20. `explorer.html` embeds a 230-word `What the badges mean` prose wall on the home page
+* **Where:** `build-proof-atlas/assets/explorer.html` L8–10 (`<aside class="badge-note">`).
+* **Symptom:** Every generated Proof Atlas landing page injects two dense paragraphs explaining 10 badge types—including 6+ badges that do not even appear in the repository (e.g., `Proof supplied outside manuscript`, `Step-verified`, `Conditional`, `Subproofs checked`, `Multi-kernel / Comparator`)—directly above the Contents list, adding severe incidental complexity for first-time readers.
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` (instant hover/focus tooltips on every badge + compact `ⓘ Badge & Polarity Key` modal).
+* **Suggested fix:** Remove the inline prose wall. Attach concise hover/focus tooltips directly to each rendered badge pill, and tuck the full glossary into a compact collapsible drawer or modal.
+
+### 21. Dependency graph omits model assumptions, `Routine/` theory, witnesses, and status tokens
+* **Where:** `build-proof-atlas/assets/graph.js` L119–131 and `build-proof-atlas/scripts/atlas.py` (`inventory()` / `dependencies`).
+* **Symptom:** Because `atlas.py` only inventories `\begin{thm}` (and theorem-like) environments, `lifo-backpressure-lean`'s dependency graph renders just 4 theorem boxes and 3 arrows—omitting frozen model definitions/assumptions (`NetworkModel`, `η`-slackness, Eq. (3) queue dynamics, polyhedral growth, `LifoQueueRealization`), shared `Routine/` foundations (`MarkovMixing`, `BackpressureDrift`), and non-vacuity witnesses (`Examples/`). Moreover, `graph.js` only draws a plain relation dot (`selected`/`ancestor`/`descendant`) on each node rather than showing verification status, Gate-1 SHA freeze locks, author-review status, proof basis (`aligned` vs. `lean`-only route), or semantic-difference counts (as TINA's `app.js` does).
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` (Layered DAG tab: 13 nodes across 4 toggleable layers `uses` / `setup` / `routine` / `witness`, TINA-style status tokens `✓`, `🔒`, `⑂`, `★`, `👁`, `nΔ`, click-to-trace closure, and node inspector).
+* **Suggested fix:** Support optional layered node kinds (`setup` / `routine` / `theorem` / `witness`) and typed edge filters with clean defaults (Theorems + key Assumptions visible by default; `Routine/` & Witnesses toggleable), and render compact status tokens directly on graph nodes.
+
+### 22. `review_web.py` lacks semantic diff highlighting between Paper and Lean readings
+* **Where:** `build-proof-atlas/scripts/review_web.py` L59–79 & L151–155 (`analysis_panel` and `columns`).
+* **Symptom:** `comparisons.json` already records rich obligation-level semantic classifications (`agrees`, `stronger`, `other form`, `chosen reading`, `restriction`, `added hypothesis`, `weaker conclusion`) and `manuscript-edits.json` records exact TeX patches, yet `review_web.py` renders the comparison as a monochrome text table separated from two unannotated prose blocks (`Paper theorem` vs. `What Lean proved`).
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` (Semantic Diff & Edits tab: color-coded clause highlights linking Paper and Lean readings, polarity filter chips across all 37 obligations, and red/green LaTeX patch cards).
+* **Suggested fix:** Color-code semantic polarities (`green` agrees, `teal` Lean proves more, `amber` minor normalization/typo fix, `coral` gap/added assumption/looser constant), support synchronized span annotations linking clauses across Paper and Lean readings, and display linked `manuscript-edits.json` entries inline as red/green TeX patches.
+
+### 23. Missing upfront Five-Gate Quality Benchmark with explicit "What's Good vs. Needs Work" & Action Plan
+* **Where:** `build-proof-atlas/assets/explorer.html` & `explorer.js` (landing & navigation IA).
+* **Symptom:** The landing page provides no upfront, research-grounded quality scorecard (citing `survey-lean-proofs-eng-arxiv`'s Five-Gate / 12-Mode rubric), and summary tables that combine strengths and gaps into a single prose column fail to tell readers at a glance what is already verified vs. what concrete steps would raise proof quality.
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` (Overview & Quality tab: Five-Gate table split into `✓ What's Already Good` vs. `→ What Needs Work / How to Improve`, prioritized P1–P3 Action Plan, stacked 12-Mode bar, and imperative `→ How to Improve` column in the 12-Mode ledger; single clean tab bar without redundant role toggles).
+* **Suggested fix:** Surface a compact, research-grounded **Five-Gate & 12-Mode Quality Benchmark** (citing `electronjoe/survey-lean-proofs-eng-arxiv`) directly on Overview with explicit split `Good` vs. `Needs Work` columns and an actionable improvement checklist.
+
+### 24. Direction-ambiguous semantic tokens, buried Lean-only proof routes, understated `0/4` sign-off, and buried manuscript edits
+* **Where:** `build-proof-atlas/scripts/review_web.py`, `comparisons.json` (`kind`), `manuscript-edits.json`, and `explorer.html` / `explorer.js`.
+* **Symptom:** Four high-impact trust UX gaps surfaced during interactive prototype review:
+  1. **Direction-ambiguous polarity tokens:** Raw `comparisons.json` kinds (`restriction`, `weaker conclusion`, `added hypothesis`, `other form`, `chosen reading`) do not indicate *direction* (`Lean vs. Paper`)—a reader cannot tell at a glance whether Lean is weaker than the paper or vice versa, or what `added hypothesis` entails.
+  2. **Buried `basis: "lean"` proof-route divergence:** When Lean proves a theorem via a completely different mathematical route than the manuscript/companion paper (e.g., Theorem 2 via Doeblin mixing + Poisson's equation instead of renewal stopping times), burying that tag inside the Lean tab hides both an audit caveat (the paper's written proof route was not step-checked) and an author opportunity (a shorter self-contained alternative proof).
+  3. **Understated `0/4` human sign-off:** Treating `0/4 Author Reviewed` as a small KPI caption understates the critical trust boundary: until a human author inspects `Statements/*.lean` and critical differing clauses, a green Lean build only proves the formal code compiles—not that it matches the paper.
+  4. **Buried recommended manuscript edits:** Hiding `manuscript-edits.json` behind a separate top-bar link obscures one of the highest-value outputs of formalization (concrete LaTeX fixes for genuine mathematical bugs/typos in the paper).
+* **Reference prototype:** `uiux-demos/v2-audit-workbench.html` implements all four fixes directly on `Overview & Quality`, `Results Ledger`, `Semantic Diff & Edits`, and `Claim Inspector`.
+* **Suggested fix:** (a) Render every comparison token with explicit direction and hover tooltip (`↓ Lean proves looser constant`, `+ Lean adds missing assumption`, `↘ Lean narrows domain`, `↑ Lean proves MORE than paper`, `≈ Equivalent form in Lean`, `✎ Lean fixes ambiguity / typo`, `✓ Lean = Paper`); (b) surface a dedicated front-door callout on Overview & Theorem cards whenever a theorem uses a `lean`-only proof route; (c) display an unmistakable top-of-page **Human Co-Author Sign-Off Pending** banner whenever `author_reviewed < total`, linking directly to critical clauses and `Statements/*.lean`; and (d) display a scannable **Recommended Paper Edits** card grid directly on Overview with expandable red/green LaTeX diffs.
